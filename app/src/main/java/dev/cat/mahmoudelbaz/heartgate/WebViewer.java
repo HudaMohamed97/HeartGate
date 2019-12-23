@@ -257,7 +257,6 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
 //        webView.loadData(html_value, "text/html", "UTF-8");
 
 
-
         // get url
 
         Intent intent = getIntent();
@@ -748,7 +747,6 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
         public void callSupport() {
             Intent intent = new Intent(Intent.ACTION_CALL);
             intent.setData(Uri.parse("tel:+201146121111"));
-
             if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 askCompactPermissions(new String[]{PermissionUtils.Manifest_CALL_PHONE}, new PermissionResult() {
                     @Override

@@ -82,8 +82,6 @@ public class ForgetPassword extends AppCompatActivity {
                         message = res.getString("Message");
                         state = res.getInt("state");
                         Log.d("ForgetPassword Response", message + state);
-
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

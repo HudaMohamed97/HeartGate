@@ -33,22 +33,22 @@ public interface Api {
     Call<CornrPriceModel> CornorPrice();
 
     @GET("news/currentnewsinlibrary/{userid}")
-    Call<List<onlineLibraryResponseModel>  > getCurrentNewsLibrary(@Path(value = "userid", encoded = true) String id);
+    Call<List<onlineLibraryResponseModel>> getCurrentNewsLibrary(@Path(value = "userid", encoded = true) String id);
 
     @GET("news/all/{userid}")
-    Call<List<CardioUpdatesResponseModel>  > getCardioUpdates(@Path(value = "userid", encoded = true) String id);
+    Call<List<CardioUpdatesResponseModel>> getCardioUpdates(@Path(value = "userid", encoded = true) String id);
 
     @GET("news/currentnews/{userid}/{newsid}")
-    Call<Object  > markAsRead(@Path(value = "userid", encoded = true) String id, @Path(value = "newsid", encoded = true) String newsid);
+    Call<Object> markAsRead(@Path(value = "userid", encoded = true) String id, @Path(value = "newsid", encoded = true) String newsid);
 
     @GET("videos/all")
     Call<List<VideoResponseModel>> getAllVideos();
 
     @GET("survey/all/{userid}")
-    Call<List<SurveryResponseModel>  > getSurvey(@Path(value = "userid", encoded = true) String id);
+    Call<List<SurveryResponseModel>> getSurvey(@Path(value = "userid", encoded = true) String id);
 
     @POST("users/update_imageprofile_ios/{id}")
-    Call<Object> changeImage(@Path(value = "id", encoded = true ) String id, @Body Map<String, String> map );
+    Call<Object> changeImage(@Path(value = "id", encoded = true) String id, @Body Map<String, String> map);
 
     @GET("questions/myquestions/{userId}")
     Call<ArrayList<Questions_item>> getQuestions(@Path("userId") String userId);
@@ -68,17 +68,15 @@ public interface Api {
     Call<ResponseBody> addAnswer(@Path("questionId") int questionId, @Path("userId") String userId, @FieldMap Map<String, String> map);
 
 
-
     @POST("users/update/{id}")
-    Call<Object> updateUser(@Path(value = "id", encoded = true ) String id, @Body Map<String, Object> map );
+    Call<Object> updateUser(@Path(value = "id", encoded = true) String id, @Body Map<String, Object> map);
 
     @POST("questions/deletequestion/{question_id}/{user_id}")
-    Call<Object> delete_post(@Path(value = "question_id", encoded = true) String question_id , @Path(value = "user_id", encoded = true) String user_id);
+    Call<Object> delete_post(@Path(value = "question_id", encoded = true) String question_id, @Path(value = "user_id", encoded = true) String user_id);
 
 
     @GET("messages/{question_id}/{user_id}")
-    Call<ArrayList<AllMessagesResponse>> getAllMessagesOld(@Path(value = "question_id", encoded = true) String question_id , @Path(value = "user_id", encoded = true) String user_id);
-
+    Call<ArrayList<AllMessagesResponse>> getAllMessagesOld(@Path(value = "question_id", encoded = true) String question_id, @Path(value = "user_id", encoded = true) String user_id);
 
 
     @POST("messages/add")

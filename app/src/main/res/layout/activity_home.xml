@@ -8,22 +8,22 @@
     tools:context="dev.cat.mahmoudelbaz.heartgate.home.Home">
 
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:src="@drawable/profile"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imgProfile"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
+        android:clickable="true"
+        android:focusable="true"
         android:scaleType="centerCrop"
-        />
+        android:src="@drawable/profile"
+        android:visibility="visible"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
 
     <Button
-        android:id="@+id/btnEdit"
+        android:id="@+id/editDataButton"
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_below="@+id/imgProfile"
@@ -37,7 +37,7 @@
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnEdit"
+        android:layout_below="@+id/editDataButton"
         android:layout_centerHorizontal="true"
         android:text="Name"
         android:textColor="@color/white"
@@ -61,29 +61,26 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/txt_call_support"
         android:layout_below="@+id/txtLogout"
+        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="30dp"
         android:childDivider="@color/transparent"
-        android:layout_centerInParent="true"
         android:divider="@color/transparent"
         android:dividerHeight="5dp"
 
         />
 
 
-
-
     <LinearLayout
-        android:visibility="invisible"
-
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/img_home"
@@ -177,13 +174,14 @@
         android:id="@+id/txt_call_support"
         android:layout_width="150dp"
         android:layout_height="35dp"
-        android:layout_above="@+id/bottomLayout"
-        android:text="Call Support"
-        android:background="@drawable/rounded_rectangle_yellowish"
-        android:textColor="@color/black"
-        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center"  />
-
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_rectangle_yellowish"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="Call Support"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
 
 </RelativeLayout>

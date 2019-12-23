@@ -54,7 +54,7 @@ dependencies {
     })
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.auron:permission-manage:1.1.7'
-    implementation 'com.onesignal:OneSignal:[3.10.8, 3.99.99]'
+    implementation 'com.onesignal:OneSignal:3.0.0'
     // OneSignal requires at least version 7.0.0 of GMS but the newest version is recommend.
     // Required for OneSignal, even if you have added FCM.
     implementation 'com.google.android.gms:play-services-gcm:11.4.2'
@@ -102,3 +102,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
+

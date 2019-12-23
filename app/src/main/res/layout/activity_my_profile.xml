@@ -9,17 +9,15 @@
     tools:context="dev.cat.mahmoudelbaz.heartgate.myAccount.MyProfile">
 
 
-
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:background="@color/semi_black"
-        android:fitsSystemWindows="true"
-        android:id="@+id/relativeLayout"
-        >
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,389 +27,290 @@
                 android:id="@+id/bck"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="fill_parent"
-                android:layout_alignParentRight="false"
-                android:gravity="center"
-                android:visibility="gone"
-
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentRight="false"
                 android:layout_alignParentBottom="true"
-                android:src="@drawable/back"
+                android:gravity="center"
                 android:padding="15dp"
-                android:tint="@color/yellow" />
+                android:src="@drawable/back"
+                android:tint="@color/yellow"
+                android:visibility="gone" />
 
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="My Profile"
-                android:textSize="22sp"
                 android:layout_centerInParent="true"
-                android:textStyle="bold"
-                android:textColor="@color/yellow"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:layout_marginRight="10dp" />
+                android:text="My Profile"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/yellow"
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </RelativeLayout>
     </RelativeLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-         app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imgProfile"
-        android:layout_marginTop="15dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/profile"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
         android:layout_below="@+id/relativeLayout"
-        />
-
-
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
 
     <Button
         android:id="@+id/btnUpdate"
-        android:layout_marginTop="4dp"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="Update data"
         android:layout_below="@+id/imgProfile"
         android:layout_centerHorizontal="true"
-        android:textSize="10sp"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:textColor="#0077ff"/>
+        android:text="Update data"
+        android:textColor="#0077ff"
+        android:textSize="10sp" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnUpdate"
-        android:layout_above="@+id/bottomLayout">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="30dp"
-        android:paddingTop="10dp"
-        android:paddingRight="30dp"
-        android:orientation="vertical"
-        >
+        android:layout_above="@+id/bottomLayout"
+        android:layout_below="@+id/btnUpdate">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3">
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingRight="30dp">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Name :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtName"
-                android:layout_width="0dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Name :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="text"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
+                android:layout_marginTop="15dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Email :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Phone Number :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtMob"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="phone"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Date Of Birth :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtBirthDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="date"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Gender :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtGender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="text"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Speciality :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtSpeciality"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="text"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Job Title :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtJobTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="text"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Current Living Place :"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtCurrentLivingPlace"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:background="@color/transparent"
+                    android:inputType="text"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Email :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="textEmailAddress"
-                android:background="@color/transparent"
-                android:id="@+id/txtEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Phone Number :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="phone"
-                android:background="@color/transparent"
-                android:id="@+id/txtMob"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Date Of Birth :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="date"
-                android:background="@color/transparent"
-                android:id="@+id/txtBirthDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Gender :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtGender"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Speciality :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtSpeciality"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Job Title :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtJobTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Current Living Place :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtCurrentLivingPlace"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3"
-            android:visibility="gone"
-            >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Current Work Place :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtCurrentWorkPlace"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Previous Work Place :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtPrevWorkPlace"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Experience :"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtExperience"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Interests :"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
-            <EditText
-                android:inputType="text"
-                android:background="@color/transparent"
-                android:id="@+id/txtInterests"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-
     </ScrollView>
 
 
-
-
-
     <LinearLayout
-        android:visibility="invisible"
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/img_home"
@@ -422,8 +321,6 @@
             android:scaleType="fitEnd"
             android:src="@drawable/home" />
 
-
-
         <ImageView
             android:id="@+id/img_connections"
             android:layout_width="fill_parent"
@@ -432,8 +329,6 @@
             android:adjustViewBounds="true"
             android:scaleType="fitEnd"
             android:src="@drawable/connections" />
-
-
 
 
         <ImageView
@@ -446,8 +341,6 @@
             android:src="@drawable/messages" />
 
 
-
-
         <ImageView
             android:id="@+id/img_neaby_drs"
             android:layout_width="fill_parent"
@@ -456,7 +349,6 @@
             android:adjustViewBounds="true"
             android:scaleType="fitEnd"
             android:src="@drawable/nearby" />
-
 
         <ImageView
             android:id="@+id/img_drug_interactions"
@@ -467,7 +359,6 @@
             android:scaleType="fitEnd"
             android:src="@drawable/ddi" />
 
-
         <ImageView
             android:id="@+id/vetmedica"
             android:layout_width="fill_parent"
@@ -476,8 +367,6 @@
             android:adjustViewBounds="true"
             android:scaleType="fitEnd"
             android:src="@drawable/iconright" />
-
-
     </LinearLayout>
 
 
@@ -486,10 +375,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
-
-
+        android:layout_centerInParent="true" />
 
 
 </RelativeLayout>

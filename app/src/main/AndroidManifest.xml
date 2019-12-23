@@ -31,16 +31,7 @@
         <activity android:name=".concor.Concor_plus" />
         <activity android:name=".ForgetPassword" />
         <activity android:name=".signUp.SignUp" />
-        <activity
-            android:name=".WebViewer"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".signUp.UpdateData" />
         <activity android:name=".advisoryBoard.AddQuestion" />
         <activity android:name=".advisoryBoard.QuestionDetails" />
         <activity android:name=".advisoryBoard.Questions" />
@@ -56,14 +47,7 @@
         <activity android:name=".heartPress.CardioUpdates" />
         <activity android:name=".heartPress.OnlineLibrary" />
         <activity android:name=".medicalStatistics.BMI" />
-        <!--
-        <activity android:name=".game.View.LoginActivity" />
-        <activity android:name=".game.View.BuildingActivity" />
-        <activity android:name=".game.View.HomeActivty" />
-        <activity android:name=".game.View.pdfviewer" />
-        <activity android:name=".game.View.RegisterScreen" />
-        <activity android:name=".game.View.SplachScreen" />
-        -->
+        <activity android:name=".WebViewer" />
         <activity android:name=".medicalStatistics.CardioRiskFactor" />
         <activity
             android:name=".myAccount.ConnectionsTabs"
@@ -79,6 +63,7 @@
         <activity android:name=".MapsActivity" />
 
         <activity android:name=".pharamcy.Pharamcy" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -93,13 +78,13 @@
         android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

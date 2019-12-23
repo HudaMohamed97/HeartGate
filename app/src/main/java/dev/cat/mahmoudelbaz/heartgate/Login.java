@@ -37,7 +37,6 @@ public class Login extends AppCompatActivity {
     String url;
     SharedPreferences shared;
     String idcheck;
-    ImageView gateTop, gateBottom;
     Animation animSlidUp, animSlidDown;
 
 
@@ -61,11 +60,11 @@ public class Login extends AppCompatActivity {
             finish();
         }
 
- //       gateTop = (ImageView) findViewById(R.id.topGate);
- //       gateBottom = (ImageView) findViewById(R.id.bottmGate);
+        //       gateTop = (ImageView) findViewById(R.id.topGate);
+        //       gateBottom = (ImageView) findViewById(R.id.bottmGate);
         progress = (ProgressBar) findViewById(R.id.progressBar);
-        login =   findViewById(R.id.login);
-        signup =  findViewById(R.id.signUp);
+        login = findViewById(R.id.login);
+        signup = findViewById(R.id.signUp);
 
         forgotpassword = findViewById(R.id.forgotpass);
         email = (EditText) findViewById(R.id.email);

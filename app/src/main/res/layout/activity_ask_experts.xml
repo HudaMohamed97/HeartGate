@@ -4,21 +4,18 @@
     android:id="@+id/activity_ask_experts"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
->
-
+    android:background="@drawable/bg">
 
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:background="@color/semi_black"
-        android:fitsSystemWindows="true"
-        android:id="@+id/relativeLayout"
-        >
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -28,42 +25,40 @@
                 android:id="@+id/bck"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="fill_parent"
-                android:layout_alignParentRight="false"
-                android:gravity="center"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentRight="false"
                 android:layout_alignParentBottom="true"
-                android:src="@drawable/back"
+                android:gravity="center"
                 android:padding="15dp"
-                android:visibility="gone"
-                android:tint="@color/yellow" />
+                android:src="@drawable/back"
+                android:tint="@color/yellow"
+                android:visibility="gone" />
 
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Ask Experts"
-                android:textSize="22sp"
                 android:layout_centerInParent="true"
-                android:textStyle="bold"
-                android:textColor="@color/yellow"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:layout_marginRight="10dp" />
+                android:text="Ask Experts"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/yellow"
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </RelativeLayout>
     </RelativeLayout>
 
 
-
-
     <LinearLayout
-        android:visibility="invisible"
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/img_home"
@@ -73,7 +68,6 @@
             android:adjustViewBounds="true"
             android:scaleType="fitEnd"
             android:src="@drawable/home" />
-
 
 
         <ImageView
@@ -86,8 +80,6 @@
             android:src="@drawable/connections" />
 
 
-
-
         <ImageView
             android:id="@+id/img_conor_price"
             android:layout_width="fill_parent"
@@ -96,8 +88,6 @@
             android:adjustViewBounds="true"
             android:scaleType="fitEnd"
             android:src="@drawable/messages" />
-
-
 
 
         <ImageView
