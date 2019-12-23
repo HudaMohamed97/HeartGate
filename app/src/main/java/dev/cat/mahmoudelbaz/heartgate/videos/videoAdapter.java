@@ -39,9 +39,9 @@ import dev.cat.mahmoudelbaz.heartgate.myAccount.ModelMyConnections;
 import static com.google.android.gms.cast.framework.media.MediaUtils.getImageUri;
 import static dev.cat.mahmoudelbaz.heartgate.webServices.Services.MAIN_VIDEOS_URL;
 
-public class videoAdapter extends RecyclerView.Adapter<videoAdapter.MyViewHolder>  implements Filterable {
+public class videoAdapter extends RecyclerView.Adapter<videoAdapter.MyViewHolder> implements Filterable {
 
-    Context context ;
+    Context context;
     List<VideoResponseModel> cardioUpdatesResponseModels;
     VideoRequestHandler videoRequestHandler;
     Picasso picassoInstance;
@@ -62,11 +62,8 @@ public class videoAdapter extends RecyclerView.Adapter<videoAdapter.MyViewHolder
     @Override
     public videoAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_video_item, parent, false);
-
-
         shared = context.getSharedPreferences("id", Context.MODE_PRIVATE);
         userID = shared.getString("id", "0");
-
         return new videoAdapter.MyViewHolder(view);
     }
 
@@ -93,19 +90,11 @@ public class videoAdapter extends RecyclerView.Adapter<videoAdapter.MyViewHolder
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
-             /*   Intent intent = new Intent(context, VideoDetailsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("getVideo_url" , cardioUpdatesResponseModels.get(position).getVideo_url() );
-                context.startActivity(intent);*/
-
-                String uriPath = MAIN_VIDEOS_URL + cardioUpdatesResponseModels.get(position).getVideo_url()  ;
-
-
+                String uriPath = MAIN_VIDEOS_URL + cardioUpdatesResponseModels.get(position).getVideo_url();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriPath));
                 intent.setDataAndType(Uri.parse(uriPath), "video/mp4");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 context.startActivity(intent);
-
             }
         });
 
@@ -158,13 +147,12 @@ public class videoAdapter extends RecyclerView.Adapter<videoAdapter.MyViewHolder
         TextView libName;
         @BindView(R.id.liblink)
         TextView desc;
-
         @BindView(R.id.layout)
-        LinearLayout layout ;
+        LinearLayout layout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

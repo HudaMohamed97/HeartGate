@@ -23,8 +23,8 @@ import retrofit2.Response;
 public class ForgetPassword extends AppCompatActivity {
 
     EditText editText;
-    Button button2;
-    ImageView bck;
+    Button resetButton;
+    ImageView backButton;
 
     /**
      * method is used for checking valid email id format.
@@ -43,21 +43,25 @@ public class ForgetPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
+        setViews();
+        setClicklistener();
 
-        bck = findViewById(R.id.bck);
-        button2 = findViewById(R.id.button2);
+    }
+
+    private void setViews() {
+        backButton = findViewById(R.id.bck);
+        resetButton = findViewById(R.id.button2);
         editText = findViewById(R.id.editText);
+    }
 
-
-        bck.setOnClickListener(new View.OnClickListener() {
+    private void setClicklistener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-
-
-        button2.setOnClickListener(new View.OnClickListener() {
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ResetPassword();
@@ -67,31 +71,12 @@ public class ForgetPassword extends AppCompatActivity {
     }
 
     private void ResetPassword() {
-
         String email = editText.getText().toString().trim();
-
         if (!email.isEmpty() && isEmailValid(email)) {
             Webservice.getInstance().getApi().resetPassword(email).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                    String message = null;
-                    int state = 0;
-                    try {
-                        JSONObject res = new JSONObject(response.body().string());
-                        message = res.getString("Message");
-                        state = res.getInt("state");
-                        Log.d("ForgetPassword Response", message + state);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (state == 0) {
-                        Toast.makeText(ForgetPassword.this, message, Toast.LENGTH_SHORT).show();
-                    } else if (state == 1) {
-                        Toast.makeText(ForgetPassword.this, message, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                    }
-
+                    checkSuccess(response);
                 }
 
                 @Override
@@ -102,5 +87,24 @@ public class ForgetPassword extends AppCompatActivity {
             });
         } else
             Toast.makeText(this, "Please Enter a Valid Email", Toast.LENGTH_LONG).show();
+    }
+
+    private void checkSuccess(Response<ResponseBody> response) {
+        String message = null;
+        int state = 0;
+        try {
+            JSONObject res = new JSONObject(response.body().string());
+            message = res.getString("Message");
+            state = res.getInt("state");
+            Log.d("ForgetPassword Response", message + state);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (state == 0) {
+            Toast.makeText(ForgetPassword.this, message, Toast.LENGTH_SHORT).show();
+        } else if (state == 1) {
+            Toast.makeText(ForgetPassword.this, message, Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
     }
 }

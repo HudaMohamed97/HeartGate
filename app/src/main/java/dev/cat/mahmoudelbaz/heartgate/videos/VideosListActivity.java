@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.cat.mahmoudelbaz.heartgate.R;
@@ -37,14 +39,12 @@ public class VideosListActivity extends AppCompatActivity {
     videoAdapter myVideoAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_videos_list);
-
         ButterKnife.bind(this);
-        mysearchView = (EditText) findViewById(R.id.mysearch_view);
+        mysearchView = findViewById(R.id.mysearch_view);
 
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
 
@@ -76,28 +76,26 @@ public class VideosListActivity extends AppCompatActivity {
 
     private void getData() {
 
-        Webservice.getInstance().getApi().getAllVideos().enqueue(new Callback<List<VideoResponseModel> >() {
+        Webservice.getInstance().getApi().getAllVideos().enqueue(new Callback<List<VideoResponseModel>>() {
             @Override
-            public void onResponse(Call< List<VideoResponseModel>> call, Response< List<VideoResponseModel> > response) {
+            public void onResponse(Call<List<VideoResponseModel>> call, Response<List<VideoResponseModel>> response) {
                 if (!response.isSuccessful()) {
                     assert response.errorBody() != null;
-                    Toast.makeText(VideosListActivity.this, response.errorBody().toString() ,  Toast.LENGTH_LONG).show();
+                    Toast.makeText(VideosListActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 } else {
                     videoResponseModel = response.body();
-
                     RecycleViewCardoivascular.setHasFixedSize(true);
                     RecycleViewCardoivascular.setLayoutManager(new LinearLayoutManager(VideosListActivity.this));
                     myVideoAdapter = new videoAdapter(VideosListActivity.this, videoResponseModel);
                     RecycleViewCardoivascular.setAdapter(myVideoAdapter);
-
                     progressBar.setVisibility(View.GONE);
 
                 }
             }
 
             @Override
-            public void onFailure(Call< List<VideoResponseModel> > call, Throwable t) {
+            public void onFailure(Call<List<VideoResponseModel>> call, Throwable t) {
                 Toast.makeText(VideosListActivity.this, "failure , check your connection", Toast.LENGTH_LONG).show();
                 Log.e("login", "onFailure: ", t);
                 progressBar.setVisibility(View.GONE);
