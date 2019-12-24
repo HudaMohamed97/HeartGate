@@ -13,7 +13,6 @@ public class DrugInteractions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drug_interactions);
-
         Intent i = new Intent(this, WebViewer.class);
         i.putExtra("url", "ddi.html");
         startActivity(i);

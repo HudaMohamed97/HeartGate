@@ -18,12 +18,6 @@ public class Child_item {
         this.Html = null;
     }
 
-   /* public Child_item(Spanned nameId, int backgroundColorResId) {
-        this.Html = nameId;
-        this.backgroundColorResId = backgroundColorResId;
-        this.nameId = null;
-    }*/
-
     public Spanned getHtml() {
         return Html;
     }

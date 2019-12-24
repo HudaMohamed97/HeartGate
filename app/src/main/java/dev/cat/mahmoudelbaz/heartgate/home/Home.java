@@ -36,6 +36,7 @@ import java.util.List;
 
 import dev.cat.mahmoudelbaz.heartgate.BitmapHelper;
 import dev.cat.mahmoudelbaz.heartgate.Login;
+import dev.cat.mahmoudelbaz.heartgate.MapsActivity;
 import dev.cat.mahmoudelbaz.heartgate.R;
 import dev.cat.mahmoudelbaz.heartgate.concor.Concor;
 import dev.cat.mahmoudelbaz.heartgate.concor.ConcorPrice;
@@ -59,7 +60,7 @@ public class Home extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 2;
     ProgressBar progress;
     ImageView imgProfile, img_home, img_connections, img_conor_price, img_neaby_drs, img_drug_interactions;
-    TextView name, email, callSupportTextView;
+    TextView name, email;
     String url;
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
@@ -79,22 +80,20 @@ public class Home extends AppCompatActivity {
         setClickListener();
         getUserId();
         loginApiCall();
-        // preparing list data
         prepareListData();
-
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
-        // setting list adapter
         expListView.setAdapter(listAdapter);
+        handleExpandableListListener();
+    }
+
+    private void handleExpandableListListener() {
 
 
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long id) {
                 Intent i;
-
                 if (groupPosition == 0) {
-
                     switch (childPosition) {
                         case 0:
                             i = new Intent(Home.this, MyProfile.class);
@@ -102,7 +101,7 @@ public class Home extends AppCompatActivity {
                             break; // optional
 
                         case 1:
-                            i = new Intent(Home.this, NearByDrs.class);
+                            i = new Intent(Home.this, MapsActivity.class);
                             startActivity(i);
                             break; // optional
                         case 2:
@@ -208,23 +207,16 @@ public class Home extends AppCompatActivity {
                             i = new Intent(Home.this, Survey.class);
                             startActivity(i);
                             break; // optional
-
                         default: // Optional
                             // Statements
                     }
-
                 } else if (groupPosition == 7) {
-
                     i = new Intent(Home.this, Pharamcy.class);
                     startActivity(i);
-
                 } else if (groupPosition == 8) {
-
                     i = new Intent(Home.this, VideosListActivity.class);
                     startActivity(i);
-
                 }
-
 
                 return true;
             }
@@ -276,13 +268,6 @@ public class Home extends AppCompatActivity {
     }
 
     private void setClickListener() {
-        callSupportTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                phoneCall();
-            }
-        });
-
         editImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -352,8 +337,6 @@ public class Home extends AppCompatActivity {
                 SharedPreferences.Editor myEdit = shared.edit();
                 myEdit.putString("id", "0");
                 myEdit.commit();
-
-
                 Intent i = new Intent(Home.this, Login.class);
                 startActivity(i);
                 finish();
@@ -361,7 +344,6 @@ public class Home extends AppCompatActivity {
         });
 
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
             @Override
             public void onGroupExpand(int groupPosition) {
                 if (lastExpandedPosition != -1
@@ -369,8 +351,21 @@ public class Home extends AppCompatActivity {
                     expListView.collapseGroup(lastExpandedPosition);
                 }
                 lastExpandedPosition = groupPosition;
+                if (groupPosition == 9) {
+                    phoneCall();
+                }
             }
         });
+
+        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                if (groupPosition == 9) {
+                    phoneCall();
+                }
+            }
+        });
+
     }
 
     private void changeProfilePic() {
@@ -408,44 +403,42 @@ public class Home extends AppCompatActivity {
         img_conor_price = findViewById(R.id.img_conor_price);
         img_neaby_drs = findViewById(R.id.img_neaby_drs);
         img_drug_interactions = findViewById(R.id.img_drug_interactions);
-        callSupportTextView = findViewById(R.id.txt_call_support);
         logOut = findViewById(R.id.txtLogout);
         expListView = findViewById(R.id.lvExp);
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<Menu_item>();
-        listDataChild = new HashMap<Menu_item, List<Child_item>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add(new Menu_item("My Account", R.drawable.white_frame, R.drawable.iconaccount));
         listDataHeader.add(new Menu_item("Concor", R.drawable.white_frame, R.drawable.iconconcor));
         listDataHeader.add(new Menu_item("Heartpress", R.drawable.white_frame, R.drawable.iconheartpress));
-        listDataHeader.add(new Menu_item("Medical Statistics Claculator", R.drawable.white_frame, R.drawable.iconstatics));
+        listDataHeader.add(new Menu_item("Medical Statistics Calculator", R.drawable.white_frame, R.drawable.iconstatics));
         listDataHeader.add(new Menu_item("Advisory Board", R.drawable.white_frame, R.drawable.iconadvisor));
         listDataHeader.add(new Menu_item("Drug Interactions", R.drawable.white_frame, R.drawable.icondrug));
         listDataHeader.add(new Menu_item("Poll", R.drawable.white_frame, R.drawable.iconsurvey));
         listDataHeader.add(new Menu_item("Pharmacy", R.drawable.white_frame, R.drawable.ic_stat_onesignal_default));
         listDataHeader.add(new Menu_item("Video", R.drawable.white_frame, R.drawable.iconvideo));
-
-        //      listDataHeader.add(new Menu_item("Game", R.drawable.white_frame, R.drawable.food_ico));
+        listDataHeader.add(new Menu_item("Call Support", R.drawable.white_frame, R.drawable.call));
 
 
         // Adding child data
-        List<Child_item> myAccount = new ArrayList<Child_item>();
+        List<Child_item> myAccount = new ArrayList<>();
         myAccount.add(new Child_item("My profile", R.drawable.accountbg));
         myAccount.add(new Child_item("Nearby Drs", R.drawable.accountbg));
         myAccount.add(new Child_item("Connections", R.drawable.accountbg));
         myAccount.add(new Child_item("Favourites", R.drawable.accountbg));
         myAccount.add(new Child_item("Calender", R.drawable.accountbg));
 
-        List<Child_item> concor = new ArrayList<Child_item>();
+        List<Child_item> concor = new ArrayList<>();
         concor.add(new Child_item("Concor", R.drawable.concorbg));
         concor.add(new Child_item("Concor plus", R.drawable.concorbg));
         concor.add(new Child_item("Price", R.drawable.concorbg));
 
 
-        List<Child_item> heartPress = new ArrayList<Child_item>();
+        List<Child_item> heartPress = new ArrayList<>();
         heartPress.add(new Child_item("Cardiovascular updates", R.drawable.heartpressbg));
         heartPress.add(new Child_item("Library", R.drawable.heartpressbg));
 
@@ -470,12 +463,10 @@ public class Home extends AppCompatActivity {
         List<Child_item> Pharmacy = new ArrayList<Child_item>();
         Pharmacy.add(new Child_item("Pharmacy", R.drawable.drugbg));
 
-        List<Child_item> Game = new ArrayList<Child_item>();
-        Game.add(new Child_item("Game", R.drawable.drugbg));
-
         List<Child_item> video = new ArrayList<Child_item>();
         video.add(new Child_item("video", R.drawable.drugbg));
 
+        List<Child_item> call = new ArrayList<>();
         listDataChild.put(listDataHeader.get(0), myAccount); // Header, Child data
         listDataChild.put(listDataHeader.get(1), concor);
         listDataChild.put(listDataHeader.get(2), heartPress);
@@ -485,9 +476,7 @@ public class Home extends AppCompatActivity {
         listDataChild.put(listDataHeader.get(6), poll);
         listDataChild.put(listDataHeader.get(7), Pharmacy);
         listDataChild.put(listDataHeader.get(8), video);
-
-        //      listDataChild.put(listDataHeader.get(6), Game);
-
+        listDataChild.put(listDataHeader.get(9), call);
     }
 
     @Override

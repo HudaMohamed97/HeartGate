@@ -18,15 +18,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -136,7 +127,6 @@ public class UpdateData extends AppCompatActivity {
                 || middleName.length() == 0 || lastName.length() == 0
                 || email.length() == 0 || phoneNumber.length() == 0
                 || dateOfBirthday.length() == 0 || selectedSpeciality == 0 || genderidx == -1 || genderidx == 0) {
-
             Toast.makeText(UpdateData.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
         } else {
             callUpdateDataApi(map);
@@ -148,13 +138,12 @@ public class UpdateData extends AppCompatActivity {
         Webservice.getInstance().getApi().updateUser(userID, map).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
-                if (!response.isSuccessful()) {
-                    assert response.errorBody() != null;
+                if (response.isSuccessful()) {
                     Toast.makeText(UpdateData.this, "Data Update Successfully", Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
                 } else {
+                    Toast.makeText(UpdateData.this, response.message(), Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
-
                 }
             }
 

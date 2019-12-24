@@ -76,9 +76,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
 
-//        tvLocInfo = (TextView)findViewById(R.id.locinfo);
+//       tvLocInfo = (TextView)findViewById(R.id.locinfo);
 
-//        final MapWrapperLayout mapWrapperLayout = (MapWrapperLayout)findViewById(R.id.map_relative_layout);
+        final MapWrapperLayout mapWrapperLayout = (MapWrapperLayout) findViewById(R.id.map_relative_layout);
 
         mapFragment.getMapAsync(this);
 
@@ -126,17 +126,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
 //        // Add a marker in Sydney and move the camera
-//        MarkerOptions markerOption = new MarkerOptions();
-//        LatLng place = new LatLng(30.586771, 31.5164356);
-//        markerOption.position(place);
-//        markerOption.snippet("snippet");
-//        markerOption.title("Zagazig");
-////        markerOption.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-//        mMap.addMarker(markerOption);
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place, 12));
+        MarkerOptions markerOption = new MarkerOptions();
+        LatLng place = new LatLng(30.586771, 31.5164356);
+        markerOption.position(place);
+        markerOption.snippet("snippet");
+        markerOption.title("Zagazig");
+        markerOption.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+        mMap.addMarker(markerOption);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place, 12));
 //
 //
-//        MarkerOptions markerOption2 = new MarkerOptions();
+        //    MarkerOptions markerOption2 = new MarkerOptions();
 //        LatLng place2 = new LatLng(31.586771, 31.5164356);
 //        markerOption2.position(place2);
 //        markerOption2.snippet("snippet");
@@ -150,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 ////        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 ////        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-//        mMap.setInfoWindowAdapter(new InfoWindowAdapter(this));
+        mMap.setInfoWindowAdapter(new InfoWindowAdapter(this,"","",""));
 
         String myUserID = shared.getString("id", "0");
 
@@ -175,12 +175,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         if (!(lat.equals("") || lng.equals(""))) {
                             LatLng l = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
-//                        mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this,nme,speciality,pic));
+                            mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, nme, speciality, pic));
                             mMap.addMarker(new MarkerOptions().position(l).title(nme).snippet(speciality));
                         }
 
                     }
-                    Log.d("respone", response.toString());
+                    Log.d("response", response);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

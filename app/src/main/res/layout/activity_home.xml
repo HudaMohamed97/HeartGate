@@ -59,7 +59,6 @@
         android:id="@+id/lvExp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_above="@+id/txt_call_support"
         android:layout_below="@+id/txtLogout"
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
@@ -67,6 +66,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
         android:childDivider="@color/transparent"
         android:divider="@color/transparent"
         android:dividerHeight="5dp"
@@ -169,19 +169,5 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
-
-    <TextView
-        android:id="@+id/txt_call_support"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:background="@drawable/rounded_rectangle_yellowish"
-        android:clickable="true"
-        android:gravity="center"
-        android:text="Call Support"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
 
 </RelativeLayout>

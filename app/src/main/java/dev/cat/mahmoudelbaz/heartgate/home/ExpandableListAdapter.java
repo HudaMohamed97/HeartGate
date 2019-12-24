@@ -53,7 +53,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
 
-
         Child_item child_item = (Child_item) getChild(groupPosition, childPosition);
 
 
@@ -69,8 +68,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
         View colorchild = (View) convertView.findViewById(R.id.listcolor);
-        WebView webView =  convertView.findViewById(R.id.webview);
-
+        WebView webView = convertView.findViewById(R.id.webview);
 
 
         if (!isHTML)
@@ -98,7 +96,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int groupPosition) {
 
         if (!isHTML)
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
 
         else
             return 1;
@@ -123,32 +121,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
         Menu_item menuItem = (Menu_item) getGroup(groupPosition);
-
-
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
-
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setText(menuItem.getName());
-
-        ImageView img = (ImageView) convertView
+        ImageView img = convertView
                 .findViewById(R.id.imgListHeader);
         img.setImageResource(menuItem.getIconResId());
-
         View menu_holder = convertView.findViewById(R.id.menu_holder);
-
-//        ColorDrawable r = new ColorDrawable(_context.getResources().getColor(menuItem.getBackgroundColorResId()));
-//        r.setAlpha(200);
-
-
         menu_holder.setBackground(ContextCompat.getDrawable(_context, menuItem.getBackgroundColorResId()));
-
-
         return convertView;
     }
 

@@ -37,10 +37,8 @@ public class NearByDrs extends AppCompatActivity {
 
     String url, userId;
     ArrayList<ModelMyConnections> nearByConnections = new ArrayList<ModelMyConnections>();
-
     Boolean isLoading;
     AdapterNearBy nearByConnectionsAdapter;
-
     ListView nearBylist;
     ProgressBar nearByprogress;
     TextView nearByempty;
@@ -52,9 +50,6 @@ public class NearByDrs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_near_by_drs);
-
-
-
         Intent i = new Intent(this, WebViewer.class);
         i.putExtra("url", "nearby_drs.html");
         startActivity(i);
