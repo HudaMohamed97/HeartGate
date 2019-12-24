@@ -2,12 +2,15 @@ plugins {
     id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version '0.12.1'
 }
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 repositories {
     maven { url 'https://maven.google.com' }
+    mavenCentral()
 }
 
-apply plugin: 'com.android.application'
 
 android {
 
@@ -100,6 +103,7 @@ dependencies {
     implementation 'com.pusher:pusher-java-client:1.8.0'
 
     testImplementation 'junit:junit:4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 apply plugin: 'com.google.gms.google-services'
 

@@ -86,7 +86,7 @@ public class MyProfile extends ActivityManagePermission {
                     final String jobTitlestring = (String) jobTitleArr.getText(jobTitleint);
                     final int currentLivingint = res.getInt("fk_current_living_place");
                     final String currentLivingstring = (String) currentLivingArr.getText(currentLivingint);
-                    final String imgstring = res.getString("image_profile");
+                    final String imgstring = res.getString("image_profilead");
                     final String imgurl = IMAGE_URL + imgstring;
                     name.setText(namestring);
                     email.setText(emailstring);

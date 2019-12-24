@@ -30,6 +30,7 @@
         <activity android:name=".concor.Concor" />
         <activity android:name=".concor.Concor_plus" />
         <activity android:name=".ForgetPassword" />
+        <activity android:name=".videos.VideoViewerActivity" />
         <activity android:name=".signUp.SignUp" />
         <activity android:name=".signUp.UpdateData" />
         <activity android:name=".advisoryBoard.AddQuestion" />

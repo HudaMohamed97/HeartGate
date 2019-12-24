@@ -26,6 +26,7 @@ import com.squareup.picasso.Request;
 import com.squareup.picasso.RequestHandler;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +35,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.cat.mahmoudelbaz.heartgate.R;
+import dev.cat.mahmoudelbaz.heartgate.home.Home;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.ModelMyConnections;
+import dev.cat.mahmoudelbaz.heartgate.myAccount.MyProfile;
 
 import static com.google.android.gms.cast.framework.media.MediaUtils.getImageUri;
+import static dev.cat.mahmoudelbaz.heartgate.webServices.Services.MAIN_URL;
 import static dev.cat.mahmoudelbaz.heartgate.webServices.Services.MAIN_VIDEOS_URL;
 
 public class videoAdapter extends RecyclerView.Adapter<videoAdapter.MyViewHolder> implements Filterable {
@@ -69,38 +73,33 @@ public class videoAdapter extends RecyclerView.Adapter<videoAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull videoAdapter.MyViewHolder holder, final int position) {
-        //      holder.libid.setText(cardioUpdatesResponseModels.get(position).getId());
         holder.libName.setText(cardioUpdatesResponseModels.get(position).getVideo_name());
         holder.desc.setText(cardioUpdatesResponseModels.get(position).getVideo_description());
 
         videoRequestHandler = new VideoRequestHandler();
-        picassoInstance = new Picasso.Builder(context)
+      /*  picassoInstance = new Picasso.Builder(context)
                 .addRequestHandler(videoRequestHandler)
-                .build();
+                .build();*/
+        String selectedPathVideo = MAIN_VIDEOS_URL + cardioUpdatesResponseModels.get(position).getVideo_url();
+        try {
+            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selectedPathVideo, MediaStore.Video.Thumbnails.MICRO_KIND);
+            holder.thumbnail.setImageBitmap(thumb);
 
-  /*     try {
-            picassoInstance
-                    .load(getImageUri(context , retriveVideoFrameFromVideo( MAIN_VIDEOS_URL + cardioUpdatesResponseModels.get(position).getVideo_url())))
-                    .into(holder.thumbnail);
-
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-*/
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 String uriPath = MAIN_VIDEOS_URL + cardioUpdatesResponseModels.get(position).getVideo_url();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriPath));
-                intent.setDataAndType(Uri.parse(uriPath), "video/mp4");
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Intent intent = new Intent(context, VideoViewerActivity.class);
+                intent.putExtra("videoUri", uriPath);
                 context.startActivity(intent);
             }
         });
 
 
     }
-
 
     @Override
     public int getItemCount() {

@@ -1,5 +1,6 @@
 package dev.cat.mahmoudelbaz.heartgate.videos;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ public class VideosListActivity extends AppCompatActivity {
     String userID;
     List<VideoResponseModel> cardioUpdatesResponseModels = new ArrayList<>();
     List<VideoResponseModel> videoResponseModel;
-    EditText mysearchView;
+    EditText mySearchEditText;
     videoAdapter myVideoAdapter;
 
 
@@ -44,34 +46,37 @@ public class VideosListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_videos_list);
         ButterKnife.bind(this);
-        mysearchView = findViewById(R.id.mysearch_view);
-
+        mySearchEditText = findViewById(R.id.mysearch_view);
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
-
         userID = shared.getString("id", "0");
+        getData();
+        setFocusChanged();
 
+    }
 
-        mysearchView.addTextChangedListener(new TextWatcher() {
+    private void setFocusChanged() {
+        mySearchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        mySearchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-
                 myVideoAdapter.getFilter().filter(s.toString());
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
-
-        getData();
-
     }
 
     private void getData() {
@@ -90,7 +95,6 @@ public class VideosListActivity extends AppCompatActivity {
                     myVideoAdapter = new videoAdapter(VideosListActivity.this, videoResponseModel);
                     RecycleViewCardoivascular.setAdapter(myVideoAdapter);
                     progressBar.setVisibility(View.GONE);
-
                 }
             }
 
@@ -102,7 +106,13 @@ public class VideosListActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
+
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 
 }
