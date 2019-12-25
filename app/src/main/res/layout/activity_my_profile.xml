@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_my_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
-
-    tools:context="dev.cat.mahmoudelbaz.heartgate.myAccount.MyProfile">
+    android:background="@drawable/bg">
 
 
     <RelativeLayout
@@ -107,7 +104,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtName"
+                    android:id="@+id/profileTextName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -133,7 +130,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtEmail"
+                    android:id="@+id/profileEmail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -159,7 +156,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtMob"
+                    android:id="@+id/profileMob"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -185,7 +182,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtBirthDate"
+                    android:id="@+id/profileBirthDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

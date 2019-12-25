@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import dev.cat.mahmoudelbaz.heartgate.BitmapHelper;
 import dev.cat.mahmoudelbaz.heartgate.ImageBase64;
+import dev.cat.mahmoudelbaz.heartgate.myAccount.oldChat.UserDataModel;
 import dev.cat.mahmoudelbaz.heartgate.signUp.UpdateData;
 import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
 import permission.auron.com.marshmallowpermissionhelper.ActivityManagePermission;
@@ -46,6 +47,7 @@ import retrofit2.Callback;
 public class MyProfile extends ActivityManagePermission {
 
     private static final String IMAGE_URL = "http://heartgate.co/api_heartgate/layout/images/";
+    private static final String BASE_URL = "http://heartgate.co/api_heartgate/users/current/";
     private SharedPreferences shared;
     private String userID;
     private TextView name, email, mobile, dateOfBirth, gender, speciality, jobTitle, currentLiving;
@@ -56,69 +58,24 @@ public class MyProfile extends ActivityManagePermission {
     private TypedArray specialityArr, jobTitleArr, currentLivingArr, currentWorkArr, prevWorkArr, expArr;
     JSONObject res;
     private static int RESULT_LOAD_IMAGE = 1;
+    private UserDataModel userDataModel;
+    private String genderType = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
         userID = shared.getString("id", "0");
         setViews();
-
-        url = "http://heartgate.co/api_heartgate/users/current/" + userID;
-
-        StringRequest loginRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray usersarray = new JSONArray(response);
-                    res = usersarray.getJSONObject(0);
-                    final String namestring = res.getString("fullname");
-                    final String emailstring = res.getString("email");
-                    final String mobilestring = res.getString("mobile_number");
-                    final String dateOfBirthstring = res.getString("birthdate");
-                    final int genderint = res.getInt("fk_gender_id");
-                    final int specialityint = res.getInt("fk_speciality_id");
-                    final String specialitystring = (String) specialityArr.getText(specialityint);
-                    final int jobTitleint = res.getInt("fk_job_id");
-                    final String jobTitlestring = (String) jobTitleArr.getText(jobTitleint);
-                    final int currentLivingint = res.getInt("fk_current_living_place");
-                    final String currentLivingstring = (String) currentLivingArr.getText(currentLivingint);
-                    final String imgstring = res.getString("image_profilead");
-                    final String imgurl = IMAGE_URL + imgstring;
-                    name.setText(namestring);
-                    email.setText(emailstring);
-                    mobile.setText(mobilestring);
-                    dateOfBirth.setText(dateOfBirthstring);
-                    speciality.setText(specialitystring);
-                    jobTitle.setText(jobTitlestring);
-                    currentLiving.setText(currentLivingstring);
-                    if (genderint == 1) {
-                        gender.setText("Male");
-                    } else if (genderint == 2) {
-                        gender.setText("Female");
-                    }
-
-                    Picasso.with(MyProfile.this).load(imgurl).placeholder(R.drawable.profile).error(R.drawable.profile).into(imgprofile);
-                    progress.setVisibility(View.INVISIBLE);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progress.setVisibility(View.INVISIBLE);
-                Toast.makeText(MyProfile.this, "Network Error", Toast.LENGTH_SHORT).show();
+        getUserData();
+        setClickListener();
 
 
-            }
-        });
+    }
 
-        Volley.newRequestQueue(MyProfile.this).add(loginRequest);
+    private void setClickListener() {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,18 +88,13 @@ public class MyProfile extends ActivityManagePermission {
             public void onClick(View view) {
                 boolean isGranted = isPermissionsGranted(MyProfile.this, new String[]{PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE});
                 if (isGranted) {
-                    Intent i = new Intent(
-                            Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(i, RESULT_LOAD_IMAGE);
                 } else {
                     askCompactPermissions(new String[]{PermissionUtils.Manifest_READ_EXTERNAL_STORAGE}, new PermissionResult() {
                         @Override
                         public void permissionGranted() {
-                            Intent i = new Intent(
-                                    Intent.ACTION_PICK,
-                                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+                            Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(i, RESULT_LOAD_IMAGE);
                         }
 
@@ -153,8 +105,6 @@ public class MyProfile extends ActivityManagePermission {
 
                         @Override
                         public void permissionForeverDenied() {
-                            // user has check 'never ask again'
-                            // you need to open setting manually
                             Toast.makeText(MyProfile.this, "Please Enable Storage Permission", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -167,6 +117,62 @@ public class MyProfile extends ActivityManagePermission {
         });
     }
 
+    private void getUserData() {
+        url = BASE_URL + userID;
+        StringRequest loginRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray usersarray = new JSONArray(response);
+                    res = usersarray.getJSONObject(0);
+                    final String fullName = res.getString("fullname");
+                    final String myemail = res.getString("email");
+                    final String mobile_number = res.getString("mobile_number");
+                    final String dateofBirthDay = res.getString("birthdate");
+                    final int genderint = res.getInt("fk_gender_id");
+                    final int specialityint = res.getInt("fk_speciality_id");
+                    final String specialitystring = (String) specialityArr.getText(specialityint);
+                    final int jobTitleint = res.getInt("fk_job_id");
+                    final String jobTitlestring = (String) jobTitleArr.getText(jobTitleint);
+                    final int currentLivingint = res.getInt("fk_current_living_place");
+                    final String currentLivingstring = (String) currentLivingArr.getText(currentLivingint);
+                    final String imgstring = res.getString("image_profile");
+                    final String imgurl = IMAGE_URL + imgstring;
+                    if (genderint == 1) {
+                        gender.setText("Male");
+                        genderType = "Male";
+                    } else if (genderint == 2) {
+                        gender.setText("Female");
+                        genderType = "Female";
+                    }
+                    userDataModel = new UserDataModel(fullName, myemail, mobile_number, dateofBirthDay, "male");
+                    name.setText(fullName);
+                    email.setText(myemail);
+                    mobile.setText(mobile_number);
+                    dateOfBirth.setText(dateofBirthDay);
+                    speciality.setText(specialitystring);
+                    jobTitle.setText(jobTitlestring);
+                    currentLiving.setText(currentLivingstring);
+                    Picasso.with(MyProfile.this).load(imgurl).placeholder(R.drawable.profile).error(R.drawable.profile).into(imgprofile);
+                    progress.setVisibility(View.GONE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progress.setVisibility(View.GONE);
+                Toast.makeText(MyProfile.this, "Network Error", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        Volley.newRequestQueue(MyProfile.this).add(loginRequest);
+    }
+
     private void setViews() {
         specialityArr = getResources().obtainTypedArray(R.array.speciality_array);
         jobTitleArr = getResources().obtainTypedArray(R.array.jobTitle_array);
@@ -177,10 +183,10 @@ public class MyProfile extends ActivityManagePermission {
         imgprofile = findViewById(R.id.imgProfile);
         progress = findViewById(R.id.progressBar);
         btnUpdate = findViewById(R.id.btnUpdate);
-        name = findViewById(R.id.txtName);
-        email = findViewById(R.id.txtEmail);
-        mobile = findViewById(R.id.txtMob);
-        dateOfBirth = findViewById(R.id.txtBirthDate);
+        name = findViewById(R.id.profileTextName);
+        email = findViewById(R.id.profileEmail);
+        mobile = findViewById(R.id.profileMob);
+        dateOfBirth = findViewById(R.id.profileBirthDate);
         gender = findViewById(R.id.txtGender);
         speciality = findViewById(R.id.txtSpeciality);
         jobTitle = findViewById(R.id.txtJobTitle);
@@ -189,6 +195,7 @@ public class MyProfile extends ActivityManagePermission {
 
     private void navigateToUppdateDataScreen() {
         Intent signUpIntent = new Intent(MyProfile.this, UpdateData.class);
+        signUpIntent.putExtra("userDataModel", userDataModel);
         startActivity(signUpIntent);
     }
 

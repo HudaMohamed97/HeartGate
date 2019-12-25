@@ -1,5 +1,6 @@
 package dev.cat.mahmoudelbaz.heartgate.signUp;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dev.cat.mahmoudelbaz.heartgate.R;
+import dev.cat.mahmoudelbaz.heartgate.myAccount.oldChat.UserDataModel;
 import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,11 +40,12 @@ public class UpdateData extends AppCompatActivity {
     private Button updateDataButton;
     private RadioGroup radioGender;
     private RadioButton male, female;
-    private String url;
     private String userID;
     private int year = 1991;
     private int month = 0;
     private int day = 1;
+    private UserDataModel userDataModel;
+    private RelativeLayout layout;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -49,6 +54,7 @@ public class UpdateData extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
         userID = shared.getString("id", "0");
+        userDataModel = (UserDataModel) getIntent().getSerializableExtra("userDataModel");
         setViews();
         dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -78,6 +84,12 @@ public class UpdateData extends AppCompatActivity {
                     }
                 }, year, month, day);
                 datePick.show();
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard(view);
             }
         });
 
@@ -158,16 +170,25 @@ public class UpdateData extends AppCompatActivity {
     private void setViews() {
         back = findViewById(R.id.bck);
         userName = findViewById(R.id.etUserName);
+        userName.setHint(userDataModel.getName());
         firstName = findViewById(R.id.etFirstName);
+        String lineOfCurrencies = userDataModel.getName();
+        String[] currencies = lineOfCurrencies.split(" ");
+        firstName.setHint(currencies[0]);
         middleName = findViewById(R.id.etMiddleName);
+        middleName.setHint(currencies[1]);
         lastName = findViewById(R.id.etLastName);
+        lastName.setHint(currencies[1]);
         email = findViewById(R.id.etEmail);
+        email.setHint(userDataModel.getEmail());
         password = findViewById(R.id.etPassword);
         password.setVisibility(View.GONE);
         confrimPassword = findViewById(R.id.etConfirmPassword);
         confrimPassword.setVisibility(View.GONE);
         phoneNumber = findViewById(R.id.etPhoneNumber);
+        phoneNumber.setHint(userDataModel.getPhoneNum());
         dateOfBirth = findViewById(R.id.etDateOfBirth);
+        dateOfBirth.setHint(userDataModel.getBirthDate());
         speciality = findViewById(R.id.spinnerSpeciality);
         updateDataButton = findViewById(R.id.btnRegister);
         updateDataButton.setText("Update");
@@ -176,6 +197,13 @@ public class UpdateData extends AppCompatActivity {
         female = findViewById(R.id.radioFemale);
         progress = findViewById(R.id.progressBar);
         progress.setVisibility(View.INVISIBLE);
+        layout = findViewById(R.id.activity_sign_up);
+
+    }
+
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

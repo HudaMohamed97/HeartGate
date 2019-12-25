@@ -1,11 +1,13 @@
 package dev.cat.mahmoudelbaz.heartgate.signUp;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ public class SignUp extends AppCompatActivity {
     private Button register;
     private RadioGroup radioGender;
     private RadioButton male, female;
+    private RelativeLayout layout;
     private String url;
     private int year = 1991;
     private int month = 0;
@@ -47,6 +51,15 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         setViews();
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard(view);
+            }
+        });
+
+
         dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -177,6 +190,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void setViews() {
+        layout = findViewById(R.id.activity_sign_up);
         back = findViewById(R.id.bck);
         userName = findViewById(R.id.etUserName);
         firstName = findViewById(R.id.etFirstName);
@@ -196,4 +210,8 @@ public class SignUp extends AppCompatActivity {
         progress.setVisibility(View.INVISIBLE);
     }
 
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

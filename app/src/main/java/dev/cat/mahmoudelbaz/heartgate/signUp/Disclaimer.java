@@ -25,9 +25,9 @@ public class Disclaimer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disclaimer);
 
-        myWebView = (WebView) findViewById(R.id.webDisclaimer);
-        agree = (Button) findViewById(R.id.btnAgree);
-        disagree = (Button) findViewById(R.id.btnDisagree);
+        myWebView = findViewById(R.id.webDisclaimer);
+        agree = findViewById(R.id.btnAgree);
+        disagree = findViewById(R.id.btnDisagree);
 
         WebSettings websettings = myWebView.getSettings();
 

@@ -35,7 +35,6 @@ public class VideosListActivity extends AppCompatActivity {
     ProgressBar progressBar;
     SharedPreferences shared;
     String userID;
-    List<VideoResponseModel> cardioUpdatesResponseModels = new ArrayList<>();
     List<VideoResponseModel> videoResponseModel;
     EditText mySearchEditText;
     videoAdapter myVideoAdapter;
