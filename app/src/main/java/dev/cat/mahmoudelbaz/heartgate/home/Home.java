@@ -59,7 +59,7 @@ public class Home extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
     private static final int RESULT_LOAD_IMAGE = 2;
     ProgressBar progress;
-    ImageView imgProfile, img_home, img_connections, img_conor_price, img_neaby_drs, img_drug_interactions;
+    ImageView imgProfile;
     TextView name, email;
     String url;
     ExpandableListAdapter listAdapter;
@@ -275,61 +275,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        img_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Home.this, Home.class);
-                startActivity(i);
-                finish();
-
-            }
-        });
-
-
-        img_connections.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(Home.this, ConnectionsTabs.class);
-                startActivity(i);
-
-            }
-        });
-
-
-        img_conor_price.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(Home.this, ConcorPrice.class);
-                startActivity(i);
-
-            }
-        });
-
-
-        img_neaby_drs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(Home.this, NearByDrs.class);
-                startActivity(i);
-
-            }
-        });
-
-
-        img_drug_interactions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(Home.this, DrugInteractions.class);
-                startActivity(i);
-
-            }
-        });
-
-
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -353,19 +298,11 @@ public class Home extends AppCompatActivity {
                 lastExpandedPosition = groupPosition;
                 if (groupPosition == 9) {
                     phoneCall();
+                    expListView.collapseGroup(9);
+
                 }
             }
         });
-
-        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                if (groupPosition == 9) {
-                    phoneCall();
-                }
-            }
-        });
-
     }
 
     private void changeProfilePic() {
@@ -398,11 +335,6 @@ public class Home extends AppCompatActivity {
         email = findViewById(R.id.txtEmail);
         progress = findViewById(R.id.progressBar);
         editImageProfile = findViewById(R.id.editDataButton);
-        img_home = findViewById(R.id.img_home);
-        img_connections = findViewById(R.id.img_connections);
-        img_conor_price = findViewById(R.id.img_conor_price);
-        img_neaby_drs = findViewById(R.id.img_neaby_drs);
-        img_drug_interactions = findViewById(R.id.img_drug_interactions);
         logOut = findViewById(R.id.txtLogout);
         expListView = findViewById(R.id.lvExp);
     }

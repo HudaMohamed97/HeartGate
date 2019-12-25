@@ -78,12 +78,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 //       tvLocInfo = (TextView)findViewById(R.id.locinfo);
 
-        final MapWrapperLayout mapWrapperLayout = (MapWrapperLayout) findViewById(R.id.map_relative_layout);
+        final MapWrapperLayout mapWrapperLayout = findViewById(R.id.map_relative_layout);
 
         mapFragment.getMapAsync(this);
 
 
-        back = (ImageView) findViewById(R.id.bck);
+        back = findViewById(R.id.bck);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,33 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-//        // Add a marker in Sydney and move the camera
-        MarkerOptions markerOption = new MarkerOptions();
-        LatLng place = new LatLng(30.586771, 31.5164356);
-        markerOption.position(place);
-        markerOption.snippet("snippet");
-        markerOption.title("Zagazig");
-        markerOption.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-        mMap.addMarker(markerOption);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place, 12));
-//
-//
-        //    MarkerOptions markerOption2 = new MarkerOptions();
-//        LatLng place2 = new LatLng(31.586771, 31.5164356);
-//        markerOption2.position(place2);
-//        markerOption2.snippet("snippet");
-//        markerOption2.title("teeeet teeet ");
-////        markerOption.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-//        mMap.addMarker(markerOption2);
-////        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place2,12));
-//
-//
-////        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-////        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-////        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-        mMap.setInfoWindowAdapter(new InfoWindowAdapter(this,"","",""));
+        mMap.setInfoWindowAdapter(new InfoWindowAdapter(this, "", "", ""));
 
         String myUserID = shared.getString("id", "0");
 
@@ -164,19 +138,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     JSONArray object = new JSONArray(response);
 
                     for (int i = 0; i < object.length(); i++) {
-
                         JSONObject current = object.getJSONObject(i);
-
                         String lat = current.getString("lat");
                         String lng = current.getString("lng");
                         String nme = current.getString("fullname");
                         String speciality = current.getString("speciality");
                         String pic = "http://heartgate.co/api_heartgate/layout/images/" + current.getString("image_profile");
-
                         if (!(lat.equals("") || lng.equals(""))) {
                             LatLng l = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                             mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, nme, speciality, pic));
-                            mMap.addMarker(new MarkerOptions().position(l).title(nme).snippet(speciality));
+                            mMap.addMarker(new MarkerOptions().position(l).title(nme).
+                                    snippet(speciality));
                         }
 
                     }
@@ -198,64 +170,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         );
 
         Volley.newRequestQueue(this).add(postsRequest);
-
-
-//
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
-//                    android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-//        } else {
-//
-//
-//            Location userCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-//            if (userCurrentLocation != null) {
-//
-//                double myLatitude = userCurrentLocation.getLatitude();
-//                double myLongitude = userCurrentLocation.getLongitude();
-//
-//
-////                String myUserID = shared.getString("id", "0");
-//
-//
-//                String myurl = "http://heartgate.co/api_heartgate/users/location";
-//
-//                JSONObject jsobj = new JSONObject();
-//                try {
-//
-//                    jsobj.put("user_id", myUserID);
-//                    jsobj.put("lng", myLongitude);
-//                    jsobj.put("lat", myLatitude);
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                if (!(myUserID == "0")) {
-//
-//                    JsonObjectRequest postrequest = new JsonObjectRequest(Request.Method.POST, myurl, jsobj, new Response.Listener<JSONObject>() {
-//                        @Override
-//                        public void onResponse(JSONObject response) {
-//
-////                            Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
-//                            Log.d("TTT", "onResponse: " + response.toString());
-//                        }
-//                    }, new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//
-//                            Log.d("TTT", "onResponse: " + error.toString());
-////                    Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                    });
-//
-//
-//                    Volley.newRequestQueue(MapsActivity.this).add(postrequest);
-//                }
-//            }
-//        }
-
 
     }
 
@@ -338,37 +252,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             Toast.makeText(MapsActivity.this, "Need Permission To Use this section", Toast.LENGTH_SHORT).show();
             onBackPressed();
-        }
-    }
-
-    //Inner Adapter
-    class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View myContentsView;
-
-        MyInfoWindowAdapter() {
-            myContentsView = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-
-            TextView tvTitle = ((TextView) myContentsView.findViewById(R.id.title));
-            tvTitle.setText(marker.getTitle());
-
-            TextView tvSnippet = ((TextView) myContentsView.findViewById(R.id.snippet));
-            tvSnippet.setText(marker.getSnippet());
-
-            ImageView ivIcon = ((ImageView) myContentsView.findViewById(R.id.icon));
-            ivIcon.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_gallery));
-
-
-            return myContentsView;
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            // TODO Auto-generated method stub
-            return null;
         }
     }
 }

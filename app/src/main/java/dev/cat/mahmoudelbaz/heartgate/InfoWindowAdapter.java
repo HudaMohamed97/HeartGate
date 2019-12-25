@@ -32,18 +32,16 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoContents(Marker marker) {
-
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View myContentsView = li.inflate(R.layout.custom_info_contents, null);
+        TextView tvTitle = myContentsView.findViewById(R.id.title);
+        TextView tvSnippet = myContentsView.findViewById(R.id.snippet);
+        ImageView ivIcon = myContentsView.findViewById(R.id.icon);
+        tvTitle.setText(marker.getTitle());
+        tvSnippet.setText(marker.getSnippet());
 
-        TextView tvTitle = ((TextView) myContentsView.findViewById(R.id.title));
-        TextView tvSnippet = ((TextView) myContentsView.findViewById(R.id.snippet));
-        ImageView ivIcon = ((ImageView) myContentsView.findViewById(R.id.icon));
 
-        tvTitle.setText(name);
-        tvSnippet.setText(title);
         Picasso.with(context).load(pic).placeholder(R.drawable.profile).error(R.drawable.profile).into(ivIcon);
-
         return myContentsView;
     }
 
@@ -52,4 +50,25 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         // TODO Auto-generated method stub
         return null;
     }
+
+   /* private void loadMarkerIcon(final Marker marker) {
+        String burlImg = "Url_imagePath;
+        Glide.with(this).load(burlImg)
+                .asBitmap().fitCenter().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                if(bitmap!=null){
+                    //  Bitmap circularBitmap = getRoundedCornerBitmap(bitmap, 150);
+                    Bitmap mBitmap = getCircularBitmap(bitmap);
+                    mBitmap = addBorderToCircularBitmap(mBitmap, 2, Color.WHITE,squareBitmapWidth);
+                    BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(mBitmap);
+                    marker.setIcon(icon);
+                }
+
+            }
+        });
+
+    }*/
+
 }
