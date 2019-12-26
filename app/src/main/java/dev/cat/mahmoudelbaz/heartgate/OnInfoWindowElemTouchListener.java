@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.Marker;
 /**
  * Created by mahmoudelbaz on 10/25/17.
  */
-
 public abstract class OnInfoWindowElemTouchListener implements View.OnTouchListener {
     private final View view;
     private final Drawable bgDrawableNormal;
@@ -19,13 +18,6 @@ public abstract class OnInfoWindowElemTouchListener implements View.OnTouchListe
 
     private Marker marker;
     private boolean pressed = false;
-    private final Runnable confirmClickRunnable = new Runnable() {
-        public void run() {
-            if (endPress()) {
-                onClickConfirmed(view, marker);
-            }
-        }
-    };
 
     public OnInfoWindowElemTouchListener(View view, Drawable bgDrawableNormal, Drawable bgDrawablePressed) {
         this.view = view;
@@ -39,14 +31,14 @@ public abstract class OnInfoWindowElemTouchListener implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View vv, MotionEvent event) {
-        if (0 <= event.getX() && event.getX() <= view.getWidth() && 0 <= event.getY() && event.getY() <= view.getHeight()) {
+        if (0 <= event.getX() && event.getX() <= view.getWidth() &&
+                0 <= event.getY() && event.getY() <= view.getHeight()) {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     startPress();
                     break;
 
-                // We need to delay releasing of the view a little so it shows the
-                // pressed state on the screen
+                // We need to delay releasing of the view a little so it shows the pressed state on the screen
                 case MotionEvent.ACTION_UP:
                     handler.postDelayed(confirmClickRunnable, 150);
                     break;
@@ -70,7 +62,7 @@ public abstract class OnInfoWindowElemTouchListener implements View.OnTouchListe
         if (!pressed) {
             pressed = true;
             handler.removeCallbacks(confirmClickRunnable);
-            view.setBackgroundDrawable(bgDrawablePressed);
+            view.setBackground(bgDrawablePressed);
             if (marker != null)
                 marker.showInfoWindow();
         }
@@ -80,13 +72,22 @@ public abstract class OnInfoWindowElemTouchListener implements View.OnTouchListe
         if (pressed) {
             this.pressed = false;
             handler.removeCallbacks(confirmClickRunnable);
-            view.setBackgroundDrawable(bgDrawableNormal);
+            view.setBackground(bgDrawableNormal);
             if (marker != null)
                 marker.showInfoWindow();
             return true;
         } else
             return false;
     }
+
+
+    private final Runnable confirmClickRunnable = new Runnable() {
+        public void run() {
+            if (endPress()) {
+                onClickConfirmed(view, marker);
+            }
+        }
+    };
 
     /**
      * This is called after a successful click

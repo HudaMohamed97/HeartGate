@@ -33,14 +33,10 @@ import dev.cat.mahmoudelbaz.heartgate.R;
 public class MayKnow extends Fragment {
 
     ConnectionsTabs activity;
-
-
     String url, userId;
-    ArrayList<ModelMyConnections> mayKnow = new ArrayList<ModelMyConnections>();
-
+    ArrayList<ModelMyConnections> mayKnow = new ArrayList<>();
     Boolean isLoading;
     AdapterMayKnow MayKnowAdapter;
-
     ListView maylist;
     ProgressBar mayprogress;
     TextView mayempty;
@@ -51,78 +47,21 @@ public class MayKnow extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         pageId = 1;
         mayKnow.clear();
         isLoading = false;
-
-
         View view = inflater.inflate(R.layout.fragment_may_know, container, false);
-
-
         shared = this.getActivity().getSharedPreferences("id", Context.MODE_PRIVATE);
         userId = shared.getString("id", "0");
-
-
         activity = (ConnectionsTabs) getActivity();
-
-        maysearchView = (EditText) view.findViewById(R.id.maysearch_view);
-        maylist = (ListView) view.findViewById(R.id.mayKnowlistView);
-//        maylist.setTranscriptMode(1);
-        mayprogress = (ProgressBar) view.findViewById(R.id.mayprogressBar);
-        mayempty = (TextView) view.findViewById(R.id.maytxtEmpty);
+        maysearchView = view.findViewById(R.id.maysearch_view);
+        maylist = view.findViewById(R.id.mayKnowlistView);
+        mayprogress = view.findViewById(R.id.mayprogressBar);
+        mayempty = view.findViewById(R.id.maytxtEmpty);
         maylist.setEmptyView(mayempty);
-
-
         MayKnowAdapter = new AdapterMayKnow(activity, mayKnow);
 
-
-        url = "http://heartgate.co/api_heartgate/connections/find_connections/" + userId + "/" + pageId;
-
-        StringRequest productsRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                try {
-//                    JSONObject object = new JSONObject(response);
-                    JSONArray usersarray = new JSONArray(response);
-                    if (usersarray.length() == 0) {
-                        mayprogress.setVisibility(View.INVISIBLE);
-                    } else {
-
-                        pageId++;
-                        for (int i = 0; i < usersarray.length(); i++) {
-                            JSONObject currentobject = usersarray.getJSONObject(i);
-                            final int id = currentobject.getInt("id");
-                            final String fullName = currentobject.getString("fullname");
-                            final String jobTitle = currentobject.getString("speciality");
-                            final String picture = currentobject.getString("image_profile");
-                            final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-
-//                            mayKnow.add(0,new ModelMyConnections(0, id, fullName, jobTitle, imageUrl));
-                            mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl));
-                            maylist.setAdapter(MayKnowAdapter);
-
-                            mayprogress.setVisibility(View.INVISIBLE);
-
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        Volley.newRequestQueue(activity).add(productsRequest);
+        getMayKnowDoctors();
 
 
         maylist.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -159,7 +98,6 @@ public class MayKnow extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-
                 MayKnowAdapter.getFilter().filter(s.toString());
 
             }
@@ -173,21 +111,60 @@ public class MayKnow extends Fragment {
         return view;
     }
 
-    private void loadData() {
-
-
-        mayprogress.setVisibility(View.VISIBLE);
-
+    private void getMayKnowDoctors() {
         url = "http://heartgate.co/api_heartgate/connections/find_connections/" + userId + "/" + pageId;
-
         StringRequest productsRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 try {
-//                    JSONObject object = new JSONObject(response);
                     JSONArray usersarray = new JSONArray(response);
+                    if (usersarray.length() == 0) {
+                        mayprogress.setVisibility(View.INVISIBLE);
+                    } else {
 
+                        pageId++;
+                        for (int i = 0; i < usersarray.length(); i++) {
+                            JSONObject currentobject = usersarray.getJSONObject(i);
+                            final int id = currentobject.getInt("id");
+                            final String fullName = currentobject.getString("fullname");
+                            final String jobTitle = currentobject.getString("speciality");
+                            final String picture = currentobject.getString("image_profile");
+                            final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
+                            mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl));
+                            maylist.setAdapter(MayKnowAdapter);
+                            mayprogress.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        Volley.newRequestQueue(activity).add(productsRequest);
+
+
+    }
+
+    private void loadData() {
+        mayprogress.setVisibility(View.VISIBLE);
+        url = "http://heartgate.co/api_heartgate/connections/find_connections/" + userId + "/" + pageId;
+        StringRequest productsRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONArray usersarray = new JSONArray(response);
                     if (usersarray.length() == 0) {
                         isLoading = true;
                         mayprogress.setVisibility(View.INVISIBLE);

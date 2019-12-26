@@ -15,10 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -42,26 +39,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static dev.cat.mahmoudelbaz.heartgate.R.id.map;
+import dev.cat.mahmoudelbaz.heartgate.myAccount.ModelMyConnections;
+import dev.cat.mahmoudelbaz.heartgate.webServices.CustomBottomSheet;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, mapListener, GoogleMap.OnInfoWindowClickListener {
 
-
-    final int RQS_GooglePlayServices = 1;
-
-
-    //Activity  Code
-    TextView tvLocInfo;
     SharedPreferences shared;
     ImageView back;
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
-    private ViewGroup infoWindow;
-    private TextView infoTitle;
-    private TextView infoSnippet;
-    private Button infoButton;
-    private OnInfoWindowElemTouchListener infoButtonListener;
+    private MapWrapperLayout mapWrapperLayout;
+    private CustomBottomSheet customBottomSheet;
 
     public static int getPixelsFromDp(Context context, float dp) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -72,36 +62,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(map);
-
-//       tvLocInfo = (TextView)findViewById(R.id.locinfo);
-
-        final MapWrapperLayout mapWrapperLayout = findViewById(R.id.map_relative_layout);
-
+        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapWrapperLayout = findViewById(R.id.map_relative_layout);
         mapFragment.getMapAsync(this);
-
-
         back = findViewById(R.id.bck);
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
-
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, "GPS is Enabled in your device", Toast.LENGTH_SHORT).show();
         } else {
             showGPSDisabledAlertToUser();
         }
-
-
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -124,31 +101,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setInfoWindowAdapter(new InfoWindowAdapter(this, "", "", ""));
-
+        mapWrapperLayout.init(googleMap, getPixelsFromDp(this, 39 + 20));
+        mMap.setOnInfoWindowClickListener(this);
         String myUserID = shared.getString("id", "0");
-
         String finalUrl = "http://heartgate.co/api_heartgate/users/nearby/" + myUserID + "/0";
         final StringRequest postsRequest = new StringRequest(
                 Request.Method.GET, finalUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONArray object = new JSONArray(response);
-
                     for (int i = 0; i < object.length(); i++) {
                         JSONObject current = object.getJSONObject(i);
+                        int id = current.getInt("id");
                         String lat = current.getString("lat");
                         String lng = current.getString("lng");
                         String nme = current.getString("fullname");
                         String speciality = current.getString("speciality");
                         String pic = "http://heartgate.co/api_heartgate/layout/images/" + current.getString("image_profile");
+                        ModelMyConnections modelMyConnections = new ModelMyConnections(-1, id, nme, speciality, pic);
                         if (!(lat.equals("") || lng.equals(""))) {
                             LatLng l = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
-                            mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, nme, speciality, pic));
-                            mMap.addMarker(new MarkerOptions().position(l).title(nme).
-                                    snippet(speciality));
+                            mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, MapsActivity.this));
+                            mMap.addMarker(new MarkerOptions().position(l).title(nme)).setTag(modelMyConnections);
                         }
 
                     }
@@ -253,5 +228,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(MapsActivity.this, "Need Permission To Use this section", Toast.LENGTH_SHORT).show();
             onBackPressed();
         }
+    }
+
+    @Override
+    public void setWrapperLayout(Marker marker, View infoWindow) {
+        mapWrapperLayout.setMarkerWithInfoWindow(marker, infoWindow);
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        customBottomSheet = new CustomBottomSheet((ModelMyConnections) marker.getTag());
+        customBottomSheet.show(getSupportFragmentManager(), "Dialog");
+
+
     }
 }

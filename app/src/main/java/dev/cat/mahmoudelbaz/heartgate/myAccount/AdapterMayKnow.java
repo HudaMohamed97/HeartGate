@@ -75,7 +75,6 @@ public class AdapterMayKnow extends BaseAdapter implements Filterable {
         } else {
             viewHolder = (AdapterMayKnow.ViewHolder) convertView.getTag();
         }
-
         ModelMyConnections feedItem = getItem(position);
         if (viewHolder != null) {
             viewHolder.setItem(feedItem);
@@ -120,7 +119,6 @@ public class AdapterMayKnow extends BaseAdapter implements Filterable {
 
 
     class ViewHolder {
-
         private TextView nameView;
         private TextView jobTitleView;
         private ImageView imageView;
@@ -128,17 +126,15 @@ public class AdapterMayKnow extends BaseAdapter implements Filterable {
 
 
         public ViewHolder(View convertView) {
-            nameView = (TextView) convertView.findViewById(R.id.txtName);
-            jobTitleView = (TextView) convertView.findViewById(R.id.txtTitle);
-            imageView = (ImageView) convertView.findViewById(R.id.imgProfile);
-            connectbtn = (Button) convertView.findViewById(R.id.btnConnect);
+            nameView = convertView.findViewById(R.id.txtName);
+            jobTitleView = convertView.findViewById(R.id.txtTitle);
+            imageView = convertView.findViewById(R.id.imgProfile);
+            connectbtn = convertView.findViewById(R.id.btnConnect);
             convertView.setTag(this);
         }
 
         void setItem(final ModelMyConnections product) {
-
             shared = context.getSharedPreferences("id", Context.MODE_PRIVATE);
-
             connectbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -146,22 +142,17 @@ public class AdapterMayKnow extends BaseAdapter implements Filterable {
                     userName = shared.getString("Name", "0");
                     int receiveId = product.getId();
                     String receiveIdString = Integer.toString(receiveId);
-
-
                     url = "http://heartgate.co/api_heartgate/messages/connectuser/add";
-
-                    JSONObject jsobj = new JSONObject();
+                    JSONObject json = new JSONObject();
                     try {
-                        jsobj.put("fk_userid_send", userID);
-                        jsobj.put("fk_user_id_received", receiveIdString);
-                        jsobj.put("create_user_id", userName);
+                        json.put("fk_userid_send", userID);
+                        json.put("fk_user_id_received", receiveIdString);
+                        json.put("create_user_id", userName);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
-                    JsonObjectRequest postrequest = new JsonObjectRequest(Request.Method.POST, url, jsobj, new Response.Listener<JSONObject>() {
+                    JsonObjectRequest postrequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
 
@@ -172,20 +163,15 @@ public class AdapterMayKnow extends BaseAdapter implements Filterable {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-
                             Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
-
                         }
                     });
-
 
                     Volley.newRequestQueue(context).add(postrequest);
 
 
                 }
             });
-
-
             nameView.setText(product.getName());
             jobTitleView.setText(product.getJobTitle());
             String url = product.getImageUrl();

@@ -33,14 +33,10 @@ import dev.cat.mahmoudelbaz.heartgate.R;
 public class myConnections extends Fragment {
 
     ConnectionsTabs activity;
-
-
     String url, userId;
     ArrayList<ModelMyConnections> myConnections = new ArrayList<ModelMyConnections>();
-
     Boolean isLoading;
     AdapterMyConnections myConnectionsAdapter;
-
     ListView mylist;
     ProgressBar myprogress;
     TextView myempty;
@@ -56,31 +52,21 @@ public class myConnections extends Fragment {
         myConnections.clear();
         isLoading = false;
         View view = inflater.inflate(R.layout.fragment_my_connections, container, false);
-
         shared = this.getActivity().getSharedPreferences("id", Context.MODE_PRIVATE);
         userId = shared.getString("id", "0");
-
-
         activity = (ConnectionsTabs) getActivity();
-
-        mysearchView = (EditText) view.findViewById(R.id.mysearch_view);
-        mylist = (ListView) view.findViewById(R.id.mylistView);
-        myprogress = (ProgressBar) view.findViewById(R.id.myprogressBar);
-        myempty = (TextView) view.findViewById(R.id.mytxtEmpty);
+        mysearchView = view.findViewById(R.id.mysearch_view);
+        mylist = view.findViewById(R.id.mylistView);
+        myprogress = view.findViewById(R.id.myprogressBar);
+        myempty = view.findViewById(R.id.mytxtEmpty);
         mylist.setEmptyView(myempty);
-
-
         myConnectionsAdapter = new AdapterMyConnections(activity, myConnections);
-
-
         url = "http://heartgate.co/api_heartgate/connections/my_connections/" + userId + "/" + pageId;
-
         StringRequest productsRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 try {
-//                    JSONObject object = new JSONObject(response);
                     JSONArray usersarray = new JSONArray(response);
                     if (usersarray.length() == 0) {
                         myprogress.setVisibility(View.INVISIBLE);
@@ -95,10 +81,8 @@ public class myConnections extends Fragment {
                             final String jobTitle = currentobject.getString("speciality");
                             final String picture = currentobject.getString("image_profile");
                             final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-
                             myConnections.add(new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl));
                             mylist.setAdapter(myConnectionsAdapter);
-
                             myprogress.setVisibility(View.INVISIBLE);
 
                         }
