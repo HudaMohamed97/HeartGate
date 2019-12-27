@@ -132,11 +132,11 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
         private Button messagebtn, disconnectbtn;
 
         public ViewHolder(View convertView) {
-            nameView = (TextView) convertView.findViewById(R.id.txtName);
-            jobTitleView = (TextView) convertView.findViewById(R.id.txtTitle);
-            imageView = (ImageView) convertView.findViewById(R.id.imgProfile);
-            messagebtn = (Button) convertView.findViewById(R.id.btnMessage);
-            disconnectbtn = (Button) convertView.findViewById(R.id.btnDisconnect);
+            nameView = convertView.findViewById(R.id.txtName);
+            jobTitleView = convertView.findViewById(R.id.txtTitle);
+            imageView = convertView.findViewById(R.id.imgProfile);
+            messagebtn = convertView.findViewById(R.id.btnMessage);
+            disconnectbtn = convertView.findViewById(R.id.btnDisconnect);
             convertView.setTag(this);
         }
 
@@ -149,11 +149,11 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
                 public void onClick(View view) {
                     Toast.makeText(context, "Please Wait", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(context, oldChatActivity.class);
-                    i.putExtra("receiveId" , product.getId() );
-                    i.putExtra("name" , product.getName() );
-                    i.putExtra("imageUrl" , product.getImageUrl() );
+                    i.putExtra("receiveId", product.getId());
+                    i.putExtra("name", product.getName());
+                    i.putExtra("imageUrl", product.getImageUrl());
                     context.startActivity(i);
-                   // finish();
+                    // finish();
                 }
             });
 
@@ -172,7 +172,7 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
                         public void onResponse(String response) {
 
                             Log.d(TAG, "url: " + url);
-                            Log.d(TAG, "Response : " + response.toString());
+                            Log.d(TAG, "Response : " + response);
 
                             feedItems.remove(product);
                             notifyDataSetChanged();

@@ -12,8 +12,18 @@ public class ModelMyConnections {
     private String name;
     private String jobTitle;
     private String imageUrl;
+    private String last_time_location;
 
     public ModelMyConnections() {
+    }
+
+    public ModelMyConnections(int stateId, int id, String name, String jobTitle, String imageUrl, String last_time_location) {
+        this.stateId = stateId;
+        this.id = id;
+        this.name = name;
+        this.jobTitle = jobTitle;
+        this.imageUrl = imageUrl;
+        this.last_time_location = last_time_location;
     }
 
     public ModelMyConnections(int stateId, int id, String name, String jobTitle, String imageUrl) {
@@ -24,6 +34,13 @@ public class ModelMyConnections {
         this.imageUrl = imageUrl;
     }
 
+    public String getLast_time_location() {
+        return last_time_location;
+    }
+
+    public void setLast_time_location(String last_time_location) {
+        this.last_time_location = last_time_location;
+    }
 
     public int getStateId() {
         return stateId;

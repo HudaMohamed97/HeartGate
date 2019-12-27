@@ -47,7 +47,6 @@ public class myConnections extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         pageId = 1;
         myConnections.clear();
         isLoading = false;
@@ -113,13 +112,10 @@ public class myConnections extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
                 if (mylist.getAdapter() == null)
                     return;
-
                 if (mylist.getAdapter().getCount() == 0)
                     return;
-
                 int l = visibleItemCount + firstVisibleItem;
                 if (l >= totalItemCount && !isLoading) {
                     // It is time to add new data. We call the listener
@@ -154,18 +150,13 @@ public class myConnections extends Fragment {
     }
 
     private void loadData() {
-
-
         myprogress.setVisibility(View.VISIBLE);
-
         url = "http://heartgate.co/api_heartgate/connections/my_connections/" + userId + "/" + pageId;
-
         StringRequest productsRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 try {
-//                    JSONObject object = new JSONObject(response);
                     JSONArray usersarray = new JSONArray(response);
 
                     if (usersarray.length() == 0) {
@@ -185,10 +176,7 @@ public class myConnections extends Fragment {
                         final String jobTitle = currentobject.getString("speciality");
                         final String picture = currentobject.getString("image_profile");
                         final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-
                         myConnections.add(new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl));
-
-
                         myprogress.setVisibility(View.INVISIBLE);
                         myConnectionsAdapter.notifyDataSetChanged();
 

@@ -36,7 +36,7 @@ import java.util.List;
 
 import dev.cat.mahmoudelbaz.heartgate.BitmapHelper;
 import dev.cat.mahmoudelbaz.heartgate.Login;
-import dev.cat.mahmoudelbaz.heartgate.MapsActivity;
+import dev.cat.mahmoudelbaz.heartgate.map.MapsActivity;
 import dev.cat.mahmoudelbaz.heartgate.R;
 import dev.cat.mahmoudelbaz.heartgate.concor.Concor;
 import dev.cat.mahmoudelbaz.heartgate.concor.ConcorPrice;
@@ -49,7 +49,6 @@ import dev.cat.mahmoudelbaz.heartgate.medicalStatistics.CardioRiskFactor;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.Calender;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.ConnectionsTabs;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.MyProfile;
-import dev.cat.mahmoudelbaz.heartgate.myAccount.NearByDrs;
 import dev.cat.mahmoudelbaz.heartgate.pharamcy.Pharamcy;
 import dev.cat.mahmoudelbaz.heartgate.poll.Survey;
 import dev.cat.mahmoudelbaz.heartgate.advisoryBoard.Questions;

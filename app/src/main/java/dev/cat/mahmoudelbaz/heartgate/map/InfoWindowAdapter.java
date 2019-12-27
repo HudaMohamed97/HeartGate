@@ -1,28 +1,16 @@
-package dev.cat.mahmoudelbaz.heartgate;
+package dev.cat.mahmoudelbaz.heartgate.map;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import dev.cat.mahmoudelbaz.heartgate.OnInfoWindowElemTouchListener;
+import dev.cat.mahmoudelbaz.heartgate.R;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.ModelMyConnections;
 
 public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
@@ -43,12 +31,10 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         View myContentsView = li.inflate(R.layout.custom_info_contents, null);
         TextView tvTitle = myContentsView.findViewById(R.id.title);
         TextView tvSnippet = myContentsView.findViewById(R.id.snippet);
-        ImageView ivIcon = myContentsView.findViewById(R.id.icon);
         shared = context.getSharedPreferences("id", Context.MODE_PRIVATE);
         object = (ModelMyConnections) marker.getTag();
         tvTitle.setText(object.getName());
-        tvSnippet.setText(object.getJobTitle());
-        Picasso.with(context).load(object.getImageUrl()).placeholder(R.drawable.iconconcor).error(R.drawable.profile).into(ivIcon);
+        tvSnippet.setText(object.getLast_time_location());
 
        /* infoButtonListener = new OnInfoWindowElemTouchListener(connectButton, context.getResources().getDrawable(R.drawable.bg), context.getResources().getDrawable(R.drawable.bg)) {
             @Override

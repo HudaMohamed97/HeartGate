@@ -4,7 +4,7 @@
     android:id="@+id/activity_near_by_drs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dev.cat.mahmoudelbaz.heartgate.MapsActivity">
+    tools:context="dev.cat.mahmoudelbaz.heartgate.map.MapsActivity">
 
 
     <RelativeLayout
@@ -51,7 +51,7 @@
     </RelativeLayout>
 
 
-    <dev.cat.mahmoudelbaz.heartgate.MapWrapperLayout
+    <dev.cat.mahmoudelbaz.heartgate.map.MapWrapperLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map_relative_layout"
@@ -66,10 +66,10 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="dev.cat.mahmoudelbaz.heartgate.MapsActivity" />
+            tools:context="dev.cat.mahmoudelbaz.heartgate.map.MapsActivity" />
 
 
-    </dev.cat.mahmoudelbaz.heartgate.MapWrapperLayout>
+    </dev.cat.mahmoudelbaz.heartgate.map.MapWrapperLayout>
 
 
 </RelativeLayout>

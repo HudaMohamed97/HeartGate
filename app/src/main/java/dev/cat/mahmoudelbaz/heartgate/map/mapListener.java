@@ -1,4 +1,4 @@
-package dev.cat.mahmoudelbaz.heartgate;
+package dev.cat.mahmoudelbaz.heartgate.map;
 
 import android.view.View;
 

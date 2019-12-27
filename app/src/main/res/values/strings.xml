@@ -610,6 +610,8 @@
 
 
     <string name="services_url_imgs">http://heartgate.co/api_heartgate/layout/images/</string>
+    <string name="mohamed_ahmed">Mohamed Ahmed</string>
+    <string name="_20_12_hdh">20/12/hdh</string>
 
 
     <string-array name="speciality_array">

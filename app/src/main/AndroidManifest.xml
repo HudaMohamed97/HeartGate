@@ -64,7 +64,7 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".MapsActivity" />
+        <activity android:name=".map.MapsActivity" />
 
         <activity android:name=".pharamcy.Pharamcy" />
 

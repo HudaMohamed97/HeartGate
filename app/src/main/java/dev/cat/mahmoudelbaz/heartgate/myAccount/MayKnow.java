@@ -130,8 +130,9 @@ public class MayKnow extends Fragment {
                             final String fullName = currentobject.getString("fullname");
                             final String jobTitle = currentobject.getString("speciality");
                             final String picture = currentobject.getString("image_profile");
+                            final String last_time_location = currentobject.getString("last_time_location");
                             final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-                            mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl));
+                            mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl, last_time_location));
                             maylist.setAdapter(MayKnowAdapter);
                             mayprogress.setVisibility(View.INVISIBLE);
                         }
@@ -180,9 +181,10 @@ public class MayKnow extends Fragment {
                         final String fullName = currentobject.getString("fullname");
                         final String jobTitle = currentobject.getString("speciality");
                         final String picture = currentobject.getString("image_profile");
+                        final String last_time_location = currentobject.getString("last_time_location");
                         final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
 
-                        mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl));
+                        mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl, last_time_location));
 
 
                         mayprogress.setVisibility(View.INVISIBLE);

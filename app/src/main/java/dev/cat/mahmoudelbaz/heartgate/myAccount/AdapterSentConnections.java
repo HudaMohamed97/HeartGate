@@ -125,17 +125,15 @@ public class AdapterSentConnections extends BaseAdapter implements Filterable {
         private Button cancelsentBtn;
 
         public ViewHolder(View convertView) {
-            nameView = (TextView) convertView.findViewById(R.id.txtName);
-            jobTitleView = (TextView) convertView.findViewById(R.id.txtTitle);
-            imageView = (ImageView) convertView.findViewById(R.id.imgProfile);
-            cancelsentBtn = (Button) convertView.findViewById(R.id.btnCancelSent);
+            nameView = convertView.findViewById(R.id.txtName);
+            jobTitleView = convertView.findViewById(R.id.txtTitle);
+            imageView = convertView.findViewById(R.id.imgProfile);
+            cancelsentBtn = convertView.findViewById(R.id.btnCancelSent);
             convertView.setTag(this);
         }
 
         void setItem(final ModelMyConnections product) {
-
             shared = context.getSharedPreferences("id", Context.MODE_PRIVATE);
-
             cancelsentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -144,13 +142,11 @@ public class AdapterSentConnections extends BaseAdapter implements Filterable {
                     int receiveId = product.getId();
                     String receiveIdString = Integer.toString(receiveId);
 
-
                     url = "http://heartgate.co/api_heartgate/messages/connectuser/cancel/" + product.getStateId();
 
                     StringRequest loginRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
                             feedItems.remove(product);
                             notifyDataSetChanged();
 
@@ -168,8 +164,6 @@ public class AdapterSentConnections extends BaseAdapter implements Filterable {
                     Volley.newRequestQueue(context).add(loginRequest);
                 }
             });
-
-
             nameView.setText(product.getName());
             jobTitleView.setText(product.getJobTitle());
             String url = product.getImageUrl();
@@ -177,7 +171,6 @@ public class AdapterSentConnections extends BaseAdapter implements Filterable {
                 imageView.setImageResource(R.drawable.profile);
                 return;
             }
-
             Picasso.with(context).load(url).placeholder(R.drawable.profile).error(R.drawable.profile).into(imageView);
         }
     }

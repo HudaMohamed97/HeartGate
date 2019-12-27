@@ -1,4 +1,4 @@
-package dev.cat.mahmoudelbaz.heartgate;
+package dev.cat.mahmoudelbaz.heartgate.map;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,8 +39,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dev.cat.mahmoudelbaz.heartgate.R;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.ModelMyConnections;
-import dev.cat.mahmoudelbaz.heartgate.webServices.CustomBottomSheet;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -118,8 +118,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String lng = current.getString("lng");
                         String nme = current.getString("fullname");
                         String speciality = current.getString("speciality");
+                        String last_time_location = current.getString("last_time_location");
                         String pic = "http://heartgate.co/api_heartgate/layout/images/" + current.getString("image_profile");
-                        ModelMyConnections modelMyConnections = new ModelMyConnections(-1, id, nme, speciality, pic);
+                        ModelMyConnections modelMyConnections = new ModelMyConnections(-1, id, nme, speciality, pic, last_time_location);
                         if (!(lat.equals("") || lng.equals(""))) {
                             LatLng l = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                             mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, MapsActivity.this));
@@ -201,7 +202,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 currentUserLocation.title("Current Location");
                 mMap.addMarker(currentUserLocation);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentUserLatLang, 9));
-
 
             }
         }
