@@ -125,7 +125,6 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
 
 
     class ViewHolder {
-
         private TextView nameView;
         private TextView jobTitleView;
         private ImageView imageView;

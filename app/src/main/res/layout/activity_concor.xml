@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-
     tools:context="dev.cat.mahmoudelbaz.heartgate.concor.Concor">
 
 
@@ -74,7 +73,6 @@
 
     <LinearLayout
         android:visibility="invisible"
-
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

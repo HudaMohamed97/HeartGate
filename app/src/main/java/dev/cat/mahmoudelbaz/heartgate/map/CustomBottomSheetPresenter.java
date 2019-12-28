@@ -72,11 +72,12 @@ public class CustomBottomSheetPresenter implements CustomBottomSheetInterface {
         shared = context.getSharedPreferences("id", Context.MODE_PRIVATE);
         userID = shared.getString("id", "0");
         userName = shared.getString("Name", "0");
-        url = CANCEL_URL + object.getStateId();
+        url = CANCEL_URL + object.getConnection_id();
 
         StringRequest loginRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Toast.makeText(context, "response" + response, Toast.LENGTH_SHORT).show();
                 bottomSheetViewInterface.openAlertDialog("Cancelled Successfully");
             }
         }, new Response.ErrorListener() {

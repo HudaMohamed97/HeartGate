@@ -119,8 +119,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String nme = current.getString("fullname");
                         String speciality = current.getString("speciality");
                         String last_time_location = current.getString("last_time_location");
+                        int stateId = current.getInt("state_id");
+                        int connection_id = current.getInt("connection_id");
                         String pic = "http://heartgate.co/api_heartgate/layout/images/" + current.getString("image_profile");
-                        ModelMyConnections modelMyConnections = new ModelMyConnections(-1, id, nme, speciality, pic, last_time_location);
+                        ModelMyConnections modelMyConnections = new ModelMyConnections(stateId, id, nme, speciality, pic, last_time_location);
+                        modelMyConnections.setConnection_id(connection_id);
                         if (!(lat.equals("") || lng.equals(""))) {
                             LatLng l = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                             mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, MapsActivity.this));

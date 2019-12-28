@@ -122,7 +122,6 @@ public class MayKnow extends Fragment {
                     if (usersarray.length() == 0) {
                         mayprogress.setVisibility(View.INVISIBLE);
                     } else {
-
                         pageId++;
                         for (int i = 0; i < usersarray.length(); i++) {
                             JSONObject currentobject = usersarray.getJSONObject(i);
@@ -130,9 +129,8 @@ public class MayKnow extends Fragment {
                             final String fullName = currentobject.getString("fullname");
                             final String jobTitle = currentobject.getString("speciality");
                             final String picture = currentobject.getString("image_profile");
-                            final String last_time_location = currentobject.getString("last_time_location");
                             final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-                            mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl, last_time_location));
+                            mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl));
                             maylist.setAdapter(MayKnowAdapter);
                             mayprogress.setVisibility(View.INVISIBLE);
                         }
@@ -181,12 +179,8 @@ public class MayKnow extends Fragment {
                         final String fullName = currentobject.getString("fullname");
                         final String jobTitle = currentobject.getString("speciality");
                         final String picture = currentobject.getString("image_profile");
-                        final String last_time_location = currentobject.getString("last_time_location");
                         final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-
-                        mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl, last_time_location));
-
-
+                        mayKnow.add(new ModelMyConnections(0, id, fullName, jobTitle, imageUrl));
                         mayprogress.setVisibility(View.INVISIBLE);
                         MayKnowAdapter.notifyDataSetChanged();
 

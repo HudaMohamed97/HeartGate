@@ -23,6 +23,7 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
     private ModelMyConnections object;
     private CustomBottomSheetPresenter presenter;
     private Button connectButton;
+    private int state;
 
     public CustomBottomSheet() {
     }
@@ -35,20 +36,29 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.content_dialog_bottom_sheet, container, false);
+        state = object.getStateId();
         setPresenter();
         setViews(v);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //here we check statues 0,1,2,3
-                presenter.callAddConnection(object);
+                if (object.getStateId() == 0) {
+                    presenter.callAddConnection(object);
+                } else {
+                    presenter.cancelConnectionRequest(object);
+                }
+
             }
         });
         return v;
     }
 
     private void setViews(View v) {
-        connectButton = v.findViewById(R.id.connectButton);
+        connectButton = v.findViewById(R.id.btnAdd);
+        if (state == 1) {
+            connectButton.setBackgroundResource(R.drawable.red_rounded_corner_button);
+            connectButton.setText("Withdraw");
+        }
         TextView textView = v.findViewById(R.id.txtTitle);
         ImageView imageView = v.findViewById(R.id.imgProfile);
         TextView txtName = v.findViewById(R.id.txtName);

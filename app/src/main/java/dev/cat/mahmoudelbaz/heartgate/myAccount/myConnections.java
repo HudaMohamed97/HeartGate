@@ -158,7 +158,6 @@ public class myConnections extends Fragment {
 
                 try {
                     JSONArray usersarray = new JSONArray(response);
-
                     if (usersarray.length() == 0) {
                         isLoading = true;
                         myprogress.setVisibility(View.INVISIBLE);
@@ -166,8 +165,6 @@ public class myConnections extends Fragment {
                         isLoading = false;
                         pageId++;
                     }
-
-
                     for (int i = 0; i < usersarray.length(); i++) {
                         JSONObject currentobject = usersarray.getJSONObject(i);
                         final int id = currentobject.getInt("id");
@@ -179,7 +176,6 @@ public class myConnections extends Fragment {
                         myConnections.add(new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl));
                         myprogress.setVisibility(View.INVISIBLE);
                         myConnectionsAdapter.notifyDataSetChanged();
-
                     }
 
                 } catch (JSONException e) {

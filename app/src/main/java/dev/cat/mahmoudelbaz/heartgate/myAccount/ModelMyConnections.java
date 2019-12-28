@@ -10,6 +10,7 @@ public class ModelMyConnections {
     private int stateId;
     private int id;
     private String name;
+    private int connection_id;
     private String jobTitle;
     private String imageUrl;
     private String last_time_location;
@@ -80,6 +81,14 @@ public class ModelMyConnections {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getConnection_id() {
+        return connection_id;
+    }
+
+    public void setConnection_id(int connection_id) {
+        this.connection_id = connection_id;
     }
 }
 

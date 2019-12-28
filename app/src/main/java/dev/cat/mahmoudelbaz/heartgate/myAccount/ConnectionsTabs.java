@@ -15,12 +15,8 @@ import android.widget.ImageView;
 import dev.cat.mahmoudelbaz.heartgate.R;
 
 public class ConnectionsTabs extends AppCompatActivity {
-
-
     ImageView back;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-
     private ViewPager mViewPager;
 
     @Override
