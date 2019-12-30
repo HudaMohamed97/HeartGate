@@ -16,17 +16,16 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import dev.cat.mahmoudelbaz.heartgate.R;
-
-/**
- * Created by mahmoudelbaz on 9/18/17.
- */
 
 public class AdapterSentConnections extends BaseAdapter implements Filterable {
 
@@ -115,46 +114,45 @@ public class AdapterSentConnections extends BaseAdapter implements Filterable {
         };
     }
 
-
     class ViewHolder {
-
         private TextView nameView;
         private TextView jobTitleView;
         private ImageView imageView;
-
-        private Button cancelsentBtn;
+        private Button cancelBtn;
 
         public ViewHolder(View convertView) {
             nameView = convertView.findViewById(R.id.txtName);
             jobTitleView = convertView.findViewById(R.id.txtTitle);
             imageView = convertView.findViewById(R.id.imgProfile);
-            cancelsentBtn = convertView.findViewById(R.id.btnCancelSent);
+            cancelBtn = convertView.findViewById(R.id.btnCancelSent);
             convertView.setTag(this);
         }
 
         void setItem(final ModelMyConnections product) {
             shared = context.getSharedPreferences("id", Context.MODE_PRIVATE);
-            cancelsentBtn.setOnClickListener(new View.OnClickListener() {
+            cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     userID = shared.getString("id", "0");
                     userName = shared.getString("Name", "0");
-                    int receiveId = product.getId();
-                    String receiveIdString = Integer.toString(receiveId);
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("update_user_id", "Android");
+                        json.put("fk_conn_state", "3");
 
-                    url = "http://heartgate.co/api_heartgate/messages/connectuser/cancel/" + product.getStateId();
-                    StringRequest loginRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    url = "http://heartgate.co/api_heartgate/messages/connectuser/cancel/" + product.getConnection_id();
+                    JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(String response) {
+                        public void onResponse(JSONObject response) {
                             feedItems.remove(product);
                             notifyDataSetChanged();
-
-
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
                             Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
 
                         }

@@ -37,8 +37,6 @@ import static android.content.ContentValues.TAG;
 public class RecievedConnections extends Fragment {
 
     ConnectionsTabs activity;
-
-
     String url, userId;
     ArrayList<ModelMyConnections> receivedConnections = new ArrayList<ModelMyConnections>();
 
@@ -59,29 +57,19 @@ public class RecievedConnections extends Fragment {
         pageId = 1;
         receivedConnections.clear();
         isLoading = false;
-
-
         View view = inflater.inflate(R.layout.fragment_recieved_connections, container, false);
-
-
         shared = this.getActivity().getSharedPreferences("id", Context.MODE_PRIVATE);
         userId = shared.getString("id", "0");
 
 
         activity = (ConnectionsTabs) getActivity();
-
-        receivedsearchView = (EditText) view.findViewById(R.id.receivedsearch_view);
-        receivedlist = (ListView) view.findViewById(R.id.receivedlistView);
-        receivedprogress = (ProgressBar) view.findViewById(R.id.receivedprogressBar);
-        receivedempty = (TextView) view.findViewById(R.id.receivedtxtEmpty);
+        receivedsearchView = view.findViewById(R.id.receivedsearch_view);
+        receivedlist = view.findViewById(R.id.receivedlistView);
+        receivedprogress = view.findViewById(R.id.receivedprogressBar);
+        receivedempty = view.findViewById(R.id.receivedtxtEmpty);
         receivedlist.setEmptyView(receivedempty);
-
-
         receivedConnectionsAdapter = new AdapterReceivedConnections(activity, receivedConnections);
-
-
         url = " http://heartgate.co/api_heartgate/connections/receive_connections/" + userId + "/" + pageId;
-
         Log.d(TAG, "Recieved: " + url);
 
         StringRequest productsRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -89,7 +77,6 @@ public class RecievedConnections extends Fragment {
             public void onResponse(String response) {
 
                 try {
-//                    JSONObject object = new JSONObject(response);
                     JSONArray usersarray = new JSONArray(response);
                     if (usersarray.length() == 0) {
                         receivedprogress.setVisibility(View.INVISIBLE);
@@ -190,9 +177,7 @@ public class RecievedConnections extends Fragment {
             public void onResponse(String response) {
 
                 try {
-//                    JSONObject object = new JSONObject(response);
                     JSONArray usersarray = new JSONArray(response);
-
                     if (usersarray.length() == 0) {
                         isLoading = true;
                         receivedprogress.setVisibility(View.INVISIBLE);
@@ -200,8 +185,6 @@ public class RecievedConnections extends Fragment {
                         isLoading = false;
                         pageId++;
                     }
-
-
                     for (int i = 0; i < usersarray.length(); i++) {
                         JSONObject currentobject = usersarray.getJSONObject(i);
                         final int id = currentobject.getInt("id");
@@ -210,10 +193,7 @@ public class RecievedConnections extends Fragment {
                         final String jobTitle = currentobject.getString("speciality");
                         final String picture = currentobject.getString("image_profile");
                         final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-
                         receivedConnections.add(new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl));
-
-
                         receivedprogress.setVisibility(View.INVISIBLE);
                         receivedConnectionsAdapter.notifyDataSetChanged();
 

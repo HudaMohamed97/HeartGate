@@ -17,10 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.cat.mahmoudelbaz.heartgate.R;
 
-public class OnlineLibraryAdapter  extends RecyclerView.Adapter<OnlineLibraryAdapter.MyViewHolder> {
+public class OnlineLibraryAdapter extends RecyclerView.Adapter<OnlineLibraryAdapter.MyViewHolder> {
 
-    Context context ;
-    List<onlineLibraryResponseModel> myModels ;
+    Context context;
+    List<onlineLibraryResponseModel> myModels;
 
     public OnlineLibraryAdapter(Context context, List<onlineLibraryResponseModel> myModels) {
         this.context = context;
@@ -36,13 +36,13 @@ public class OnlineLibraryAdapter  extends RecyclerView.Adapter<OnlineLibraryAda
 
     @Override
     public void onBindViewHolder(@NonNull OnlineLibraryAdapter.MyViewHolder holder, final int position) {
-  //      holder.libid.setText(myModels.get(position).getId());
+        //      holder.libid.setText(myModels.get(position).getId());
         holder.libName.setText(myModels.get(position).getTitle());
 //        holder.liblink.setText(myModels.get(position).getLink());
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                WebView mWebView =new WebView(context);
+                WebView mWebView = new WebView(context);
                 mWebView.getSettings().setJavaScriptEnabled(true);
                 mWebView.loadUrl(myModels.get(position).getLink());
             }
@@ -65,11 +65,11 @@ public class OnlineLibraryAdapter  extends RecyclerView.Adapter<OnlineLibraryAda
         TextView liblink;
 
         @BindView(R.id.layout)
-        LinearLayout layout ;
+        LinearLayout layout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

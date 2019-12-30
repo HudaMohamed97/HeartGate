@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="15dp"
     android:layout_marginBottom="15dp"
-    android:background="@drawable/layout_rounded"
+    android:background="@drawable/video_rounded_cell"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -20,22 +20,21 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginStart="5dp"
                 android:id="@+id/thumbnail"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="left"
-                android:visibility="visible"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:visibility="gone" />
 
             <TextView
-
                 android:id="@+id/libName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:text="Name "
@@ -54,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:paddingStart="10dp"
             android:paddingLeft="10dp"
             android:paddingBottom="5dp"

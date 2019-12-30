@@ -29,6 +29,7 @@ import dev.cat.mahmoudelbaz.heartgate.BitmapHelper;
 import dev.cat.mahmoudelbaz.heartgate.ImageBase64;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.oldChat.UserDataModel;
 import dev.cat.mahmoudelbaz.heartgate.signUp.UpdateData;
+import dev.cat.mahmoudelbaz.heartgate.signUp.UpdatePassword;
 import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
 import permission.auron.com.marshmallowpermissionhelper.ActivityManagePermission;
 import permission.auron.com.marshmallowpermissionhelper.PermissionResult;
@@ -52,6 +53,7 @@ public class MyProfile extends ActivityManagePermission {
     private String userID;
     private TextView name, email, mobile, dateOfBirth, gender, speciality, jobTitle, currentLiving;
     private Button btnUpdate;
+    private Button btnUpdatePassword;
     private ImageView imgprofile;
     private ProgressBar progress;
     private String url;
@@ -82,6 +84,14 @@ public class MyProfile extends ActivityManagePermission {
                 navigateToUppdateDataScreen();
             }
         });
+
+        btnUpdatePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToUppdatPasswordScreen();
+            }
+        });
+
 
         imgprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +155,7 @@ public class MyProfile extends ActivityManagePermission {
                         gender.setText("Female");
                         genderType = "Female";
                     }
-                    userDataModel = new UserDataModel(fullName, myemail, mobile_number, dateofBirthDay, "male");
+                    userDataModel = new UserDataModel(fullName, myemail, mobile_number, dateofBirthDay, genderType, specialitystring);
                     name.setText(fullName);
                     email.setText(myemail);
                     mobile.setText(mobile_number);
@@ -183,6 +193,7 @@ public class MyProfile extends ActivityManagePermission {
         imgprofile = findViewById(R.id.imgProfile);
         progress = findViewById(R.id.progressBar);
         btnUpdate = findViewById(R.id.btnUpdate);
+        btnUpdatePassword = findViewById(R.id.btnUpdatePassword);
         name = findViewById(R.id.profileTextName);
         email = findViewById(R.id.profileEmail);
         mobile = findViewById(R.id.profileMob);
@@ -197,6 +208,12 @@ public class MyProfile extends ActivityManagePermission {
         Intent signUpIntent = new Intent(MyProfile.this, UpdateData.class);
         signUpIntent.putExtra("userDataModel", userDataModel);
         startActivity(signUpIntent);
+    }
+
+    private void navigateToUppdatPasswordScreen() {
+        Intent updatePasswordIntent = new Intent(MyProfile.this, UpdatePassword.class);
+        updatePasswordIntent.putExtra("userDataModel", userDataModel);
+        startActivity(updatePasswordIntent);
     }
 
     private void changePhoto(String encoded) {

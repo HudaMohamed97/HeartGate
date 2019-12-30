@@ -54,8 +54,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 
         Child_item child_item = (Child_item) getChild(groupPosition, childPosition);
-
-
         Pattern htmlPattern = Pattern.compile(".*\\<[^>]+>.*", Pattern.DOTALL);
         isHTML = htmlPattern.matcher(child_item.getNameId()).matches();
 
@@ -65,9 +63,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
-
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-        View colorchild = (View) convertView.findViewById(R.id.listcolor);
+        TextView txtListChild = convertView.findViewById(R.id.lblListItem);
+        View colorchild = convertView.findViewById(R.id.listcolor);
         WebView webView = convertView.findViewById(R.id.webview);
 
 

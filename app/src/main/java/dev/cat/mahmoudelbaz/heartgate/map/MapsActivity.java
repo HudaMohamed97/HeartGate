@@ -129,7 +129,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, MapsActivity.this));
                             mMap.addMarker(new MarkerOptions().position(l).title(nme)).setTag(modelMyConnections);
                         }
-
                     }
                     Log.d("response", response);
 

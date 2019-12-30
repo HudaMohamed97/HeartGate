@@ -30,9 +30,6 @@ import dev.cat.mahmoudelbaz.heartgate.R;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by mahmoudelbaz on 9/18/17.
- */
 
 public class AdapterReceivedConnections extends BaseAdapter implements Filterable {
 
@@ -130,11 +127,11 @@ public class AdapterReceivedConnections extends BaseAdapter implements Filterabl
         private Button approvebtn, rejectbtn;
 
         public ViewHolder(View convertView) {
-            nameView = (TextView) convertView.findViewById(R.id.txtName);
-            jobTitleView = (TextView) convertView.findViewById(R.id.txtTitle);
-            imageView = (ImageView) convertView.findViewById(R.id.imgProfile);
-            approvebtn = (Button) convertView.findViewById(R.id.btnApproveRecieved);
-            rejectbtn = (Button) convertView.findViewById(R.id.btnRejectRecieved);
+            nameView = convertView.findViewById(R.id.txtName);
+            jobTitleView = convertView.findViewById(R.id.txtTitle);
+            imageView = convertView.findViewById(R.id.imgProfile);
+            approvebtn = convertView.findViewById(R.id.btnApproveRecieved);
+            rejectbtn = convertView.findViewById(R.id.btnRejectRecieved);
             convertView.setTag(this);
         }
 
@@ -150,10 +147,7 @@ public class AdapterReceivedConnections extends BaseAdapter implements Filterabl
                     userName = shared.getString("Name", "0");
                     int receiveId = product.getId();
                     String receiveIdString = Integer.toString(receiveId);
-
-
                     url = "http://heartgate.co/api_heartgate/messages/connectuser/approve/" + product.getStateId();
-
                     JSONObject jsobj = new JSONObject();
                     try {
                         jsobj.put("update_user_id", userName);
@@ -191,31 +185,23 @@ public class AdapterReceivedConnections extends BaseAdapter implements Filterabl
             rejectbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     userID = shared.getString("id", "0");
                     userName = shared.getString("Name", "0");
                     int receiveId = product.getId();
                     String receiveIdString = Integer.toString(receiveId);
-
-
                     url = "http://heartgate.co/api_heartgate/messages/connectuser/approve/" + product.getStateId();
 
                     JSONObject jsobj = new JSONObject();
                     try {
-
                         jsobj.put("update_user_id", userName);
                         jsobj.put("fk_conn_state", "3");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                     JsonObjectRequest postrequest = new JsonObjectRequest(Request.Method.POST, url, jsobj, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
-//                            Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "onResponse: " + response.toString());
                             Log.d(TAG, "url " + url);
                             feedItems.remove(product);

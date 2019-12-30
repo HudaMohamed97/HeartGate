@@ -2,6 +2,7 @@ package dev.cat.mahmoudelbaz.heartgate.home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ import dev.cat.mahmoudelbaz.heartgate.R;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    private Context _context;
-    private List<Menu_item> listDataHeader; // header titles
+    private Context context;
+    private List<Menu_item> listDataHeader;
 
     public ListAdapter(Context context, List<Menu_item> listDataHeader) {
-        this._context = context;
+        this.context = context;
         this.listDataHeader = listDataHeader;
     }
 
@@ -39,18 +39,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.textView.setText(listDataHeader.get(i).getName());
-        viewHolder.listcolor.setBackground(ContextCompat.getDrawable(_context, listDataHeader.get(i).getBackgroundColorResId()));
-
+        viewHolder.listColor.setBackground(ContextCompat.getDrawable(context, listDataHeader.get(i).getBackgroundColorResId()));
         viewHolder.myCell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click on item: ", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, ConcorData.class);
+                intent.putExtra("contentText", listDataHeader.get(i).getMessage());
+                context.startActivity(intent);
             }
         });
-
-
     }
 
     @Override
@@ -61,16 +60,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public LinearLayout myCell;
-        public RelativeLayout listcolor;
+        public RelativeLayout listColor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textView = itemView.findViewById(R.id.lblListItem);
             this.myCell = itemView.findViewById(R.id.myCell);
-            this.listcolor = itemView.findViewById(R.id.listcolor);
+            this.listColor = itemView.findViewById(R.id.listcolor);
 
         }
     }
 }
-
-

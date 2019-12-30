@@ -4,4 +4,4 @@ import java.io.Serializable
 
 data class UserDataModel(var name: String?,
                          var email: String?, var phoneNum: String?, var birthDate: String?,
-                         var gender: String?) : Serializable
+                         var gender: String?, var specialitystring: String?) : Serializable

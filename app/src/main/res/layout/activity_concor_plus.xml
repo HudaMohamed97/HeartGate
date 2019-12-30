@@ -4,7 +4,6 @@
     android:id="@+id/activity_concor_plus"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@drawable/bg"
     tools:context="dev.cat.mahmoudelbaz.heartgate.concor.Concor_plus">
 
@@ -62,16 +61,16 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomLayout"
         android:layout_below="@+id/relativeLayout"
-        android:layout_marginBottom="?attr/actionBarSize"
-        tools:listitem="@layout/list_item"
         android:layout_centerInParent="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="100dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:childDivider="@color/transparent"
         android:divider="@color/transparent"
         android:dividerHeight="10dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        tools:listitem="@layout/list_item" />
 
 
 </RelativeLayout>

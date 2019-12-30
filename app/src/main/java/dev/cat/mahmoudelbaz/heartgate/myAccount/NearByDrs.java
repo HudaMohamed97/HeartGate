@@ -36,7 +36,7 @@ import static android.content.ContentValues.TAG;
 public class NearByDrs extends AppCompatActivity {
 
     String url, userId;
-    ArrayList<ModelMyConnections> nearByConnections = new ArrayList<ModelMyConnections>();
+    ArrayList<ModelMyConnections> nearByConnections = new ArrayList<>();
     Boolean isLoading;
     AdapterNearBy nearByConnectionsAdapter;
     ListView nearBylist;
