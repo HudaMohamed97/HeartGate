@@ -43,20 +43,28 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (object.getStateId() == 0) {
-                    presenter.callAddConnection(object);
-                } else if (object.getStateId() == 1) {
-                    presenter.cancelConnectionRequest(object);
-                } else if (object.getStateId() == 3) {
-                    presenter.approveConnectionRequest(object, true);
+                if (object != null) {
+                    if (object.getStateId() == 0) {
+                        presenter.callAddConnection(object);
+                    } else if (object.getStateId() == 1) {
+                        presenter.cancelConnectionRequest(object);
+                    } else if (object.getStateId() == 2) {
+                        // this for message
+                    } else if (object.getStateId() == 4) {
+                        presenter.cancelConnectionRequest(object);
+                    }
                 }
             }
         });
+
         btnApproveRecieved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (object.getStateId() == 2) {
                     presenter.disconnectConnectionRequest(object);
+                }
+                if (object.getStateId() == 4) {
+                    presenter.approveConnectionRequest(object, true);
                 }
             }
         });
@@ -66,16 +74,16 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
     private void setViews(View v) {
         connectButton = v.findViewById(R.id.btnAdd);
         btnApproveRecieved = v.findViewById(R.id.btnApproveRecieved);
-        if (state == 1) {
-            //send request or recieved request
+        if (state == 4) {
             connectButton.setBackgroundResource(R.drawable.red_rounded_corner_button);
             connectButton.setText("Cancel");
-            btnApproveRecieved.setVisibility(View.GONE);
-        } else if (state == 3) {
-            connectButton.setBackgroundResource(R.drawable.red_rounded_corner_button);
-            connectButton.setText("DisConnect");
+            //reciever request
             btnApproveRecieved.setVisibility(View.VISIBLE);
-
+        } else if (state == 1) {
+            connectButton.setBackgroundResource(R.drawable.red_rounded_corner_button);
+            connectButton.setText("Cancel");
+            // sender
+            btnApproveRecieved.setVisibility(View.GONE);
         } else if (state == 2) {
             //you already in Connection
             connectButton.setBackgroundResource(R.drawable.blue_rounded_button);
@@ -89,6 +97,7 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
             btnApproveRecieved.setVisibility(View.GONE);
 
         }
+
         TextView textView = v.findViewById(R.id.txtTitle);
         ImageView imageView = v.findViewById(R.id.imgProfile);
         TextView txtName = v.findViewById(R.id.txtName);
@@ -101,7 +110,18 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
         });
         textView.setText(object.getJobTitle());
         txtName.setText(object.getName());
-        Picasso.with(getActivity()).load(object.getImageUrl()).placeholder(R.drawable.profile).error(R.drawable.profile).into(imageView);
+        Picasso.with(
+
+                getActivity()).
+
+                load(object.getImageUrl()).
+
+                placeholder(R.drawable.profile).
+
+                error(R.drawable.profile).
+
+                into(imageView);
+
     }
 
     private void setPresenter() {

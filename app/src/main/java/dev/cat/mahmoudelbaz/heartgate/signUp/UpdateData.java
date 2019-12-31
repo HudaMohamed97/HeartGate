@@ -123,18 +123,21 @@ public class UpdateData extends AppCompatActivity {
         View radioButton = radioGender.findViewById(selectedGender);
         final int genderidx = radioGender.indexOfChild(radioButton);
         final String genderidxtxt = Integer.toString(genderidx);
-
         HashMap<String, Object> map = new HashMap<>();
         map.put("firstname", firstName);
         map.put("midname", middleName);
         map.put("lastname", lastName);
         map.put("username", userName);
-        map.put("password", password);
         map.put("email", email);
         map.put("mobile_number", phoneNumber);
         map.put("birthdate", dateOfBirthday);
         map.put("fk_gender_id", genderidxtxt);
         map.put("fk_speciality_id", selectedSpeciality);
+        map.put("fk_current_living_place", "");
+        map.put("fk_current_work_place", "");
+        map.put("fk_previous_work_place", "");
+        map.put("fk_year_of_experience", "");
+        map.put("interests", " ");
         if (userName.length() == 0 || firstName.length() == 0
                 || middleName.length() == 0 || lastName.length() == 0
                 || email.length() == 0 || phoneNumber.length() == 0
@@ -170,25 +173,25 @@ public class UpdateData extends AppCompatActivity {
     private void setViews() {
         back = findViewById(R.id.bck);
         userName = findViewById(R.id.etUserName);
-        userName.setHint(userDataModel.getName());
+        userName.setText(userDataModel.getName());
         firstName = findViewById(R.id.etFirstName);
         String lineOfCurrencies = userDataModel.getName();
         String[] currencies = lineOfCurrencies.split(" ");
-        firstName.setHint(currencies[0]);
+        firstName.setText(currencies[0]);
         middleName = findViewById(R.id.etMiddleName);
-        middleName.setHint(currencies[1]);
+        middleName.setText(currencies[1]);
         lastName = findViewById(R.id.etLastName);
-        lastName.setHint(currencies[1]);
+        lastName.setText(currencies[1]);
         email = findViewById(R.id.etEmail);
-        email.setHint(userDataModel.getEmail());
+        email.setText(userDataModel.getEmail());
         password = findViewById(R.id.etPassword);
         password.setVisibility(View.GONE);
         confrimPassword = findViewById(R.id.etConfirmPassword);
         confrimPassword.setVisibility(View.GONE);
         phoneNumber = findViewById(R.id.etPhoneNumber);
-        phoneNumber.setHint(userDataModel.getPhoneNum());
+        phoneNumber.setText(userDataModel.getPhoneNum());
         dateOfBirth = findViewById(R.id.etDateOfBirth);
-        dateOfBirth.setHint(userDataModel.getBirthDate());
+        dateOfBirth.setText(userDataModel.getBirthDate());
         speciality = findViewById(R.id.spinnerSpeciality);
         updateDataButton = findViewById(R.id.btnRegister);
         updateDataButton.setText("Update");

@@ -39,8 +39,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import dev.cat.mahmoudelbaz.heartgate.R;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.ModelMyConnections;
+import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -52,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient googleApiClient;
     private MapWrapperLayout mapWrapperLayout;
     private CustomBottomSheet customBottomSheet;
+    private String myUserID;
 
     public static int getPixelsFromDp(Context context, float dp) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -103,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mapWrapperLayout.init(googleMap, getPixelsFromDp(this, 39 + 20));
         mMap.setOnInfoWindowClickListener(this);
-        String myUserID = shared.getString("id", "0");
+        myUserID = shared.getString("id", "0");
         String finalUrl = "http://heartgate.co/api_heartgate/users/nearby/" + myUserID + "/0";
         final StringRequest postsRequest = new StringRequest(
                 Request.Method.GET, finalUrl, new Response.Listener<String>() {
@@ -118,12 +125,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String lng = current.getString("lng");
                         String nme = current.getString("fullname");
                         String speciality = current.getString("speciality");
+                        int isReciever = current.getInt("is_reciever");
                         String last_time_location = current.getString("last_time_location");
                         int stateId = current.getInt("state_id");
                         int connection_id = current.getInt("connection_id");
                         String pic = "http://heartgate.co/api_heartgate/layout/images/" + current.getString("image_profile");
                         ModelMyConnections modelMyConnections = new ModelMyConnections(stateId, id, nme, speciality, pic, last_time_location);
                         modelMyConnections.setConnection_id(connection_id);
+                        modelMyConnections.setIs_reciever(isReciever);
                         if (!(lat.equals("") || lng.equals(""))) {
                             LatLng l = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                             mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, MapsActivity.this));
@@ -197,6 +206,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             Location userCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             if (userCurrentLocation != null) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("user_id", myUserID);
+                map.put("lat", userCurrentLocation.getLatitude());
+                map.put("lng", userCurrentLocation.getLongitude());
+                map.put("distance", "");
+                map.put("player_id", "");
+                updateCurrentLocation(map);
                 MarkerOptions currentUserLocation = new MarkerOptions();
                 LatLng currentUserLatLang = new LatLng(userCurrentLocation.getLatitude(), userCurrentLocation.getLongitude());
                 currentUserLocation.icon(BitmapDescriptorFactory.fromResource(R.drawable.currentlocation));
@@ -238,10 +254,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
+    public void updateCurrentLocation(Map<String, Object> map) {
+        Webservice.getInstance().getApi().updateCurrentLocation(map).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(MapsActivity.this, "Current location updated Successfully", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MapsActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Toast.makeText(MapsActivity.this, "failure , check your connection", Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    @Override
     public void onInfoWindowClick(Marker marker) {
         customBottomSheet = new CustomBottomSheet((ModelMyConnections) marker.getTag());
         customBottomSheet.show(getSupportFragmentManager(), "Dialog");
-
-
     }
 }

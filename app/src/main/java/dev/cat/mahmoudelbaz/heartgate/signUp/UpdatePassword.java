@@ -27,7 +27,7 @@ import retrofit2.Callback;
 public class UpdatePassword extends AppCompatActivity {
     private ProgressBar progress;
     private SharedPreferences shared;
-    private EditText password, confrimPassword;
+    private EditText password, confrimPassword, oldPassword;
     private String userName, firstName, middleName, lastName, email, genderidxtxt, phoneNumber, dateOfBirth, dateOfBirthday, selectedSpeciality;
     private Button updateDataButton;
     private String userID;
@@ -59,6 +59,7 @@ public class UpdatePassword extends AppCompatActivity {
     }
 
     private void updateData() {
+        final String oldPassword = this.oldPassword.getText().toString();
         final String password = this.password.getText().toString();
         final String confirmPassword = confrimPassword.getText().toString();
         HashMap<String, Object> map = new HashMap<>();
@@ -67,18 +68,10 @@ public class UpdatePassword extends AppCompatActivity {
         firstName = currencies[0];
         middleName = currencies[1];
         lastName = currencies[2];
-        map.put("firstname", firstName);
-        map.put("midname", middleName);
-        map.put("lastname", lastName);
-        map.put("username", firstName);
         map.put("password", password);
-        map.put("confirm_password", confirmPassword);
-        map.put("email", userDataModel.getEmail());
-        map.put("mobile_number", userDataModel.getPhoneNum());
-        map.put("birthdate", userDataModel.getBirthDate());
-        map.put("fk_gender_id", userDataModel.getGender());
-        map.put("fk_speciality_id", userDataModel.getSpecialitystring());
-        if (password.length() == 0 || confirmPassword.length() == 0) {
+        map.put("confirm_password", password);
+        map.put("oldpassword ", oldPassword);
+        if (oldPassword.length() == 0 || password.length() == 0 || confirmPassword.length() == 0) {
             Toast.makeText(UpdatePassword.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
         } else if (!password.equals(confirmPassword)) {
             Toast.makeText(UpdatePassword.this, "Password and Confirm Password not matched", Toast.LENGTH_SHORT).show();
@@ -89,7 +82,7 @@ public class UpdatePassword extends AppCompatActivity {
 
     private void callUpdateDataApi(Map<String, Object> map) {
         progress.setVisibility(View.VISIBLE);
-        Webservice.getInstance().getApi().updateUser(userID, map).enqueue(new Callback<Object>() {
+        Webservice.getInstance().getApi().updatePassword(userID, map).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
                 if (response.isSuccessful()) {
@@ -110,7 +103,8 @@ public class UpdatePassword extends AppCompatActivity {
     }
 
     private void setViews() {
-        password = findViewById(R.id.etPassword);
+        password = findViewById(R.id.password);
+        oldPassword = findViewById(R.id.oldPassword);
         confrimPassword = findViewById(R.id.etConfirmPassword);
         updateDataButton = findViewById(R.id.btnRegister);
         progress = findViewById(R.id.progressBar);

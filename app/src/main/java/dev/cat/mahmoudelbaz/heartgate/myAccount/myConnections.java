@@ -76,11 +76,14 @@ public class myConnections extends Fragment {
                             JSONObject currentobject = usersarray.getJSONObject(i);
                             final int id = currentobject.getInt("id");
                             final int stateId = currentobject.getInt("state_id");
+                            final int connection_id = currentobject.getInt("connection_id");
                             final String fullName = currentobject.getString("fullname");
                             final String jobTitle = currentobject.getString("speciality");
                             final String picture = currentobject.getString("image_profile");
                             final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-                            myConnections.add(new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl));
+                            ModelMyConnections modelMyConnections = new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl);
+                            modelMyConnections.setConnection_id(connection_id);
+                            myConnections.add(modelMyConnections);
                             mylist.setAdapter(myConnectionsAdapter);
                             myprogress.setVisibility(View.INVISIBLE);
 
@@ -169,11 +172,14 @@ public class myConnections extends Fragment {
                         JSONObject currentobject = usersarray.getJSONObject(i);
                         final int id = currentobject.getInt("id");
                         final int stateId = currentobject.getInt("state_id");
+                        final int connection_id = currentobject.getInt("connection_id");
                         final String fullName = currentobject.getString("fullname");
                         final String jobTitle = currentobject.getString("speciality");
                         final String picture = currentobject.getString("image_profile");
                         final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
-                        myConnections.add(new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl));
+                        ModelMyConnections modelMyConnections = new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl);
+                        modelMyConnections.setConnection_id(connection_id);
+                        myConnections.add(modelMyConnections);
                         myprogress.setVisibility(View.INVISIBLE);
                         myConnectionsAdapter.notifyDataSetChanged();
                     }

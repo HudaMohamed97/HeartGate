@@ -71,6 +71,12 @@ public interface Api {
     @POST("users/update/{id}")
     Call<Object> updateUser(@Path(value = "id", encoded = true) String id, @Body Map<String, Object> map);
 
+    @POST("users/location")
+    Call<Object> updateCurrentLocation(@Body Map<String, Object> map);
+
+    @POST("users/resetpassword/{id}")
+    Call<Object> updatePassword(@Path(value = "id", encoded = true) String id, @Body Map<String, Object> map);
+
     @POST("questions/deletequestion/{question_id}/{user_id}")
     Call<Object> delete_post(@Path(value = "question_id", encoded = true) String question_id, @Path(value = "user_id", encoded = true) String user_id);
 

@@ -14,6 +14,7 @@ public class ModelMyConnections {
     private String jobTitle;
     private String imageUrl;
     private String last_time_location;
+    private int is_reciever;
 
     public ModelMyConnections() {
     }
@@ -71,6 +72,7 @@ public class ModelMyConnections {
         return jobTitle;
     }
 
+
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
@@ -89,6 +91,14 @@ public class ModelMyConnections {
 
     public void setConnection_id(int connection_id) {
         this.connection_id = connection_id;
+    }
+
+    public int getIs_reciever() {
+        return is_reciever;
+    }
+
+    public void setIs_reciever(int is_reciever) {
+        this.is_reciever = is_reciever;
     }
 }
 
