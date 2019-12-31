@@ -38,33 +38,17 @@ public class Concor extends AppCompatActivity {
 
     private void prepareListData() {
         listDataHeader = new ArrayList<>();
-        listDataHeader.add(new Menu_item("Composition And Pharmaceutical Form", R.drawable.white_frame, R.color.transparent, "file:///android_asset/composition_pharma.html"));
-        listDataHeader.add(new Menu_item("Indication", R.drawable.white_frame, R.color.transparent, "file:///android_asset/indication.html"));
+        listDataHeader.add(new Menu_item("Composition And Pharmaceutical Form", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/composition_pharma.html"));
+        listDataHeader.add(new Menu_item("Indication", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/indication.html"));
         listDataHeader.add(new Menu_item("Dosage / Administration", R.drawable.white_frame, R.color.transparent, "file:///android_asset/dosage.html"));
-        listDataHeader.add(new Menu_item("Contraindications / Interaction", R.drawable.white_frame, R.color.transparent, "file:///android_asset/contra.html"));
-        listDataHeader.add(new Menu_item("Warnings And Precautions", R.drawable.white_frame, R.color.transparent, "file:///android_asset/warnings.html"));
-        listDataHeader.add(new Menu_item("Pregnancy And Lactation", R.drawable.white_frame, R.color.transparent, "file:///android_asset/warnings.html"));
-        listDataHeader.add(new Menu_item("Undesirable Effects / Effects On Ability To Drive And Use Machines", R.drawable.white_frame, R.color.transparent, "file:///android_asset/composition_pharma.html"));
-        listDataHeader.add(new Menu_item("Overdose", R.drawable.white_frame, R.color.transparent, "file:///android_asset/overdose.html"));
-        listDataHeader.add(new Menu_item("Properties/ Effects", R.drawable.white_frame, R.color.transparent, "file:///android_asset/composition_pharma.html"));
-        listDataHeader.add(new Menu_item("Pharmacokinetics", R.drawable.white_frame, R.color.transparent, "file:///android_asset/composition_pharma.html"));
-        listDataHeader.add(new Menu_item("Preclinical Data", R.drawable.white_frame, R.color.transparent, "file:///android_asset/composition_pharma.html"));
-
-
-        /*
-        listDataChild.put(listDataHeader.get(0), Composition); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), Indication);
-        listDataChild.put(listDataHeader.get(2), Dosage);
-        listDataChild.put(listDataHeader.get(3), Contraindications);
-        listDataChild.put(listDataHeader.get(4), Warnings);
-        listDataChild.put(listDataHeader.get(5), Pregnancy);
-        listDataChild.put(listDataHeader.get(6), Effects);
-        listDataChild.put(listDataHeader.get(7), Overdose);
-        listDataChild.put(listDataHeader.get(8), Properties);
-        listDataChild.put(listDataHeader.get(9), Pharmacokinetics);
-        listDataChild.put(listDataHeader.get(10), Preclinical);
-*/
-
+        listDataHeader.add(new Menu_item("Contraindications / Interaction", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/contra.html"));
+        listDataHeader.add(new Menu_item("Warnings And Precautions", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/warnings.html"));
+        listDataHeader.add(new Menu_item("Pregnancy And Lactation", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/pregnancy_lact.html"));
+        listDataHeader.add(new Menu_item("Undesirable Effects / Effects On Ability To Drive And Use Machines", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/undesirable_fx.html"));
+        listDataHeader.add(new Menu_item("Overdose", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/overdose.html"));
+        listDataHeader.add(new Menu_item("Properties/ Effects", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/properties.html"));
+        listDataHeader.add(new Menu_item("Pharmacokinetics", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/pregnancy_lact.html"));
+        listDataHeader.add(new Menu_item("Preclinical Data", R.drawable.white_frame, R.color.transparent, "file:///android_asset/concor/preclincal_data.html"));
 
     }
 }
