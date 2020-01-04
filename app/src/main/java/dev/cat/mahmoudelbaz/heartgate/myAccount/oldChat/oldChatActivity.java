@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -38,9 +39,6 @@ import dev.cat.mahmoudelbaz.heartgate.chat.Message;
 import dev.cat.mahmoudelbaz.heartgate.chat.User;
 import dev.cat.mahmoudelbaz.heartgate.chat.UsersAdapter;
 import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -60,7 +58,7 @@ public class oldChatActivity extends AppCompatActivity {
     public UsersAdapter userAdapter;
     public static User reciver;
     SharedPreferences shared;
-    private String userID , receiveId , imageUrl , myimageUrl ;
+    private String userID, receiveId, imageUrl, myimageUrl;
     ProgressDialog progress;
 
 
@@ -79,7 +77,6 @@ public class oldChatActivity extends AppCompatActivity {
         progress.setTitle("Loading");
         progress.setMessage("Wait while loading...");
         progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-
 
 
         messagetxt = findViewById(R.id.message);
@@ -106,7 +103,7 @@ public class oldChatActivity extends AppCompatActivity {
                     name.setText(nickname);
 
                     final String imgstring = res.getString("image_profile");
-                    myimageUrl= "http://heartgate.co/api_heartgate/layout/images/" + imgstring;
+                    myimageUrl = "http://heartgate.co/api_heartgate/layout/images/" + imgstring;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -131,11 +128,11 @@ public class oldChatActivity extends AppCompatActivity {
 
         //    reciver.setId(receiveId);
         //    reciver.setName();
-        reciver = new User( receiveId,
+        reciver = new User(receiveId,
                 bundle.getString("name"),
                 ""
-                ,""
-                ,"");
+                , ""
+                , "");
 
 
         getAllMessages();
@@ -145,7 +142,7 @@ public class oldChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                addNewMessage(userID , receiveId , messagetxt.toString().trim() );
+                addNewMessage(userID, receiveId, messagetxt.toString().trim());
 
             }
         });
@@ -154,7 +151,7 @@ public class oldChatActivity extends AppCompatActivity {
         //setting up recyler
         MessageList = new ArrayList<>();
         myRecylerView = (RecyclerView) findViewById(R.id.messagelist);
-        chatBoxAdapter = new ChatBoxAdapter(MessageList , this);
+        chatBoxAdapter = new ChatBoxAdapter(MessageList, this);
         myRecylerView.setAdapter(chatBoxAdapter);
 
 
@@ -192,14 +189,14 @@ public class oldChatActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        Toast.makeText(oldChatActivity.this,"Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(oldChatActivity.this, "Error", Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         Toast.makeText(oldChatActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                     progress.dismiss();
                 } else {
 
-                    Message m = new Message(nickname, messagetxt.getText().toString() , new SimpleDateFormat("hh:mm a").toString() , myimageUrl);
+                    Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl);
                     //add the message to the messageList
                     MessageList.add(m);
                     // add the new updated list to the dapter
@@ -227,38 +224,37 @@ public class oldChatActivity extends AppCompatActivity {
     private void getAllMessages() {
 
 
-            progress.show();
+        progress.show();
 
-            Webservice.getInstance().getApi().getAllMessagesOld(userID , receiveId).enqueue(new Callback<ArrayList<AllMessagesResponse>>() {
-                @Override
-                public void onResponse(Call<ArrayList<AllMessagesResponse>> call, retrofit2.Response<ArrayList<AllMessagesResponse>> response) {
+        Webservice.getInstance().getApi().getAllMessagesOld(userID, receiveId).enqueue(new Callback<ArrayList<AllMessagesResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<AllMessagesResponse>> call, retrofit2.Response<ArrayList<AllMessagesResponse>> response) {
 
-                    if (!response.isSuccessful()) {
-                  //      Toast.makeText(oldChatActivity.this, "Not Sent", Toast.LENGTH_LONG).show();
-                        progress.dismiss();
-                    } else {
-                        ArrayList<AllMessagesResponse> allMessagesResponse = response.body();
-                        if (allMessagesResponse != null) {
-                            for (int i = 0 ; i < allMessagesResponse.size() ; ++i)
-                            {
-                                MessageList.add(
-                                        new Message(reciver.getName(), allMessagesResponse.get(i).getUserMessage(), "", imageUrl));
-                            }
+                if (!response.isSuccessful()) {
+                    //      Toast.makeText(oldChatActivity.this, "Not Sent", Toast.LENGTH_LONG).show();
+                    progress.dismiss();
+                } else {
+                    ArrayList<AllMessagesResponse> allMessagesResponse = response.body();
+                    if (allMessagesResponse != null) {
+                        for (int i = 0; i < allMessagesResponse.size(); ++i) {
+                            MessageList.add(
+                                    new Message(reciver.getName(), allMessagesResponse.get(i).getUserMessage(), "", imageUrl));
                         }
-                        chatBoxAdapter.notifyDataSetChanged();
-                        //set the adapter for the recycler view}
-                        progress.dismiss();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<AllMessagesResponse>> call, Throwable t) {
-                    Toast.makeText(oldChatActivity.this, "failure , check your connection", Toast.LENGTH_LONG).show();
-                    Log.e("login", "onFailure: ", t);
+                    chatBoxAdapter.notifyDataSetChanged();
+                    //set the adapter for the recycler view}
                     progress.dismiss();
                 }
-            });
+            }
 
-        }
+            @Override
+            public void onFailure(Call<ArrayList<AllMessagesResponse>> call, Throwable t) {
+                Toast.makeText(oldChatActivity.this, "failure , check your connection", Toast.LENGTH_LONG).show();
+                Log.e("login", "onFailure: ", t);
+                progress.dismiss();
+            }
+        });
+
+    }
 
 }

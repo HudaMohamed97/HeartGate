@@ -98,10 +98,9 @@ dependencies {
     implementation 'com.auron:permission-manage:1.1.9'
 
 
-    implementation('io.socket:socket.io-client:0.8.3') {
+    compile('com.github.nkzawa:socket.io-client:0.5.0') {
         exclude group: 'org.json', module: 'json'
     }
-
     implementation 'com.pusher:pusher-java-client:1.8.0'
 
     testImplementation 'junit:junit:4.12'

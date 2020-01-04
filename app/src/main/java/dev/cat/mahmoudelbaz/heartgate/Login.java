@@ -133,7 +133,6 @@ public class Login extends AppCompatActivity {
                                     myEdit.putString("id", userIdString);
                                     myEdit.putString("Name", currentUserData.getString("username"));
                                     myEdit.commit();
-
                                     Intent i = new Intent(Login.this, Home.class);
                                     startActivity(i);
                                     finish();

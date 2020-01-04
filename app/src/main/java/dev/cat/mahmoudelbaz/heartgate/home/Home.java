@@ -277,7 +277,6 @@ public class Home extends AppCompatActivity {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 SharedPreferences.Editor myEdit = shared.edit();
                 myEdit.putString("id", "0");
                 myEdit.commit();

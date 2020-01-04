@@ -3,6 +3,7 @@ package dev.cat.mahmoudelbaz.heartgate.signUp;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,9 +22,13 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.cat.mahmoudelbaz.heartgate.Login;
 import dev.cat.mahmoudelbaz.heartgate.R;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.oldChat.UserDataModel;
 import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
@@ -156,6 +161,12 @@ public class UpdateData extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(UpdateData.this, "Data Update Successfully", Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
+                    SharedPreferences.Editor myEdit = shared.edit();
+                    myEdit.putString("id", "0");
+                    myEdit.apply();
+                    Intent i = new Intent(UpdateData.this, Login.class);
+                    startActivity(i);
+                    finish();
                 } else {
                     Toast.makeText(UpdateData.this, response.message(), Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
@@ -173,7 +184,7 @@ public class UpdateData extends AppCompatActivity {
     private void setViews() {
         back = findViewById(R.id.bck);
         userName = findViewById(R.id.etUserName);
-        userName.setText(userDataModel.getName());
+        userName.setText(userDataModel.getUsername());
         firstName = findViewById(R.id.etFirstName);
         String lineOfCurrencies = userDataModel.getName();
         String[] currencies = lineOfCurrencies.split(" ");

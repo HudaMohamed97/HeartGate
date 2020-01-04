@@ -2,11 +2,13 @@ package dev.cat.mahmoudelbaz.heartgate.signUp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,9 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.cat.mahmoudelbaz.heartgate.Login;
 import dev.cat.mahmoudelbaz.heartgate.R;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.oldChat.UserDataModel;
 import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
@@ -59,18 +65,18 @@ public class UpdatePassword extends AppCompatActivity {
     }
 
     private void updateData() {
-        final String oldPassword = this.oldPassword.getText().toString();
-        final String password = this.password.getText().toString();
-        final String confirmPassword = confrimPassword.getText().toString();
+        final String oldPassword = this.oldPassword.getText().toString().trim();
+        final String password = this.password.getText().toString().trim();
+        final String confirmPassword = confrimPassword.getText().toString().trim();
         HashMap<String, Object> map = new HashMap<>();
         String lineOfCurrencies = userDataModel.getName();
         String[] currencies = lineOfCurrencies.split(" ");
         firstName = currencies[0];
         middleName = currencies[1];
         lastName = currencies[2];
+        map.put("oldpassword", oldPassword);
         map.put("password", password);
         map.put("confirm_password", password);
-        map.put("oldpassword ", oldPassword);
         if (oldPassword.length() == 0 || password.length() == 0 || confirmPassword.length() == 0) {
             Toast.makeText(UpdatePassword.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
         } else if (!password.equals(confirmPassword)) {
@@ -88,6 +94,12 @@ public class UpdatePassword extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(UpdatePassword.this, "Data Update Successfully", Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
+                    SharedPreferences.Editor myEdit = shared.edit();
+                    myEdit.putString("id", "0");
+                    myEdit.apply();
+                    Intent i = new Intent(UpdatePassword.this, Login.class);
+                    startActivity(i);
+                    finish();
                 } else {
                     Toast.makeText(UpdatePassword.this, response.message(), Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);

@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -136,6 +138,7 @@ public class MyProfile extends ActivityManagePermission {
                     JSONArray usersarray = new JSONArray(response);
                     res = usersarray.getJSONObject(0);
                     final String fullName = res.getString("fullname");
+                    final String username = res.getString("username");
                     final String myemail = res.getString("email");
                     final String mobile_number = res.getString("mobile_number");
                     final String dateofBirthDay = res.getString("birthdate");
@@ -155,7 +158,7 @@ public class MyProfile extends ActivityManagePermission {
                         gender.setText("Female");
                         genderType = "Female";
                     }
-                    userDataModel = new UserDataModel(fullName, myemail, mobile_number, dateofBirthDay, genderType, specialitystring);
+                    userDataModel = new UserDataModel(fullName, myemail, mobile_number, dateofBirthDay, genderType, specialitystring, username);
                     name.setText(fullName);
                     email.setText(myemail);
                     mobile.setText(mobile_number);
@@ -208,12 +211,14 @@ public class MyProfile extends ActivityManagePermission {
         Intent signUpIntent = new Intent(MyProfile.this, UpdateData.class);
         signUpIntent.putExtra("userDataModel", userDataModel);
         startActivity(signUpIntent);
+        finish();
     }
 
     private void navigateToUppdatPasswordScreen() {
         Intent updatePasswordIntent = new Intent(MyProfile.this, UpdatePassword.class);
         updatePasswordIntent.putExtra("userDataModel", userDataModel);
         startActivity(updatePasswordIntent);
+        finish();
     }
 
     private void changePhoto(String encoded) {
@@ -264,6 +269,4 @@ public class MyProfile extends ActivityManagePermission {
             changePhoto(encoded);
         }
     }
-
-
 }

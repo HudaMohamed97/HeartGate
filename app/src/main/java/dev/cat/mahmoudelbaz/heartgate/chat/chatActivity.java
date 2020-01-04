@@ -13,23 +13,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import dev.cat.mahmoudelbaz.heartgate.R;
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
+
 
 public class chatActivity extends AppCompatActivity {
 
@@ -47,7 +53,7 @@ public class chatActivity extends AppCompatActivity {
     public UsersAdapter userAdapter;
     public static User reciver;
     SharedPreferences shared;
-    private String userID , receiveId , imageUrl , myimageUrl ;
+    private String userID, receiveId, imageUrl, myimageUrl;
 
 
     @Override
@@ -79,7 +85,7 @@ public class chatActivity extends AppCompatActivity {
                     name.setText(nickname);
 
                     final String imgstring = res.getString("image_profile");
-                    myimageUrl= "http://heartgate.co/api_heartgate/layout/images/" + imgstring;
+                    myimageUrl = "http://heartgate.co/api_heartgate/layout/images/" + imgstring;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -102,13 +108,13 @@ public class chatActivity extends AppCompatActivity {
 
         imageUrl = bundle.getString("imageUrl");
 
-       //    reciver.setId(receiveId);
+        //    reciver.setId(receiveId);
         //    reciver.setName();
-        reciver = new User( receiveId,
+        reciver = new User(receiveId,
                 bundle.getString("name"),
                 ""
-                ,""
-                ,"");
+                , ""
+                , "");
 
 
  /*       if (imageUrl == null) {
@@ -136,8 +142,6 @@ public class chatActivity extends AppCompatActivity {
         socket.on("getMessagesResponse", getMessagesResponse);
         socket.on("getMessages", getMessages);
         socket.on("addMessageResponse", addMessageResponse);
-
-
         socket.connect();
 
         socket.emit("chatList", userID);
@@ -157,11 +161,8 @@ public class chatActivity extends AppCompatActivity {
                 map.put("fileFormat", "");
                 map.put("type", "text");
                 map.put("date", "2019-05-7");
-
                 JSONObject obj = new JSONObject(map);
-
-
-                Message m = new Message(nickname, messagetxt.getText().toString() , new SimpleDateFormat("hh:mm a").toString() , myimageUrl);
+                Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl);
                 //add the message to the messageList
                 MessageList.add(m);
                 // add the new updated list to the dapter
@@ -178,7 +179,7 @@ public class chatActivity extends AppCompatActivity {
         //setting up recyler
         MessageList = new ArrayList<>();
         myRecylerView = (RecyclerView) findViewById(R.id.messagelist);
-        chatBoxAdapter = new ChatBoxAdapter(MessageList , this);
+        chatBoxAdapter = new ChatBoxAdapter(MessageList, this);
         myRecylerView.setAdapter(chatBoxAdapter);
 
 
@@ -348,7 +349,7 @@ public class chatActivity extends AppCompatActivity {
                                         imageUrl
                                 ));
 
-                  //      reciver.setSocket_id(data.getString("toSocketId"));
+                        //      reciver.setSocket_id(data.getString("toSocketId"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
