@@ -20,14 +20,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.nkzawa.socketio.client.Socket;
-import com.google.gson.Gson;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +37,7 @@ import dev.cat.mahmoudelbaz.heartgate.chat.Message;
 import dev.cat.mahmoudelbaz.heartgate.chat.User;
 import dev.cat.mahmoudelbaz.heartgate.chat.UsersAdapter;
 import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
+import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 

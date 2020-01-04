@@ -94,7 +94,6 @@ public class RecievedConnections extends Fragment {
 
                             receivedConnections.add(new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl));
                             receivedlist.setAdapter(receivedConnectionsAdapter);
-
                             receivedprogress.setVisibility(View.INVISIBLE);
 
                         }

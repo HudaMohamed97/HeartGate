@@ -32,9 +32,6 @@ import dev.cat.mahmoudelbaz.heartgate.myAccount.oldChat.oldChatActivity;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by mahmoudelbaz on 9/14/17.
- */
 
 public class AdapterMyConnections extends BaseAdapter implements Filterable {
 
@@ -140,14 +137,12 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
         }
 
         void setItem(final ModelMyConnections product) {
-
             shared = context.getSharedPreferences("id", Context.MODE_PRIVATE);
-
             messagebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, "Please Wait", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(context, oldChatActivity.class);
+                    Intent i = new Intent(context, chatActivity.class);
                     i.putExtra("receiveId", product.getId());
                     i.putExtra("name", product.getName());
                     i.putExtra("imageUrl", product.getImageUrl());
@@ -164,7 +159,6 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
                     int receiveId = product.getId();
                     String receiveIdString = Integer.toString(receiveId);
                     url = "http://heartgate.co/api_heartgate/messages/connectuser/disconnect/" + product.getConnection_id();
-
                     StringRequest loginRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -196,7 +190,6 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
                 imageView.setImageResource(R.drawable.profile);
                 return;
             }
-
             Picasso.with(context).load(url).placeholder(R.drawable.profile).error(R.drawable.profile).into(imageView);
         }
     }

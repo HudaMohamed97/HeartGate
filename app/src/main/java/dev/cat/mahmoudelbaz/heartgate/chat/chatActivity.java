@@ -21,9 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import dev.cat.mahmoudelbaz.heartgate.R;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 
 public class chatActivity extends AppCompatActivity {
@@ -60,30 +60,21 @@ public class chatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
         messagetxt = findViewById(R.id.message);
         send = findViewById(R.id.send);
         name = findViewById(R.id.name);
-
-
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
-
         userID = shared.getString("id", "0");
 
-
         url = "http://heartgate.co/api_heartgate/users/current/" + userID;
-
         StringRequest loginRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONArray usersarray = new JSONArray(response);
                     JSONObject res = usersarray.getJSONObject(0);
-
                     nickname = res.getString("fullname");
                     name.setText(nickname);
-
                     final String imgstring = res.getString("image_profile");
                     myimageUrl = "http://heartgate.co/api_heartgate/layout/images/" + imgstring;
                 } catch (JSONException e) {
@@ -93,19 +84,14 @@ public class chatActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-
             }
         });
 
         Volley.newRequestQueue(this).add(loginRequest);
-
         // get the nickame of the user
         //connect you socket client to the servertry {
-
         Bundle bundle = getIntent().getExtras();
         receiveId = String.valueOf(bundle.getInt("receiveId"));
-
         imageUrl = bundle.getString("imageUrl");
 
         //    reciver.setId(receiveId);
@@ -116,36 +102,25 @@ public class chatActivity extends AppCompatActivity {
                 , ""
                 , "");
 
-
- /*       if (imageUrl == null) {
-            imageView.setImageResource(R.drawable.profile);
-            return;
-        }
-        Picasso.with(this).load(imageUrl).placeholder(R.drawable.profile).error(R.drawable.profile).into(imageView);*/
-
-
         IO.Options mOptions = new IO.Options();
         mOptions.query = "id=" + receiveId;
 
         try {
-            socket = IO.socket("http://160.153.246.213:5999", mOptions);
+            // socket = IO.socket("http://160.153.246.213:5999", mOptions);
+            socket = IO.socket("http://www.heartgate.co:6001", mOptions);
         } catch (URISyntaxException e1) {
             e1.printStackTrace();
         }
-
         socket.on(Socket.EVENT_CONNECT, onConnected);
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         socket.on(Socket.EVENT_MESSAGE, onMessage);
         socket.on("chatListRes", onChatListRes);
         socket.on("typing", ontyping);
-        //  socket.on("getMessageResponse", getMessageResponse);
         socket.on("getMessagesResponse", getMessagesResponse);
         socket.on("getMessages", getMessages);
         socket.on("addMessageResponse", addMessageResponse);
         socket.connect();
-
         socket.emit("chatList", userID);
-
         // message send action
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,31 +144,23 @@ public class chatActivity extends AppCompatActivity {
                 // notify the adapter to update the recycler view
                 chatBoxAdapter.notifyDataSetChanged();
                 //set the adapter for the recycler view
-
                 messagetxt.setText("");
                 socket.emit("addMessage", obj);
             }
         });
 
-
-        //setting up recyler
         MessageList = new ArrayList<>();
-        myRecylerView = (RecyclerView) findViewById(R.id.messagelist);
+        myRecylerView = findViewById(R.id.messagelist);
         chatBoxAdapter = new ChatBoxAdapter(MessageList, this);
         myRecylerView.setAdapter(chatBoxAdapter);
-
-
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         myRecylerView.setLayoutManager(mLayoutManager);
         myRecylerView.setItemAnimator(new DefaultItemAnimator());
-
         userslist = new ArrayList<>();
-        userRecylerView = (RecyclerView) findViewById(R.id.userslist);
-        // add the new updated list to the dapter
+        userRecylerView = findViewById(R.id.userslist);
         userAdapter = new UsersAdapter(userslist);
         userAdapter.notifyDataSetChanged();
         userRecylerView.setAdapter(userAdapter);
-
         RecyclerView.LayoutManager mzLayoutManager = new LinearLayoutManager(getApplicationContext());
         userRecylerView.setLayoutManager(mzLayoutManager);
         userRecylerView.setItemAnimator(new DefaultItemAnimator());
@@ -259,31 +226,56 @@ public class chatActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "onChatListRes from NodeJS server", Toast.LENGTH_LONG).show();
                     Log.d("socket", "run: " + args);
                     JSONObject data = (JSONObject) args[0];
-
-                    //          reciver.setSocket_id(data.getString("socket_id"));
-
-                    /*    ArrayList<String> listdata = new ArrayList<String>();
-                        JSONArray jArray = data.getJSONArray("chatList");
-
-                        if (jArray != null) {
-                            for (int i = 0; i < jArray.length(); i++) {
-                                //extract data from fired event
-                                String id = jArray.getJSONObject(i).getString("id");
-                                String name = jArray.getJSONObject(i).getString("name");
-                                String socket_id = jArray.getJSONObject(i).getString("socket_id");
-                                String online = jArray.getJSONObject(i).getString("online");
-                                String updated_at = jArray.getJSONObject(i).getString("updated_at");
-
-                                User m = new User(id, name, socket_id, online, updated_at);
-
-                                userslist.add(m);
+                    try {
+                        reciver.setSocket_id(data.getString("socket_id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<String> listdata = new ArrayList<String>();
+                    JSONArray jArray = null;
+                    try {
+                        jArray = data.getJSONArray("chatList");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (jArray != null) {
+                        for (int i = 0; i < jArray.length(); i++) {
+                            //extract data from fired event
+                            String id = null;
+                            try {
+                                id = jArray.getJSONObject(i).getString("id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        }*/
-                    // add the new updated list to the dapter
-                    // notify the adapter to update the recycler view
-                    userAdapter.notifyDataSetChanged();
-                    //set the adapter for the recycler view
-
+                            String name = null;
+                            try {
+                                name = jArray.getJSONObject(i).getString("name");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            String socket_id = null;
+                            try {
+                                socket_id = jArray.getJSONObject(i).getString("socket_id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            String online = null;
+                            try {
+                                online = jArray.getJSONObject(i).getString("online");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            String updated_at = null;
+                            try {
+                                updated_at = jArray.getJSONObject(i).getString("updated_at");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            User m = new User(id, name, socket_id, online, updated_at);
+                            userslist.add(m);
+                            userAdapter.notifyDataSetChanged();
+                        }
+                    }
                 }
             });
         }
@@ -309,7 +301,21 @@ public class chatActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), args.toString(), Toast.LENGTH_LONG).show();
-
+                    JSONObject data = (JSONObject) args[0];
+                    String text = null;
+                    try {
+                        text = data.getString("message");
+                        MessageList.add(
+                                new Message(
+                                        reciver.getName(),
+                                        text,
+                                        data.getString("time"),
+                                        imageUrl
+                                ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    chatBoxAdapter.notifyDataSetChanged();
                 }
             });
         }
@@ -338,7 +344,6 @@ public class chatActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), args.toString(), Toast.LENGTH_LONG).show();
                     JSONObject data = (JSONObject) args[0];
                     String text = null;
-                    //extract data from fired event
                     try {
                         text = data.getString("message");
                         MessageList.add(
@@ -348,14 +353,11 @@ public class chatActivity extends AppCompatActivity {
                                         data.getString("time"),
                                         imageUrl
                                 ));
-
                         //      reciver.setSocket_id(data.getString("toSocketId"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     chatBoxAdapter.notifyDataSetChanged();
-                    //set the adapter for the recycler view}
                 }
             });
         }

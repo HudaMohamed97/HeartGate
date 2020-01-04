@@ -62,7 +62,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
         holder.socket_id.setText(m.getSocket_id());
         holder.online.setText(m.getOnline());
         holder.updated_at.setText(m.getUpdated_at());
-
         HashMap map = new HashMap();
         map.put("fromUserId", 3);
         map.put("toUserId", m.getId());

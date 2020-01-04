@@ -70,19 +70,17 @@ public class myConnections extends Fragment {
                     if (usersarray.length() == 0) {
                         myprogress.setVisibility(View.INVISIBLE);
                     } else {
-
                         pageId++;
                         for (int i = 0; i < usersarray.length(); i++) {
                             JSONObject currentobject = usersarray.getJSONObject(i);
                             final int id = currentobject.getInt("id");
                             final int stateId = currentobject.getInt("state_id");
-                            final int connection_id = currentobject.getInt("connection_id");
                             final String fullName = currentobject.getString("fullname");
+                            final String username = currentobject.getString("username");
                             final String jobTitle = currentobject.getString("speciality");
                             final String picture = currentobject.getString("image_profile");
                             final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
                             ModelMyConnections modelMyConnections = new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl);
-                            modelMyConnections.setConnection_id(connection_id);
                             myConnections.add(modelMyConnections);
                             mylist.setAdapter(myConnectionsAdapter);
                             myprogress.setVisibility(View.INVISIBLE);
@@ -105,8 +103,6 @@ public class myConnections extends Fragment {
         });
 
         Volley.newRequestQueue(activity).add(productsRequest);
-
-
         mylist.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -172,13 +168,11 @@ public class myConnections extends Fragment {
                         JSONObject currentobject = usersarray.getJSONObject(i);
                         final int id = currentobject.getInt("id");
                         final int stateId = currentobject.getInt("state_id");
-                        final int connection_id = currentobject.getInt("connection_id");
                         final String fullName = currentobject.getString("fullname");
                         final String jobTitle = currentobject.getString("speciality");
                         final String picture = currentobject.getString("image_profile");
                         final String imageUrl = "http://heartgate.co/api_heartgate/layout/images/" + picture;
                         ModelMyConnections modelMyConnections = new ModelMyConnections(stateId, id, fullName, jobTitle, imageUrl);
-                        modelMyConnections.setConnection_id(connection_id);
                         myConnections.add(modelMyConnections);
                         myprogress.setVisibility(View.INVISIBLE);
                         myConnectionsAdapter.notifyDataSetChanged();
