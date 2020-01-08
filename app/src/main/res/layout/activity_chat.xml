@@ -2,136 +2,135 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/top"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:gravity="center"
         android:layout_marginTop="5dp"
-        >
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="id"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:text="id"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_height="wrap_content" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:textStyle="bold"
+            android:text=" name"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:text=" name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/socket_id"
-            android:textSize="15dp"
-            android:layout_marginRight="5dp"
-                android:visibility="gone"
-            android:text=" socket_id"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text=" socket_id"
+            android:textSize="15dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/online"
-            android:textSize="15dp"
-            android:text=" online"
-            android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text=" online"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/updated_at"
-            android:textSize="15dp"
-            android:text=" updated_at"
-            android:visibility="gone"
-
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text=" updated_at"
+
+            android:textSize="15dp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/userslistlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
-             android:id="@+id/userslist"
+            android:id="@+id/userslist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
 
         <View
-            android:layout_marginTop="5dp"
             android:id="@+id/separatorz"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black"/>
+            android:layout_marginTop="5dp"
+            android:background="@android:color/black" />
 
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@+id/userslistlayout"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/userslistlayout"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:weightSum="3">
 
         <android.support.v7.widget.RecyclerView
-            android:layout_weight="3"
             android:id="@+id/messagelist"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"/>
+            android:layout_weight="3"
+            android:transcriptMode="alwaysScroll"
+            android:stackFromBottom="true" />
 
         <View
-            android:layout_marginTop="2dp"
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_marginTop="2dp"
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
-            android:weightSum="3"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:hint="your message" />
-
-        <Button
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:text="send" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <EditText
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:hint="your message" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_send_black_24dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
 
-    </RelativeLayout>
+</RelativeLayout>

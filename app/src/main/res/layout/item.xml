@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:textColor="@color/black"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:text="12:00" />
     </LinearLayout>
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:textColor="@color/red"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:text="12:00" />
     </LinearLayout>
 

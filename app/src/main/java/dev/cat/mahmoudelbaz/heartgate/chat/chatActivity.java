@@ -1,5 +1,6 @@
 package dev.cat.mahmoudelbaz.heartgate.chat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,11 +10,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,8 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class chatActivity extends AppCompatActivity {
     String url;
     TextView name;
     public RecyclerView userRecylerView;
+    public LinearLayout userslistlayout;
     public List<User> userslist;
     public UsersAdapter userAdapter;
     public static User reciver;
@@ -120,30 +122,41 @@ public class chatActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap map = new HashMap();
-                map.put("fromUserId", userID);
-                map.put("toUserId", reciver.getId());
-                map.put("toSocketId", reciver.getSocket_id());
-                map.put("message", messagetxt.getText().toString());
-                map.put("time", "01:48 PM");
-                map.put("type", "text");
-                map.put("date", "2019-05-7");
-                JSONObject obj = new JSONObject(map);
-                Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl, Integer.parseInt(userID));
-                MessageList.add(m);
-                socket.emit("addMessage", obj).on("addMessageResponse", addMessageResponse);
-                chatBoxAdapter.notifyDataSetChanged();
-                messagetxt.setText("");
+                if (!messagetxt.getText().toString().isEmpty()) {
+                    HashMap map = new HashMap();
+                    map.put("fromUserId", userID);
+                    map.put("toUserId", reciver.getId());
+                    map.put("toSocketId", reciver.getSocket_id());
+                    map.put("message", messagetxt.getText().toString());
+                    map.put("time", "01:48 PM");
+                    map.put("type", "text");
+                    map.put("date", "2019-05-7");
+                    JSONObject obj = new JSONObject(map);
+                    Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl, Integer.parseInt(userID));
+                    MessageList.add(m);
+                    socket.emit("addMessage", obj).on("addMessageResponse", addMessageResponse);
+                    chatBoxAdapter.notifyDataSetChanged();
+                    if (chatBoxAdapter.getItemCount() > 0)
+                        myRecylerView.smoothScrollToPosition(chatBoxAdapter.getItemCount() - 1);
+                    messagetxt.setText("");
+                }
             }
         });
         userslist = new ArrayList<>();
         userRecylerView = findViewById(R.id.userslist);
+        userslistlayout = findViewById(R.id.userslistlayout);
         userAdapter = new UsersAdapter(userslist);
         userAdapter.notifyDataSetChanged();
         userRecylerView.setAdapter(userAdapter);
         RecyclerView.LayoutManager mzLayoutManager = new LinearLayoutManager(getApplicationContext());
         userRecylerView.setLayoutManager(mzLayoutManager);
         userRecylerView.setItemAnimator(new DefaultItemAnimator());
+        userslistlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard(view);
+            }
+        });
     }
 
     private void initMessagesList() {
@@ -322,9 +335,9 @@ public class chatActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                     chatBoxAdapter.notifyDataSetChanged();
+                    if (chatBoxAdapter.getItemCount() > 0)
+                        myRecylerView.smoothScrollToPosition(chatBoxAdapter.getItemCount() - 1);
 
                 }
             });
@@ -355,4 +368,9 @@ public class chatActivity extends AppCompatActivity {
             });
         }
     };
+
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

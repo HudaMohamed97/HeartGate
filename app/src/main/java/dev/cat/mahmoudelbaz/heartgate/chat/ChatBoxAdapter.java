@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,13 +60,15 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.MyViewHo
         if (userId == m.getFromUserId()) {
             holder.myMessageContainer.setVisibility(View.VISIBLE);
             holder.userMessageContainer.setVisibility(View.GONE);
-           // holder.myMsgTime.setText(m.getDate());
-            holder.myMessage.setText(m.getMessage());
+            if (!m.getMessage().isEmpty()) {
+                holder.myMessage.setText(m.getMessage());
+            }
         } else {
             holder.myMessageContainer.setVisibility(View.GONE);
             holder.userMessageContainer.setVisibility(View.VISIBLE);
-           // holder.otherMsgTime.setText(m.getDate());
-            holder.userMessage.setText(m.getMessage());
+            if (!m.getMessage().isEmpty()) {
+                holder.userMessage.setText(m.getMessage());
+            }
         }
 
     }
