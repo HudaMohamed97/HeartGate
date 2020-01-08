@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -17,28 +16,31 @@ import dev.cat.mahmoudelbaz.heartgate.R;
 public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.MyViewHolder> {
     private List<Message> MessageList;
     Context context;
+    int userId;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nickname;
-        public TextView message;
-        public TextView date;
-        public ImageView pic;
+        TextView myMessage;
+        TextView userMessage;
+        private LinearLayout myMessageContainer;
+        private LinearLayout userMessageContainer;
+        private TextView otherMsgTime;
+        private TextView myMsgTime;
 
         public MyViewHolder(View view) {
             super(view);
-            nickname = view.findViewById(R.id.nickname);
-            message = view.findViewById(R.id.message);
-            date = view.findViewById(R.id.text_message_time);
-            pic = view.findViewById(R.id.image_message_profile);
+            myMessage = view.findViewById(R.id.tv_my_msg);
+            myMessageContainer = view.findViewById(R.id.container_my_msg);
+            userMessageContainer = view.findViewById(R.id.container_other_msg);
+            userMessage = view.findViewById(R.id.tv_other_msg);
+            otherMsgTime = view.findViewById(R.id.tv_other_msg_time);
+            myMsgTime = view.findViewById(R.id.tv_my_msg_time);
         }
     }
 
-// in this adaper constructor we add the list of messages as a parameter so that
-// we will passe  it when making an instance of the adapter object in our activity
-
-    public ChatBoxAdapter(List<Message> MessagesList, Context context) {
+    public ChatBoxAdapter(List<Message> MessagesList, Context context, int userID) {
         this.MessageList = MessagesList;
         this.context = context;
+        this.userId = userID;
     }
 
     @Override
@@ -56,16 +58,17 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final ChatBoxAdapter.MyViewHolder holder, final int position) {
         Message m = MessageList.get(position);
-        holder.nickname.setText(m.getNickname());
-        holder.message.setText(m.getMessage());
-        holder.date.setText(m.getDate());
-
-
-        if (m.getImageUrl() == null) {
-            Picasso.with(context).load(m.getImageUrl()).placeholder(R.drawable.profile).error(R.drawable.profile).into(holder.pic);
-        } else
-            Picasso.with(context).load(m.getImageUrl()).placeholder(R.drawable.profile).error(R.drawable.profile).into(holder.pic);
+        if (userId == m.getFromUserId()) {
+            holder.myMessageContainer.setVisibility(View.VISIBLE);
+            holder.userMessageContainer.setVisibility(View.GONE);
+           // holder.myMsgTime.setText(m.getDate());
+            holder.myMessage.setText(m.getMessage());
+        } else {
+            holder.myMessageContainer.setVisibility(View.GONE);
+            holder.userMessageContainer.setVisibility(View.VISIBLE);
+           // holder.otherMsgTime.setText(m.getDate());
+            holder.userMessage.setText(m.getMessage());
+        }
 
     }
-
 }

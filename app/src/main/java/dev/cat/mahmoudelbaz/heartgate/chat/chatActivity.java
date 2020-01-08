@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
@@ -28,6 +27,7 @@ import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,7 +38,6 @@ import io.socket.emitter.Emitter;
 
 
 public class chatActivity extends AppCompatActivity {
-
     public static Socket socket;
     private String nickname;
     public RecyclerView myRecylerView;
@@ -55,9 +54,8 @@ public class chatActivity extends AppCompatActivity {
     SharedPreferences shared;
     private String userID, receiveId, imageUrl, myimageUrl;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         messagetxt = findViewById(R.id.message);
@@ -65,7 +63,6 @@ public class chatActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
         userID = shared.getString("id", "0");
-
         url = "http://heartgate.co/api_heartgate/users/current/" + userID;
         StringRequest loginRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -104,58 +101,41 @@ public class chatActivity extends AppCompatActivity {
 
         IO.Options mOptions = new IO.Options();
         mOptions.query = "id=" + receiveId;
-
         try {
-            // socket = IO.socket("http://160.153.246.213:5999", mOptions);
-            socket = IO.socket("http://www.heartgate.co:6001", mOptions);
+            socket = IO.socket("http://160.153.246.213:5999", mOptions);
         } catch (URISyntaxException e1) {
             e1.printStackTrace();
         }
         socket.on(Socket.EVENT_CONNECT, onConnected);
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         socket.on(Socket.EVENT_MESSAGE, onMessage);
-        socket.on("chatListRes", onChatListRes);
+        //socket.on("chatListRes", onChatListRes);
         socket.on("typing", ontyping);
-        socket.on("getMessagesResponse", getMessagesResponse);
         socket.on("getMessages", getMessages);
         socket.on("addMessageResponse", addMessageResponse);
         socket.connect();
-        socket.emit("chatList", userID);
-        // message send action
+        //socket.emit("chatList", userID);
+
+        initMessagesList();
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //retrieve the nickname and the message content and fire the event messagedetectionif(!messagetxt.getText().toString().isEmpty()){
                 HashMap map = new HashMap();
                 map.put("fromUserId", userID);
                 map.put("toUserId", reciver.getId());
                 map.put("toSocketId", reciver.getSocket_id());
                 map.put("message", messagetxt.getText().toString());
                 map.put("time", "01:48 PM");
-                map.put("filePath", "");
-                map.put("fileFormat", "");
                 map.put("type", "text");
                 map.put("date", "2019-05-7");
                 JSONObject obj = new JSONObject(map);
-                Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl);
-                //add the message to the messageList
+                Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl, Integer.parseInt(userID));
                 MessageList.add(m);
-                // add the new updated list to the dapter
-                // notify the adapter to update the recycler view
+                socket.emit("addMessage", obj).on("addMessageResponse", addMessageResponse);
                 chatBoxAdapter.notifyDataSetChanged();
-                //set the adapter for the recycler view
                 messagetxt.setText("");
-                socket.emit("addMessage", obj);
             }
         });
-
-        MessageList = new ArrayList<>();
-        myRecylerView = findViewById(R.id.messagelist);
-        chatBoxAdapter = new ChatBoxAdapter(MessageList, this);
-        myRecylerView.setAdapter(chatBoxAdapter);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        myRecylerView.setLayoutManager(mLayoutManager);
-        myRecylerView.setItemAnimator(new DefaultItemAnimator());
         userslist = new ArrayList<>();
         userRecylerView = findViewById(R.id.userslist);
         userAdapter = new UsersAdapter(userslist);
@@ -164,6 +144,21 @@ public class chatActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mzLayoutManager = new LinearLayoutManager(getApplicationContext());
         userRecylerView.setLayoutManager(mzLayoutManager);
         userRecylerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private void initMessagesList() {
+        MessageList = new ArrayList<>();
+        myRecylerView = findViewById(R.id.messagelist);
+        HashMap map = new HashMap();
+        map.put("fromUserId", userID);
+        map.put("toUserId", reciver.getId());
+        JSONObject obj = new JSONObject(map);
+        socket.emit("getMessages", obj).on("getMessagesResponse", getMessagesResponse);
+        chatBoxAdapter = new ChatBoxAdapter(MessageList, this, Integer.parseInt(userID));
+        myRecylerView.setAdapter(chatBoxAdapter);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        myRecylerView.setLayoutManager(mLayoutManager);
+        myRecylerView.setItemAnimator(new DefaultItemAnimator());
     }
 
 
@@ -185,7 +180,6 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Unable to connect to NodeJS server", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -197,7 +191,6 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "connected to NodeJS server", Toast.LENGTH_LONG).show();
                     socket.emit("chatList", receiveId);
                 }
             });
@@ -211,7 +204,6 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "onMessage from NodeJS server", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -223,7 +215,6 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "onChatListRes from NodeJS server", Toast.LENGTH_LONG).show();
                     Log.d("socket", "run: " + args);
                     JSONObject data = (JSONObject) args[0];
                     try {
@@ -287,7 +278,7 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "user typing" + args.toString(), Toast.LENGTH_LONG).show();
+                    Log.i("hhhhh", "ontyping" + args.toString());
                 }
             });
         }
@@ -300,22 +291,41 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), args.toString(), Toast.LENGTH_LONG).show();
                     JSONObject data = (JSONObject) args[0];
-                    String text = null;
+                    JSONArray result;
                     try {
-                        text = data.getString("message");
-                        MessageList.add(
-                                new Message(
-                                        reciver.getName(),
-                                        text,
-                                        data.getString("time"),
-                                        imageUrl
-                                ));
+                        result = data.getJSONArray("result");
+                        if (result != null) {
+                            for (int i = 0; i < result.length(); i++) {
+                                //extract data from fired event
+                                String message;
+                                String time;
+                                int fromUserId;
+                                try {
+                                    message = result.getJSONObject(i).getString("message");
+                                    time = result.getJSONObject(i).getString("time");
+                                    fromUserId = result.getJSONObject(i).getInt("fromUserId");
+                                    MessageList.add(
+                                            new Message(
+                                                    reciver.getName(),
+                                                    message,
+                                                    time,
+                                                    imageUrl,
+                                                    fromUserId
+                                            ));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+
                     chatBoxAdapter.notifyDataSetChanged();
+
                 }
             });
         }
@@ -327,7 +337,7 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), args.toString(), Toast.LENGTH_LONG).show();
+                    Log.i("hhhh", "" + args.toString());
 
                 }
             });
@@ -341,23 +351,6 @@ public class chatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), args.toString(), Toast.LENGTH_LONG).show();
-                    JSONObject data = (JSONObject) args[0];
-                    String text = null;
-                    try {
-                        text = data.getString("message");
-                        MessageList.add(
-                                new Message(
-                                        reciver.getName(),
-                                        text,
-                                        data.getString("time"),
-                                        imageUrl
-                                ));
-                        //      reciver.setSocket_id(data.getString("toSocketId"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    chatBoxAdapter.notifyDataSetChanged();
                 }
             });
         }

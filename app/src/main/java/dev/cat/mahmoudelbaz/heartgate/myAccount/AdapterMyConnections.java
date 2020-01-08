@@ -158,7 +158,7 @@ public class AdapterMyConnections extends BaseAdapter implements Filterable {
                     userName = shared.getString("Name", "0");
                     int receiveId = product.getId();
                     String receiveIdString = Integer.toString(receiveId);
-                    url = "http://heartgate.co/api_heartgate/messages/connectuser/disconnect/" + product.getConnection_id();
+                    url = "http://heartgate.co/api_heartgate/messages/connectuser/disconnect/" + product.getStateId();
                     StringRequest loginRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

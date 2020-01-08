@@ -22,9 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Q&amp;A"
-            android:textColor="@color/black"
-
             android:gravity="bottom"
+            android:textColor="@color/yellow"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
             android:textSize="25sp"  />
@@ -54,6 +53,7 @@
          android:background="@color/yellow"
         android:layout_margin="25dp"
         android:padding="7dp">
+
         <TextView
             android:id="@+id/txtAddQuestion"
             android:layout_width="match_parent"

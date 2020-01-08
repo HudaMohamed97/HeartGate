@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -50,6 +51,7 @@ public class UpdateData extends AppCompatActivity {
     private int month = 0;
     private int day = 1;
     private UserDataModel userDataModel;
+    private String birhtDate;
     private RelativeLayout layout;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -84,8 +86,8 @@ public class UpdateData extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         int month = monthOfYear + 1;
-
                         dateOfBirth.setText(year + "-" + String.format("%02d", month) + "-" + String.format("%02d", dayOfMonth));
+                        birhtDate = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", dayOfMonth);
                     }
                 }, year, month, day);
                 datePick.show();

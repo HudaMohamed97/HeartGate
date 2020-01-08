@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Questions extends AppCompatActivity {
 
-   public static ArrayList<Questions_item> questionsList = new ArrayList<>();
+    public static ArrayList<Questions_item> questionsList = new ArrayList<>();
 
     Questions_adapter myAdapter;
     RecyclerView mylist;
@@ -56,7 +56,7 @@ public class Questions extends AppCompatActivity {
 
     SharedPreferences shared;
 
-   public static String userId;
+    public static String userId;
 
     SwipeController swipeController = null;
 
@@ -96,17 +96,13 @@ public class Questions extends AppCompatActivity {
         mylist = findViewById(R.id.mylistView);
         myempty = findViewById(R.id.mytxtEmpty);
         addquestion = findViewById(R.id.txtAddQuestion);
-
-
         loadQuestions();
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-
         addquestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

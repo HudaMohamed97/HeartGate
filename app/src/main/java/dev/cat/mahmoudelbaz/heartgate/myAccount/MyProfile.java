@@ -53,7 +53,7 @@ public class MyProfile extends ActivityManagePermission {
     private static final String BASE_URL = "http://heartgate.co/api_heartgate/users/current/";
     private SharedPreferences shared;
     private String userID;
-    private TextView name, email, mobile, dateOfBirth, gender, speciality, jobTitle, currentLiving;
+    private TextView name, email, mobile, dateOfBirth, gender, speciality, jobTitle;
     private Button btnUpdate;
     private Button btnUpdatePassword;
     private ImageView imgprofile;
@@ -165,7 +165,6 @@ public class MyProfile extends ActivityManagePermission {
                     dateOfBirth.setText(dateofBirthDay);
                     speciality.setText(specialitystring);
                     jobTitle.setText(jobTitlestring);
-                    currentLiving.setText(currentLivingstring);
                     Picasso.with(MyProfile.this).load(imgurl).placeholder(R.drawable.profile).error(R.drawable.profile).into(imgprofile);
                     progress.setVisibility(View.GONE);
 
@@ -204,7 +203,6 @@ public class MyProfile extends ActivityManagePermission {
         gender = findViewById(R.id.txtGender);
         speciality = findViewById(R.id.txtSpeciality);
         jobTitle = findViewById(R.id.txtJobTitle);
-        currentLiving = findViewById(R.id.txtCurrentLivingPlace);
     }
 
     private void navigateToUppdateDataScreen() {

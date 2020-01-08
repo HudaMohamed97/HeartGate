@@ -14,7 +14,7 @@ public class Message {
 
 
     private String nickname;
-    private String message ;
+    private String message;
     private String type;
     private String fileFormat;
     private String filePath;
@@ -33,7 +33,7 @@ public class Message {
         this.imageUrl = imageUrl;
     }
 
-    public  Message(){
+    public Message() {
 
     }
 
@@ -42,13 +42,13 @@ public class Message {
         this.message = message;
     }
 
-    public Message(String nickname, String message , String date ,  String imageUrl) {
+    public Message(String nickname, String message, String date, String imageUrl, int fromUserId) {
         this.nickname = nickname;
         this.message = message;
         this.imageUrl = imageUrl;
         this.date = date;
+        this.fromUserId = fromUserId;
     }
-
 
 
     public String getNickname() {

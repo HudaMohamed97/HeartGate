@@ -7,85 +7,6 @@
     android:background="@drawable/bg"
     tools:context="dev.cat.mahmoudelbaz.heartgate.medicalStatistics.BMI">
 
-
-    <LinearLayout
-        android:id="@+id/bottomLayout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:visibility="invisible">
-
-        <ImageView
-            android:id="@+id/img_home"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="fitEnd"
-            android:src="@drawable/home" />
-
-
-
-        <ImageView
-            android:id="@+id/img_connections"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="fitEnd"
-            android:src="@drawable/connections" />
-
-
-
-
-        <ImageView
-            android:id="@+id/img_conor_price"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="fitEnd"
-            android:src="@drawable/messages" />
-
-
-
-
-        <ImageView
-            android:id="@+id/img_neaby_drs"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="fitEnd"
-            android:src="@drawable/nearby" />
-
-
-        <ImageView
-            android:id="@+id/img_drug_interactions"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="fitEnd"
-            android:src="@drawable/ddi" />
-
-
-        <ImageView
-            android:id="@+id/vetmedica"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="fitEnd"
-            android:src="@drawable/iconright" />
-
-
-    </LinearLayout>
-
-
-
-
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
@@ -94,8 +15,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@color/semi_black"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -133,94 +53,91 @@
     </RelativeLayout>
 
 
-
-
     <LinearLayout
         android:id="@+id/lvExp"
+        style="@style/myshadowstyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/bottomLayout"
         android:layout_below="@+id/relativeLayout"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="15dp"
+        android:layout_margin="40dp"
         android:childDivider="@color/transparent"
         android:divider="@color/transparent"
-        style="@style/myshadowstyle"
-        android:dividerHeight="5dp" >
+        android:dividerHeight="5dp"
+        android:orientation="vertical">
 
         <TextView
-            android:text="result:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:textSize="20sp"/>
+            android:text="weight :"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/weight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rectangle_white"
+            android:inputType="number|numberDecimal"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="height :"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/height"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rectangle_white"
+            android:inputType="number|numberDecimal"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/calculate_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/white_rounded_button"
+            android:text="calculate BMI" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:text="result :"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
 
         <TextView
             android:id="@+id/result"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:textColor="@color/black"
-            android:layout_marginTop="25dp"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:text="weight:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:ems="6"
-            android:inputType="number|numberDecimal"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:text="height:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:background="@drawable/white_rounded_button"
             android:gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/height"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:ems="6"
-            android:inputType="number|numberDecimal"
-            android:textSize="20sp"/>
-
-        <Button
-            android:id="@+id/calc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
-            android:onClick="calculateBMI"
-            android:text="calculate BMI"
-            />
+            android:textSize="20sp" />
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

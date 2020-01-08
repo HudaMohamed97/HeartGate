@@ -150,7 +150,7 @@ public class oldChatActivity extends AppCompatActivity {
         //setting up recyler
         MessageList = new ArrayList<>();
         myRecylerView = (RecyclerView) findViewById(R.id.messagelist);
-        chatBoxAdapter = new ChatBoxAdapter(MessageList, this);
+        chatBoxAdapter = new ChatBoxAdapter(MessageList, this, Integer.parseInt(userID));
         myRecylerView.setAdapter(chatBoxAdapter);
 
 
@@ -168,7 +168,7 @@ public class oldChatActivity extends AppCompatActivity {
 
     }
 
-    private void addNewMessage(String userID, String receiveId, String trim) {
+    private void addNewMessage(final String userID, String receiveId, String trim) {
 
 
         progress.show();
@@ -179,8 +179,6 @@ public class oldChatActivity extends AppCompatActivity {
         data.put("fk_userid_received", receiveId);
         data.put("message", trim);
         data.put("create_user_id", nickname);
-
-
         Webservice.getInstance().getApi().sendNewMessage(data).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
@@ -195,7 +193,7 @@ public class oldChatActivity extends AppCompatActivity {
                     progress.dismiss();
                 } else {
 
-                    Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl);
+                    Message m = new Message(nickname, messagetxt.getText().toString(), new SimpleDateFormat("hh:mm a").toString(), myimageUrl, Integer.parseInt(userID));
                     //add the message to the messageList
                     MessageList.add(m);
                     // add the new updated list to the dapter
@@ -237,7 +235,7 @@ public class oldChatActivity extends AppCompatActivity {
                     if (allMessagesResponse != null) {
                         for (int i = 0; i < allMessagesResponse.size(); ++i) {
                             MessageList.add(
-                                    new Message(reciver.getName(), allMessagesResponse.get(i).getUserMessage(), "", imageUrl));
+                                    new Message(reciver.getName(), allMessagesResponse.get(i).getUserMessage(), "", imageUrl, Integer.parseInt(userID)));
                         }
                     }
                     chatBoxAdapter.notifyDataSetChanged();

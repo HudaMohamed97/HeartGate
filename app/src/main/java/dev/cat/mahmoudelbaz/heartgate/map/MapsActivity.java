@@ -136,7 +136,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (!(lat.equals("") || lng.equals(""))) {
                             LatLng l = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                             mMap.setInfoWindowAdapter(new InfoWindowAdapter(MapsActivity.this, MapsActivity.this));
-                            mMap.addMarker(new MarkerOptions().position(l).title(nme)).setTag(modelMyConnections);
+                            if (stateId == 0) {
+                                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                                        .position(l).title(nme)).setTag(modelMyConnections);
+                            }
+                            if (stateId == 1) {
+                                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                                        .position(l).title(nme)).setTag(modelMyConnections);
+                            }
+                            if (stateId == 2) {
+                                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                                        .position(l).title(nme)).setTag(modelMyConnections);
+                            }
                         }
                     }
                     Log.d("response", response);

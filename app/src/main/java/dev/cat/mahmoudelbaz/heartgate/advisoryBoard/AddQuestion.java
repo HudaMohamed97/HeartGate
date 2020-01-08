@@ -32,7 +32,7 @@ public class AddQuestion extends AppCompatActivity {
     Button ask;
     ImageView bck;
     EditText content;
-    String url, userId, userName,  contenttxt;
+    String url, userId, userName, contenttxt;
     SharedPreferences shared;
 
     private ProgressDialog dialog;
@@ -40,19 +40,14 @@ public class AddQuestion extends AppCompatActivity {
     Api myInterface;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
-
         dialog = new ProgressDialog(this);
         dialog.setMessage("Please, Wait");
         dialog.setCancelable(false);
-
-
         url = getResources().getString(R.string.services_url);
-
         retrofit = new Retrofit.Builder()
                 .baseUrl(url).
                         addConverterFactory(GsonConverterFactory.create()).build();
@@ -64,26 +59,21 @@ public class AddQuestion extends AppCompatActivity {
         bck = findViewById(R.id.bck);
         content = findViewById(R.id.etContent);
         ask = findViewById(R.id.btnAsk);
-
         bck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-
         ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                contenttxt = content.getText().toString();
-
-                if (contenttxt.length() == 0) {
+                contenttxt = content.getText().toString().trim();
+                if (contenttxt.isEmpty() || contenttxt.length() == 0)
                     Toast.makeText(AddQuestion.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                } else {
+                else {
                     addQuestion();
                 }
-
-
             }
         });
 
@@ -92,7 +82,6 @@ public class AddQuestion extends AppCompatActivity {
 
     private void addQuestion() {
         Map<String, String> map = new HashMap<>();
-
         map.put("q_title", contenttxt);
         map.put("username", userName);
         dialog.show();
@@ -115,13 +104,11 @@ public class AddQuestion extends AppCompatActivity {
                 if (state == 0) {
                     Toast.makeText(AddQuestion.this, message, Toast.LENGTH_SHORT).show();
 
-                }else if (state == 1) {
+                } else if (state == 1) {
                     Toast.makeText(AddQuestion.this, message, Toast.LENGTH_SHORT).show();
                     onBackPressed();
-
                 }
                 dialog.dismiss();
-
             }
 
             @Override

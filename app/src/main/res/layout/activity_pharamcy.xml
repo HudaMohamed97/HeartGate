@@ -22,7 +22,6 @@
             android:layout_centerInParent="true"
             android:text="Pharmacy"
             android:textColor="@color/black"
-
             android:gravity="bottom"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
@@ -38,7 +37,6 @@
             android:layout_alignParentTop="true"
             android:gravity="center"
             android:visibility="invisible"
-
             android:padding="10dp"
             android:layout_marginLeft="5dp"
             android:src="@drawable/back" />

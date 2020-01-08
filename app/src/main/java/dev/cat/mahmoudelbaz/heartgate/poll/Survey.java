@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,14 +27,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Survey extends AppCompatActivity {
-
     @BindView(R.id.Recycle_view_cardoivascular)
     ListView RecycleViewCardoivascular;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    TextView noSurveyText;
     EditText nearBysearchView;
     SurveyAdapter nearByConnectionsAdapter;
-
     SharedPreferences shared;
     String userID;
     List<SurveryResponseModel> cardioUpdatesResponseModels = new ArrayList<>();
@@ -43,13 +43,11 @@ public class Survey extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
         ButterKnife.bind(this);
-
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
-
         userID = shared.getString("id", "0");
-
-        nearBysearchView = (EditText) findViewById(R.id.nearBysearch_view);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        nearBysearchView = findViewById(R.id.nearBysearch_view);
+        progressBar = findViewById(R.id.progressBar);
+        noSurveyText = findViewById(R.id.noSurveyText);
 
         getData();
 
@@ -78,38 +76,36 @@ public class Survey extends AppCompatActivity {
     }
 
 
-        private void getData() {
-
-            Webservice.getInstance().getApi().getSurvey(userID).enqueue(new Callback< List<SurveryResponseModel> >() {
-                @Override
-                public void onResponse(Call< List<SurveryResponseModel> > call, Response< List<SurveryResponseModel> > response) {
-                    if (!response.isSuccessful()) {
-                    //    assert response.errorBody() != null;
-                        Toast.makeText(Survey.this, response.errorBody().toString() ,  Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
+    private void getData() {
+        Webservice.getInstance().getApi().getSurvey(userID).enqueue(new Callback<List<SurveryResponseModel>>() {
+            @Override
+            public void onResponse(Call<List<SurveryResponseModel>> call, Response<List<SurveryResponseModel>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Survey.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    cardioUpdatesResponseModels = response.body();
+                    if (cardioUpdatesResponseModels.isEmpty()) {
+                        noSurveyText.setVisibility(View.VISIBLE);
                     } else {
-                        cardioUpdatesResponseModels = response.body();
-                        nearByConnectionsAdapter = new SurveyAdapter(Survey.this, cardioUpdatesResponseModels);
-
-                /*    RecycleViewCardoivascular.setHasFixedSize(true);
-                    RecycleViewCardoivascular.setLayoutManager(new LinearLayoutManager(CardioUpdates.this));*/
-                        RecycleViewCardoivascular.setAdapter(nearByConnectionsAdapter);
-
-                        progressBar.setVisibility(View.GONE);
-
+                        noSurveyText.setVisibility(View.GONE);
                     }
-                }
-
-                @Override
-                public void onFailure(Call< List<SurveryResponseModel> > call, Throwable t) {
-                    Toast.makeText(Survey.this, "failure , check your connection", Toast.LENGTH_LONG).show();
-                    Log.e("CardioUpdates", "onFailure: ", t);
+                    nearByConnectionsAdapter = new SurveyAdapter(Survey.this, cardioUpdatesResponseModels);
+                    RecycleViewCardoivascular.setAdapter(nearByConnectionsAdapter);
                     progressBar.setVisibility(View.GONE);
                 }
-            });
+            }
+
+            @Override
+            public void onFailure(Call<List<SurveryResponseModel>> call, Throwable t) {
+                Toast.makeText(Survey.this, "failure , check your connection", Toast.LENGTH_LONG).show();
+                Log.e("CardioUpdates", "onFailure: ", t);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
 
 
-        }
+    }
 
 
 }

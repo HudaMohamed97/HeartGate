@@ -64,9 +64,6 @@ import permission.auron.com.marshmallowpermissionhelper.PermissionUtils;
 
 public class WebViewer extends ActivityManagePermission implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
-
-//    ImageView back;
-
     private static final int MY_PERMISSION_REQUEST_CODE = 7171;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 7172;
     private static final String TAG = WebViewer.class.getSimpleName();
@@ -107,73 +104,31 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
             cursor.moveToFirst();
-
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
-
             imgprofile.setImageBitmap(BitmapHelper.decodeFile(picturePath, 200, 200, true));
-
             Bitmap bitmap = ((BitmapDrawable) imgprofile.getDrawable()).getBitmap();
             String encoded = ImageBase64.encodeTobase64(bitmap);
-
-
             changePhoto(encoded);
-
-
         }
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "WrongViewCast"})
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-//            switch (keyCode) {
-//                case KeyEvent.KEYCODE_BACK:
-//                    if (myWebView.canGoBack()) {
-//                        myWebView.goBack();
-//                    } else {
-//                        finish();
-//                    }
-//                    return true;
-//            }
-//
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_viewer);
-
-        imgprofile = (ImageView) findViewById(R.id.imgProfile);
-        progress = (ProgressBar) findViewById(R.id.progressBar);
+        imgprofile = findViewById(R.id.imgProfile);
+        progress = findViewById(R.id.progressBar);
         progress.setVisibility(View.INVISIBLE);
-
-//        back = (ImageView) findViewById(R.id.bck);
-//
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onBackPressed();
-//            }
-//        });
-
-
-//        txtCoordinates = (TextView) findViewById(R.id.txtCoordinates);
-//        btnGetCoordinates = (Button) findViewById(R.id.btnGetCoordinates);
-//        btnLocationUpdates = (Button) findViewById(R.id.btnTrackLocation);
-
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Run-time request permission
@@ -187,54 +142,27 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
                 createLocationRequest();
             }
         }
-
-//        displayLocation();
-
-//        btnGetCoordinates.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                displayLocation();
-//            }
-//        });
-//
-//        btnLocationUpdates.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                tooglePeriodicLoctionUpdates();
-//            }
-//        });
-
-
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
 
         if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(WebViewer.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1);
         }
 
-        webView = (WebView) findViewById(R.id.ifView);
+        webView = findViewById(R.id.ifView);
         assert webView != null;
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setAllowFileAccess(true);
         webView.addJavascriptInterface(new MyJavaScriptInterface(WebViewer.this), "AndroidFunction");
-
-
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
         webSettings.setLoadWithOverviewMode(true);
-//        myWebView.setInitialScale(100);
         webView.canGoBack();
-
         webSettings.setAllowFileAccess(true);
         webSettings.setSupportMultipleWindows(false);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
-//        webSettings.getSettings().setAppCacheEnabled(true);
-//        webSettings.getSettings().setSavePassword(false);
-
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
-
-
         if (Build.VERSION.SDK_INT >= 21) {
             webSettings.setMixedContentMode(0);
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -244,8 +172,6 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
             webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         webView.setWebViewClient(new Callback());
-
-
         if (shared.contains("id")) {
             idcheck = shared.getString("id", "0");
         } else {
@@ -254,16 +180,9 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
 
 //        String html_value = "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\"><title>Lorem Ipsum</title></head><body style=\"width:300px; color: #00000; \"><p><strong> About us</strong> </p><p><strong> Lorem Ipsum</strong> is simply dummy text .</p><p><strong> Lorem Ipsum</strong> is simply dummy text </p><p><strong> Lorem Ipsum</strong> is simply dummy text </p></body></html>";
 //        String html_value = "News Content Goes Here...<\\/span><\\/p>";
-//
 //        webView.loadData(html_value, "text/html", "UTF-8");
-
-
-        // get url
-
         Intent intent = getIntent();
         String url = intent.getExtras().getString("url");
-
-
         if (idcheck.equals("0")) {
             webView.loadUrl("file:///android_asset/www/index.html");
         } else {
@@ -426,15 +345,10 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
     }
 
     private void displayLocation(double longitude, double latitude) {
-
         OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
         status.getPermissionStatus().getEnabled();
-
         String playerId = status.getSubscriptionStatus().getUserId();
-
         String myUserID = shared.getString("id", "0");
-
-
         String myurl = "http://heartgate.co/api_heartgate/users/location";
 
         JSONObject jsobj = new JSONObject();
@@ -638,17 +552,12 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
         boolean isGranted = isPermissionsGranted(WebViewer.this, new String[]{PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE});
 
         if (isGranted) {
-
-
             Intent i = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
             startActivityForResult(i, RESULT_LOAD_IMAGE);
-
-
         } else {
-
             askCompactPermissions(new String[]{PermissionUtils.Manifest_READ_EXTERNAL_STORAGE}, new PermissionResult() {
                 @Override
                 public void permissionGranted() {
@@ -783,6 +692,3 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
     }
 
 }
-
-
-

@@ -86,8 +86,6 @@ public class Home extends AppCompatActivity {
     }
 
     private void handleExpandableListListener() {
-
-
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long id) {
@@ -157,22 +155,17 @@ public class Home extends AppCompatActivity {
                         default: // Optional
                             // Statements
                     }
-
                 } else if (groupPosition == 3) {
-
                     switch (childPosition) {
                         case 0:
                             i = new Intent(Home.this, BMI.class);
                             startActivity(i);
                             break; // optional
-
                         case 1:
                             i = new Intent(Home.this, CardioRiskFactor.class);
                             startActivity(i);
                             break; // optional
-
-                        default: // Optional
-                            // Statements
+                        default:
                     }
 
                 } else if (groupPosition == 4) {
