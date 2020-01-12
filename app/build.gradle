@@ -16,9 +16,9 @@ android {
 
     signingConfigs {
         config {
-            keyAlias 'heartgate'
+            keyAlias 'heartKey'
             keyPassword 'catcat'
-            storeFile file('/Users/mahmoudelbaz/Desktop/APK_generation/CatSign.jks')
+            storeFile file('/Users/Houda/Desktop/sign.jks')
             storePassword 'catcat'
         }
     }
