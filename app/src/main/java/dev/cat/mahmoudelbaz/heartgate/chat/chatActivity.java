@@ -136,10 +136,11 @@ public class chatActivity extends AppCompatActivity {
                     MessageList.add(m);
                     socket.emit("addMessage", obj).on("addMessageResponse", addMessageResponse);
                     chatBoxAdapter.notifyDataSetChanged();
-                    if (chatBoxAdapter.getItemCount() > 0)
-                        myRecylerView.smoothScrollToPosition(chatBoxAdapter.getItemCount() - 1);
+                    //socket.emit("getMessages", obj).on("getMessagesResponse", getMessagesResponse);
                     messagetxt.setText("");
                 }
+                if (chatBoxAdapter.getItemCount() > 0)
+                    myRecylerView.smoothScrollToPosition(chatBoxAdapter.getItemCount() - 1);
             }
         });
         userslist = new ArrayList<>();

@@ -19,7 +19,6 @@ public class Webservice {
     public Webservice() {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();

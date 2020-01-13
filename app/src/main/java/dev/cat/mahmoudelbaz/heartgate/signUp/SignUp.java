@@ -2,6 +2,7 @@ package dev.cat.mahmoudelbaz.heartgate.signUp;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dev.cat.mahmoudelbaz.heartgate.Login;
 import dev.cat.mahmoudelbaz.heartgate.R;
 
 public class SignUp extends AppCompatActivity {
@@ -44,6 +46,7 @@ public class SignUp extends AppCompatActivity {
     private int year = 1991;
     private int month = 0;
     private int day = 1;
+    boolean isFirstTime = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -51,7 +54,6 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         setViews();
-
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,10 +62,45 @@ public class SignUp extends AppCompatActivity {
         });
 
 
-        dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        phoneNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+        confrimPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+
+
+       /* dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
+                    hideKeyboard(view);
                     DatePickerDialog datePick = new DatePickerDialog(SignUp.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -72,18 +109,22 @@ public class SignUp extends AppCompatActivity {
                         }
                     }, year, month, day);
                     datePick.show();
+                    hideKeyboard(view);
+                } else {
+                    hideKeyboard(view);
+
                 }
             }
-        });
+        });*/
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 DatePickerDialog datePick = new DatePickerDialog(SignUp.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         int month = monthOfYear + 1;
-
                         dateOfBirth.setText(year + "-" + String.format("%02d", month) + "-" + String.format("%02d", dayOfMonth));
                     }
                 }, year, month, day);
@@ -169,6 +210,11 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
                             } else if (state == 1) {
                                 Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(SignUp.this, Login.class);
+                                startActivity(i);
+                                finish();
+
+
                             }
 
                         }

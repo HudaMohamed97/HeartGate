@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    android:clickable="true"
-    android:focusableInTouchMode="true">
+    android:focusable="true">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -194,7 +193,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
+                android:focusable="false"
                 android:background="@drawable/white_back"
+                android:editable="false"
                 android:gravity="center"
                 android:hint="Date Of Birth"
                 android:inputType="date"

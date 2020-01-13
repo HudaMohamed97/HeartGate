@@ -63,22 +63,6 @@ public class UpdateData extends AppCompatActivity {
         userID = shared.getString("id", "0");
         userDataModel = (UserDataModel) getIntent().getSerializableExtra("userDataModel");
         setViews();
-        dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    DatePickerDialog datePick = new DatePickerDialog(UpdateData.this, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            int month = monthOfYear + 1;
-                            dateOfBirth.setText(year + "-" + String.format("%02d", month) + "-" + String.format("%02d", dayOfMonth));
-                        }
-                    }, year, month, day);
-                    datePick.show();
-                }
-            }
-        });
-
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

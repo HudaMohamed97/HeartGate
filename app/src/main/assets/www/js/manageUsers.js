@@ -47,12 +47,12 @@ $(function () {
         
         $.ajax({
             
-            url: 'http://api.ddi.digitalcatsite.com/drugs_all',
+            url: 'http://heartgate.co/api_heartgate/drugs_all',
             type: 'get',
             success: function (ddi) {
                 //console.log(ddi);
                 var ddiArr = JSON.parse(ddi),
-                    i;
+              i;
 
                 //$('.ddiSpan .ui-select .ui-btn span').append("acebutolol");
 
@@ -894,6 +894,7 @@ $(function () {
                 if (output.hasOwnProperty(i)) {
                     if (output.count > 0) {
                         $('.heartpressNavIcon a, #cardioIndexTitle').append('<span class="alertNote" style="top: 8px; right: 8px;">' + output.count + '</span>');
+                    } else {
                     } else {
                         $('.heartpressNavIcon a span, #cardioIndexTitle span').empty();
                     }
