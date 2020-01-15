@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Heart Gate - DDI</title>
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/main.css">
-        <style media="screen">
+    <title>Heart Gate - DDI</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/select2-bootstrap.css">
+    <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style media="screen">
         .ui-header-fixed {
             top: -1px;
             padding-top: auto;
@@ -20,11 +21,11 @@
             padding: 12px;
         }
         .ui-header .ui-title {
-          padding: 0px;
-          margin-top: 6px;
-          margin-bottom: 6px;
-          display: block;
-              font-weight: bold;
+            padding: 0px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: bold;
         }
         .ui-header-fixed {
             top: -1px;
@@ -32,145 +33,134 @@
             position: absolute;
         }
         .ui-header-fixed.ui-fixed-hidden {
-          padding-top: 11px;
+            padding-top: 11px;
         }
         .ui-header-fixed {
-          position: fixed;
+            position: fixed;
         }
-        </style>
-    </head>
+    </style>
+</head>
 
-    <body>
+<body>
 
-		<div data-role="page" class="master" id="pageDDI">
-      <div data-role="header" data-position="fixed" data-theme="b" style="background:#000000b3; color: white;">
-				<h1>Cardiovascular Risk Factor</h1>
-			</div>
-
-
-			<div role="main" class="ui-content">
-
-				<div class="row">
-					<div class="accredited">
-						<p>Accredited by</p>
-						<img src="img/AACME-logo.png" width="55">
-					</div>
-				</div>
-
-                <hr>
-
-				<div class="row ddiSpan">
-                    <div class="col-xs-10 col-xs-push-1">
-                        <select class="form-control" id="sel1" data-role="none" style="width: 100%">
-                            <optgroup label="Select DrugMenu1"><option value="0">Drug Name</option></optgroup>
-                        </select>
-                    </div><div class="clearfix"></div>
-                    <br>
-                    <div class="col-xs-10 col-xs-push-1">
-                        <select class="form-control" id="sel2" data-role="none" style="width: 100%">
-                            <optgroup label="Select DrugMenu2"><option value="0">Drug Name</option></optgroup>
-                        </select>
-                    </div><div class="clearfix"></div>
-                    <br>
-                    <div class="col-xs-10 col-xs-push-1">
-                        <select class="form-control" id="sel3" data-role="none" style="width: 100%">
-                            <optgroup label="Select DrugMenu3"><option value="0">Drug Name</option></optgroup>
-                        </select>
-                    </div><div class="clearfix"></div>
-
-                    <hr>
-
-                    <div class="col-xs-10 col-xs-push-1 text-center" style="margin: 15px auto">
-                        <a id="doDrug" class="go-reset pull-left">Go</a>
-                        <a id="resetDrug" class="go-reset pull-right">Reset</a>
-                    </div>
-
-				</div>
-
-				<div class="row">
-					<div id="showRes" class="result"></div>
-					<div class="col-xs-12 text-center">
-
-					</div>
-				</div>
-				<hr>
-				<div class="row">
-					<div class="disclaimer">
-						<h4>Disclaimer</h4>
-						<p>The information contained herein should NOT be used as a substitute for the advice of an appropriately qualified and licensed physician or other health care provider. The information provided here is for informational purposes only. This tool may not cover all possible drug interactions. Please check with a physician if you have health questions or concerns. Although we attempt to provide accurate and up-to-date information, no guarantee is made to that effect.</p>
-					</div>
-				</div>
+<div data-role="page" class="master" id="pageDDI">
+    <div data-role="header" data-position="fixed" data-theme="b" style="background:#000000b3; color: white;">
+        <h1>Cardiovascular Risk Factor</h1>
+    </div>
 
 
+    <div role="main" class="ui-content">
 
-				</div> <!-- End contents -->
+        <div class="row">
+            <div class="accredited">
+                <p>Accredited by</p>
+                <img src="img/AACME-logo.png" width="55">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row ddiSpan">
+            <div class="col-xs-10 col-xs-push-1">
+                <select class="form-control select2-multiple" id="sel1" data-role="none" style="width: 100%">
+                    <optgroup></optgroup>
+                </select>
+            </div><div class="clearfix"></div>
+            <br>
+            <div class="col-xs-10 col-xs-push-1">
+                <select class="form-control select2-multiple" id="sel2" data-role="none" style="width: 100%">
+                    <optgroup></optgroup>
+                </select>
+            </div><div class="clearfix"></div>
+            <br>
+            <div class="col-xs-10 col-xs-push-1">
+                <select class="form-control select2-multiple" id="sel3" data-role="none" style="width: 100%">
+                    <optgroup></optgroup>
+                </select>
+            </div><div class="clearfix"></div>
+
+            <hr>
+
+            <div class="col-xs-10 col-xs-push-1 text-center" style="margin: 15px auto">
+                <a id="doDrug" class="go-reset pull-left">Go</a>
+                <a id="resetDrug" class="go-reset pull-right">Reset</a>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div id="showRes" class="result"></div>
+            <div class="col-xs-12 text-center">
+
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="disclaimer">
+                <h4>Disclaimer</h4>
+                <p>The information contained herein should NOT be used as a substitute for the advice of an appropriately qualified and licensed physician or other health care provider. The information provided here is for informational purposes only. This tool may not cover all possible drug interactions. Please check with a physician if you have health questions or concerns. Although we attempt to provide accurate and up-to-date information, no guarantee is made to that effect.</p>
+            </div>
+        </div>
+
+    </div> <!-- End contents -->
 
 
 
-		</div><!-- end page DDI -->
+</div><!-- end page DDI -->
 
 
-		<!-- jQuery -->
-        <script src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/jquery.mobile-1.4.5.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-		<script src="js/TweenMax.min.js"></script>
-        <script src="js/select2.min.js"></script>
-        <script src="js/drugUser.js"></script>
-		<script>
+<!-- jQuery -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/select2.min.js"></script>
+<script src="js/drugUser.js"></script>
 
-
-
-
-
-            $('#pageDDI').on('pagecreate', function(event, ui){
-
-
-                var showRes = document.getElementById('showRes');
+<script>
 
 
 
-                function calcDDI() {
+    $('#pageDDI').on('pagecreate', function(event, ui){
 
-                    var drug1 = $('#sel1').val(),
-                        drug2 = $('#sel2').val(),
-                        drug3 = $('#sel3').val();
+        var showRes = document.getElementById('showRes');
+        /*------************-----------START--------****************-------*/
+        // variables of drugs
+        function calcDDI() {
 
-                    console.log(drug3);
+            var drug1 = $('#sel1').val(),
+                drug2 = $('#sel2').val(),
+                drug3 = $('#sel3').val();
+            $.get('http://heartgate.co/api_heartgate/drugs_results/' + drug1 + '/' + drug2 + '/' + drug3, function (output) {
+                var i, drugs = JSON.parse(output);
 
-                    $.get('http://heartgate.co/api_heartgate/drugs_results/' + drug1 + '/' + drug2 + '/' + drug3, function (output) {
+                console.log(drugs);
+                // functions to handle the results indside The $.get method
+                $(showRes).empty();
+                for (i in drugs) {
+                    if (drugs.hasOwnProperty(i)) {
+                        $(showRes).fadeIn(400).append('<div class="resultEquations"><span>' + drugs[i].drug_name1 + '</span>+<span>' + drugs[i].drug_name2 + '</span>= ' + '<span class="' + drugs[i].state_name + '">' + drugs[i].state_name + '</span></div><br>');
+                    }
 
-                        var i, drugs = JSON.parse(output);
-
-                        console.log(drugs);
-
-                        // functions to handle the results indside The $.get method
-                        $(showRes).empty();
-
-                        for (i in drugs) {
-                            if (drugs.hasOwnProperty(i)) {
-                                $(showRes).fadeIn(400).append('<div class="resultEquations"><span>' + drugs[i].drug_name1 + '</span>+<span>' + drugs[i].drug_name2 + '</span>= ' + '<span class="' + drugs[i].state_name + '">' + drugs[i].state_name + '</span></div><br>');
-                            }
-
-                        }
-
-                    });
-                } // end DDI function
-
-                $('#doDrug').on('touchstart', calcDDI);
-
-                function hideAllDDIResult() {
-                    $(showRes).fadeOut(400);
                 }
 
-                $('#resetDrug').on('touchstart', hideAllDDIResult);
-
-                $('#sel1, #sel2, #sel3').select2();
-
             });
+        } // end DDI function
+        $('#doDrug').on('touchstart', calcDDI);
+        function hideAllDDIResult() {
+            $(showRes).fadeOut(400);
+        }
+        $('#resetDrug').on('touchstart', hideAllDDIResult);
+        var placeholder = "Drug Name";
+        $( "#sel1, #sel2, #sel3" ).select2({
+            placeholder: placeholder,
+            theme: "bootstrap",
+        });
 
-		</script>
+    });
+
+</script>
 
 
-    </body>
+
+</body>
 </html>

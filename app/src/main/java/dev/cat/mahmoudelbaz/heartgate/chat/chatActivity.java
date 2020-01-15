@@ -136,7 +136,7 @@ public class chatActivity extends AppCompatActivity {
                     MessageList.add(m);
                     socket.emit("addMessage", obj).on("addMessageResponse", addMessageResponse);
                     chatBoxAdapter.notifyDataSetChanged();
-                    //socket.emit("getMessages", obj).on("getMessagesResponse", getMessagesResponse);
+                    //     socket.emit("getMessages", obj).on("getMessagesResponse", getMessagesResponse);
                     messagetxt.setText("");
                 }
                 if (chatBoxAdapter.getItemCount() > 0)
