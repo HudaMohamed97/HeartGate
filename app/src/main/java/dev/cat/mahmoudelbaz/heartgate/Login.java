@@ -117,10 +117,7 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, "Wrong UserName or Password", Toast.LENGTH_SHORT).show();
 
                                 } else if (responseValue == 1) {
-
-
                                     Toast.makeText(Login.this, "Welcome", Toast.LENGTH_SHORT).show();
-
                                     JSONArray userdata = res.getJSONArray("userdata");
                                     JSONObject currentUserData = userdata.getJSONObject(0);
                                     final int userId = currentUserData.getInt("id");

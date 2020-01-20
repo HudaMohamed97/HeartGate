@@ -2,6 +2,7 @@ package dev.cat.mahmoudelbaz.heartgate.map;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -23,6 +24,7 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
     private ModelMyConnections object;
     private CustomBottomSheetPresenter presenter;
     private Button connectButton;
+    private Context context;
     private Button btnApproveRecieved;
     private int state;
 
@@ -30,8 +32,9 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
     }
 
     @SuppressLint("ValidFragment")
-    public CustomBottomSheet(ModelMyConnections object) {
+    public CustomBottomSheet(ModelMyConnections object, Context context) {
         this.object = object;
+        this.context = context;
     }
 
     @Override
@@ -131,18 +134,20 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
     @Override
     public void openAlertDialog(String massage) {
         dismiss();
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage(massage);
-        builder1.setCancelable(true);
-        builder1.setPositiveButton(
-                "ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = builder1.create();
-        alert.show();
+        if (context != null) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+            builder1.setMessage(massage);
+            builder1.setCancelable(true);
+            builder1.setPositiveButton(
+                    "ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder1.create();
+            alert.show();
+        }
     }
 }
 

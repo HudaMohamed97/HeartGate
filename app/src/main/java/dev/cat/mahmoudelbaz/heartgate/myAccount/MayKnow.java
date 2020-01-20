@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,6 +159,7 @@ public class MayKnow extends Fragment {
     private void loadData() {
         mayprogress.setVisibility(View.VISIBLE);
         url = "http://heartgate.co/api_heartgate/connections/find_connections/" + userId + "/" + pageId;
+        Log.i("id", "userId" + userId);
         StringRequest productsRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

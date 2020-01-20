@@ -189,23 +189,18 @@ public class SignUp extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     JsonObjectRequest postrequest = new JsonObjectRequest(Request.Method.POST, url, jsobj, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
                             progress.setVisibility(View.INVISIBLE);
                             String message = null;
                             int state = 0;
-
                             try {
-
                                 message = response.getString("Message");
                                 state = response.getInt("state");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                             if (state == 0) {
                                 Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
                             } else if (state == 1) {
@@ -213,8 +208,6 @@ public class SignUp extends AppCompatActivity {
                                 Intent i = new Intent(SignUp.this, Login.class);
                                 startActivity(i);
                                 finish();
-
-
                             }
 
                         }

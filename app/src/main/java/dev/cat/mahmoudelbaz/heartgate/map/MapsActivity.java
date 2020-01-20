@@ -286,7 +286,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        customBottomSheet = new CustomBottomSheet((ModelMyConnections) marker.getTag());
+        customBottomSheet = new CustomBottomSheet((ModelMyConnections) marker.getTag(), this);
         customBottomSheet.show(getSupportFragmentManager(), "Dialog");
     }
 }
