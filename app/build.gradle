@@ -16,9 +16,15 @@ android {
 
     signingConfigs {
         config {
-            keyAlias 'heartKey'
+            keyAlias 'HeartGate'
             keyPassword 'catcat'
             storeFile file('/Users/Houda/Desktop/sign.jks')
+            storePassword 'catcat'
+        }
+        release {
+            keyAlias 'HeartGate'
+            keyPassword 'catcat'
+            storeFile file('C:\\Users\\Houda\\Desktop\\keystore.jks')
             storePassword 'catcat'
         }
     }
@@ -44,8 +50,8 @@ android {
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-//            signingConfig signingConfigs.release
+            // signingConfig signingConfigs.config
+            signingConfig signingConfigs.release
         }
     }
 }

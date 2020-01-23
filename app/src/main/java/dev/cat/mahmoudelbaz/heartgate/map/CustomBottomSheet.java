@@ -40,7 +40,9 @@ public class CustomBottomSheet extends BottomSheetDialogFragment implements Bott
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.content_dialog_bottom_sheet, container, false);
-        state = object.getStateId();
+        if (object != null) {
+            state = object.getStateId();
+        }
         setPresenter();
         setViews(v);
         connectButton.setOnClickListener(new View.OnClickListener() {
