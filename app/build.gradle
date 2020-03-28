@@ -18,7 +18,7 @@ android {
         config {
             keyAlias 'HeartGate'
             keyPassword 'catcat'
-            storeFile file('/Users/Houda/Desktop/sign.jks')
+            storeFile file('C:\\Users\\Houda\\Desktop\\keystore.jks')
             storePassword 'catcat'
         }
         release {
@@ -47,7 +47,12 @@ android {
     }
     buildTypes {
         release {
-
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // signingConfig signingConfigs.config
+            signingConfig signingConfigs.release
+        }
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // signingConfig signingConfigs.config
