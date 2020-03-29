@@ -44,6 +44,20 @@ public class BMI extends AppCompatActivity {
     }
 
     private void displayBMI(float bmi) {
+        String bmiLabel = "";
+        if (bmi < 18.5) {
+            bmiLabel = "underweight";
+        } else if (bmi > 18.5 && bmi < 24.9) {
+            bmiLabel = "Normal or Healthy Weight";
+        } else if (bmi > 24.9 && bmi < 29.9) {
+            bmiLabel = "Overweight";
+        } else if (bmi > 29.9) {
+            bmiLabel = "Obese";
+        } else {
+        }
+        bmiLabel = bmi + " kg/m^2    " + "\n\n" + bmiLabel;
+        result.setText(bmiLabel);
+    } /*private void displayBMI(float bmi) {
         String bmiLabel;
         if (Float.compare(bmi, 15f) <= 0) {
             bmiLabel = "very_severely_underweight";
@@ -64,5 +78,5 @@ public class BMI extends AppCompatActivity {
         }
         bmiLabel = bmi + " kg/m^2 " + "\n\n" + bmiLabel;
         result.setText(bmiLabel);
-    }
+    }*/
 }
