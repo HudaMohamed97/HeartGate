@@ -222,6 +222,7 @@ public class Home extends AppCompatActivity {
             public void onResponse(String response) {
 
                 try {
+                    progress.setVisibility(View.INVISIBLE);
                     JSONArray usersarray = new JSONArray(response);
                     JSONObject res = usersarray.getJSONObject(0);
                     final String namestring = res.getString("fullname");
@@ -231,7 +232,6 @@ public class Home extends AppCompatActivity {
                     name.setText(namestring);
                     email.setText(emailstring);
                     Picasso.with(Home.this).load(imgurl).placeholder(R.drawable.profile).error(R.drawable.profile).into(imgProfile);
-                    progress.setVisibility(View.INVISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

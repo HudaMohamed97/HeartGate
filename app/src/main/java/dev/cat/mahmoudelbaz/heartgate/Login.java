@@ -107,8 +107,6 @@ public class Login extends AppCompatActivity {
                         public void onResponse(String response) {
 
                             try {
-//                                JSONArray usersarray = new JSONArray(response);
-
                                 JSONObject res = new JSONObject(response);
                                 final int responseValue = res.getInt("state");
 
