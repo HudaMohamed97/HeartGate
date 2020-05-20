@@ -150,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
                         }
                     }
-                    Log.d("response", response);
+                    Log.d("dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse", response);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -161,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("response", error.toString());
+                        Log.d("dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse", error.toString());
 
                     }
                 }

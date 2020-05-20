@@ -369,7 +369,7 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
                 @Override
                 public void onResponse(JSONObject response) {
 
-//                            Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse.toString(), Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: " + response.toString());
                 }
             }, new Response.ErrorListener() {
@@ -525,7 +525,7 @@ public class WebViewer extends ActivityManagePermission implements GoogleApiClie
                 } else if (state == 1) {
                     Toast.makeText(WebViewer.this, message, Toast.LENGTH_SHORT).show();
                     webView.reload();
-//                                Toast.makeText(SignUp.this, response.toString(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(SignUp.this, dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse.toString(), Toast.LENGTH_SHORT).show();
                 }
 
             }

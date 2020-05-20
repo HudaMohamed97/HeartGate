@@ -85,7 +85,7 @@ public class SentConnections extends Fragment {
             public void onResponse(String response) {
 
                 try {
-//                    JSONObject object = new JSONObject(response);
+//                    JSONObject object = new JSONObject(dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse);
                     JSONArray usersarray = new JSONArray(response);
 
                     if (usersarray.length() == 0) {
@@ -188,7 +188,7 @@ public class SentConnections extends Fragment {
             public void onResponse(String response) {
 
                 try {
-//                    JSONObject object = new JSONObject(response);
+//                    JSONObject object = new JSONObject(dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse);
                     JSONArray usersarray = new JSONArray(response);
 
                     if (usersarray.length() == 0) {

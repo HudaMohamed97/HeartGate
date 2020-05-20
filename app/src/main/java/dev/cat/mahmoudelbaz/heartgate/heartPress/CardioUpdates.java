@@ -85,7 +85,7 @@ public class CardioUpdates extends AppCompatActivity {
             @Override
             public void onResponse(Call< List<CardioUpdatesResponseModel> > call, Response< List<CardioUpdatesResponseModel> > response) {
                 if (!response.isSuccessful()) {
-           //         assert response.errorBody() != null;
+           //         assert dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse.errorBody() != null;
                     Toast.makeText(CardioUpdates.this, response.errorBody().toString() ,  Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 } else {

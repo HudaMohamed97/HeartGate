@@ -34,7 +34,7 @@ public class Favourites extends AppCompatActivity {
                 String message = null;
                 int state = 0;
                 try {
-                    //   JSONArray cast = new JSONArray(response.body());
+                    //   JSONArray cast = new JSONArray(dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse.body());
 
                     JSONObject res = new JSONObject(response.body().string());
                     message = res.getString("Message");

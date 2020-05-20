@@ -140,7 +140,7 @@ public class Questions extends AppCompatActivity {
             public void onResponse(Call<ArrayList<Questions_item>> call, Response<ArrayList<Questions_item>> response) {
 
                 try {
-                    //    JSONArray newsFeedArray = new JSONArray(response.body().toString());
+                    //    JSONArray newsFeedArray = new JSONArray(dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse.body().toString());
 
                     if (response.body() == null) {
                         myempty.setVisibility(View.VISIBLE);

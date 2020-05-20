@@ -10,6 +10,7 @@ import dev.cat.mahmoudelbaz.heartgate.heartPress.onlineLibraryResponseModel;
 import dev.cat.mahmoudelbaz.heartgate.advisoryBoard.Questions_item;
 import dev.cat.mahmoudelbaz.heartgate.myAccount.oldChat.AllMessagesResponse;
 import dev.cat.mahmoudelbaz.heartgate.poll.SurveryResponseModel;
+import dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse;
 import dev.cat.mahmoudelbaz.heartgate.videos.VideoResponseModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -61,6 +62,9 @@ public interface Api {
 
     @GET("questions/answers/{questionId}")
     Call<ResponseBody> getAnswers(@Path("questionId") int questionId);
+
+    @GET("lookups/gov")
+    Call<List<LiveRsponse>> getLiving();
 
 
     @POST("questions/addanswer/{questionId}/{userId}")

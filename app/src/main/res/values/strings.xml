@@ -3,6 +3,7 @@
 
 
     <string name="speciality_prompt">Speciality</string>
+    <string name="current_prompt">Current Living Place:</string>
 
     <string name="jobTitle_prompt">Job Title</string>
 

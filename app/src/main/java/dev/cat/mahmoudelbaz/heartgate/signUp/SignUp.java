@@ -3,12 +3,16 @@ package dev.cat.mahmoudelbaz.heartgate.signUp;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,19 +33,29 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import dev.cat.mahmoudelbaz.heartgate.Login;
 import dev.cat.mahmoudelbaz.heartgate.R;
+import dev.cat.mahmoudelbaz.heartgate.myAccount.ModelMyConnections;
+import dev.cat.mahmoudelbaz.heartgate.webServices.Webservice;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class SignUp extends AppCompatActivity {
 
     private ProgressBar progress;
     private ImageView back;
     private EditText userName, firstName, middleName, lastName, email, password, confrimPassword, phoneNumber, dateOfBirth;
-    private Spinner speciality;
+    private Spinner speciality, spinnerCurrentLiving;
     private Button register;
+    private int selectedCurrentLiving;
     private RadioGroup radioGender;
     private RadioButton male, female;
     private RelativeLayout layout;
+    private List<LiveRsponse> list = new ArrayList<LiveRsponse>();
     private String url;
     private int year = 1991;
     private int month = 0;
@@ -54,6 +68,7 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         setViews();
+        getCurrentLiving();
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +107,18 @@ public class SignUp extends AppCompatActivity {
                 if (!b) {
                     hideKeyboard(view);
                 }
+            }
+        });
+
+        spinnerCurrentLiving.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                selectedCurrentLiving = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
             }
         });
 
@@ -152,6 +179,7 @@ public class SignUp extends AppCompatActivity {
                 final String phoneNumbertxt = phoneNumber.getText().toString();
                 final String dateOfBirthtxt = dateOfBirth.getText().toString();
                 final int selectedSpeciality = speciality.getSelectedItemPosition();
+                selectedCurrentLiving = spinnerCurrentLiving.getSelectedItemPosition();
                 final String selectedSpecialitytxt = Integer.toString(selectedSpeciality);
 
                 int selectedGender = radioGender.getCheckedRadioButtonId();
@@ -163,7 +191,7 @@ public class SignUp extends AppCompatActivity {
                         || middleNametxt.length() == 0 || lastNametxt.length() == 0
                         || emailtxt.length() == 0 || passwordtxt.length() == 0
                         || confirmPasswordtxt.length() == 0 || phoneNumbertxt.length() == 0
-                        || dateOfBirthtxt.length() == 0 || selectedSpeciality == 0 || genderidx == -1 || genderidx == 0) {
+                        || dateOfBirthtxt.length() == 0 || selectedSpeciality == 0 || selectedCurrentLiving == 0 || genderidx == -1 || genderidx == 0) {
 
                     Toast.makeText(SignUp.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 } else if (passwordtxt == confirmPasswordtxt) {
@@ -186,6 +214,7 @@ public class SignUp extends AppCompatActivity {
                         jsobj.put("birthdate", dateOfBirthtxt);
                         jsobj.put("fk_gender_id", genderidx);
                         jsobj.put("fk_speciality_id", selectedSpeciality);
+                        jsobj.put("fk_current_living_place", selectedCurrentLiving);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -202,9 +231,9 @@ public class SignUp extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if (state == 0) {
-                                Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUp.this, message, Toast.LENGTH_LONG).show();
                             } else if (state == 1) {
-                                Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUp.this, message, Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(SignUp.this, Login.class);
                                 startActivity(i);
                                 finish();
@@ -215,8 +244,8 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progress.setVisibility(View.INVISIBLE);
-                            Toast.makeText(SignUp.this, error.toString(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(SignUp.this, "Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this, error.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignUp.this, "Network Error", Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -241,6 +270,7 @@ public class SignUp extends AppCompatActivity {
         phoneNumber = findViewById(R.id.etPhoneNumber);
         dateOfBirth = findViewById(R.id.etDateOfBirth);
         speciality = findViewById(R.id.spinnerSpeciality);
+        spinnerCurrentLiving = findViewById(R.id.spinnerCurrentLiving);
         register = findViewById(R.id.btnRegister);
         radioGender = findViewById(R.id.radioGender);
         male = findViewById(R.id.radioMale);
@@ -253,4 +283,45 @@ public class SignUp extends AppCompatActivity {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    private void getCurrentLiving() {
+        progress.setVisibility(View.VISIBLE);
+        Webservice.getInstance().getApi().getLiving().enqueue(new Callback<List<LiveRsponse>>() {
+            @Override
+            public void onResponse(Call<List<LiveRsponse>> call, retrofit2.Response<List<LiveRsponse>> response) {
+                if (response.isSuccessful()) {
+                    progress.setVisibility(View.GONE);
+                    list = response.body();
+                    list.add(0, new LiveRsponse(-1, "Current Living Place:"));
+                    Log.i("hhhhhh", "" + list);
+                    intializeSpinner();
+                } else {
+                    Toast.makeText(SignUp.this, response.message(), Toast.LENGTH_LONG).show();
+                    progress.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LiveRsponse>> call, Throwable t) {
+                Toast.makeText(SignUp.this, "failure , check your connection", Toast.LENGTH_LONG).show();
+                progress.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void intializeSpinner() {
+        List<String> myList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            myList.add(list.get(i).getName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, myList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCurrentLiving.setAdapter(adapter);
+
+
+    }
+
+
 }

@@ -104,7 +104,7 @@ public class CustomBottomSheetPresenter implements CustomBottomSheetInterface {
         StringRequest loginRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, "response" + response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse" + response, Toast.LENGTH_SHORT).show();
 
                 bottomSheetViewInterface.openAlertDialog("disconnected Successfully");
             }
