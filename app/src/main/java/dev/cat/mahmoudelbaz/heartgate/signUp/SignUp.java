@@ -1,7 +1,9 @@
 package dev.cat.mahmoudelbaz.heartgate.signUp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -192,9 +194,10 @@ public class SignUp extends AppCompatActivity {
                         || emailtxt.length() == 0 || passwordtxt.length() == 0
                         || confirmPasswordtxt.length() == 0 || phoneNumbertxt.length() == 0
                         || dateOfBirthtxt.length() == 0 || selectedSpeciality == 0 || selectedCurrentLiving == 0 || genderidx == -1 || genderidx == 0) {
-
+                    showAlertDialog("Please fill all fields");
                     Toast.makeText(SignUp.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 } else if (passwordtxt == confirmPasswordtxt) {
+                    showAlertDialog("Password and Confirm Password not matched");
                     Toast.makeText(SignUp.this, "Password and Confirm Password not matched", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -234,9 +237,7 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, message, Toast.LENGTH_LONG).show();
                             } else if (state == 1) {
                                 Toast.makeText(SignUp.this, message, Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(SignUp.this, Login.class);
-                                startActivity(i);
-                                finish();
+                                showAlertDialog(message);
                             }
 
                         }
@@ -244,7 +245,7 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progress.setVisibility(View.INVISIBLE);
-                            Toast.makeText(SignUp.this, error.toString(), Toast.LENGTH_LONG).show();
+                            showAlertDialog(error.toString());
                             Toast.makeText(SignUp.this, "Network Error", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -296,6 +297,7 @@ public class SignUp extends AppCompatActivity {
                     Log.i("hhhhhh", "" + list);
                     intializeSpinner();
                 } else {
+                    showAlertDialog(response.message());
                     Toast.makeText(SignUp.this, response.message(), Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
                 }
@@ -304,6 +306,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<LiveRsponse>> call, Throwable t) {
                 Toast.makeText(SignUp.this, "failure , check your connection", Toast.LENGTH_LONG).show();
+                showAlertDialog("failure , check your connection");
                 progress.setVisibility(View.GONE);
             }
         });
@@ -323,5 +326,17 @@ public class SignUp extends AppCompatActivity {
 
     }
 
+    private void showAlertDialog(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(SignUp.this).create();
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+    }
 
 }

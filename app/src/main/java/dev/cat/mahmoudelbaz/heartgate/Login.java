@@ -1,6 +1,8 @@
 package dev.cat.mahmoudelbaz.heartgate;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 
 import dev.cat.mahmoudelbaz.heartgate.home.Home;
 import dev.cat.mahmoudelbaz.heartgate.signUp.Disclaimer;
+import dev.cat.mahmoudelbaz.heartgate.signUp.SignUp;
 
 public class Login extends AppCompatActivity {
 
@@ -109,10 +112,10 @@ public class Login extends AppCompatActivity {
                             try {
                                 JSONObject res = new JSONObject(response);
                                 final int responseValue = res.getInt("state");
+                                final String responseMessage = res.getString("Message");
 
                                 if (responseValue == 0) {
-
-                                    Toast.makeText(Login.this, "Wrong UserName or Password", Toast.LENGTH_SHORT).show();
+                                    showAlertDialog(responseMessage);
 
                                 } else if (responseValue == 1) {
                                     Toast.makeText(Login.this, "Welcome", Toast.LENGTH_SHORT).show();
@@ -120,10 +123,6 @@ public class Login extends AppCompatActivity {
                                     JSONObject currentUserData = userdata.getJSONObject(0);
                                     final int userId = currentUserData.getInt("id");
                                     final String userIdString = Integer.toString(userId);
-
-
-                                    Toast.makeText(Login.this, "Welcome", Toast.LENGTH_SHORT).show();
-
                                     SharedPreferences.Editor myEdit = shared.edit();
                                     myEdit.putString("id", userIdString);
                                     myEdit.putString("Name", currentUserData.getString("username"));
@@ -146,8 +145,7 @@ public class Login extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
-                            Toast.makeText(Login.this, error.toString(), Toast.LENGTH_SHORT).show();
+                            showAlertDialog(error.toString());
                             Toast.makeText(Login.this, "Network Error", Toast.LENGTH_SHORT).show();
                             progress.setVisibility(View.INVISIBLE);
 
@@ -174,5 +172,18 @@ public class Login extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void showAlertDialog(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(Login.this).create();
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
     }
 }
