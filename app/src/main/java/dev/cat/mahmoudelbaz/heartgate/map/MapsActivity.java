@@ -1,5 +1,6 @@
 package dev.cat.mahmoudelbaz.heartgate.map;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -114,6 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String finalUrl = "http://heartgate.co/api_heartgate/users/nearby/" + myUserID + "/0";
         final StringRequest postsRequest = new StringRequest(
                 Request.Method.GET, finalUrl, new Response.Listener<String>() {
+            @SuppressLint("LongLogTag")
             @Override
             public void onResponse(String response) {
                 try {
@@ -159,9 +161,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         },
                 new Response.ErrorListener() {
 
+                    @SuppressLint("LongLogTag")
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse", error.toString());
+                        Log.i("dev.cat.mahmoudelbaz.heartgate.signUp.LiveRsponse", error.toString());
 
                     }
                 }
@@ -182,6 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 Intent callGPSSettingIntent = new Intent(
                                         android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                 startActivity(callGPSSettingIntent);
+
                             }
                         });
         alertDialogBuilder.setNegativeButton("Cancel",
