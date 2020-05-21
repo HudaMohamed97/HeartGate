@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -40,6 +41,7 @@ public class Login extends AppCompatActivity {
     String url;
     SharedPreferences shared;
     String idcheck;
+    int flag;
     Animation animSlidUp, animSlidDown;
 
 
@@ -49,14 +51,15 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
-
+        if (shared.contains("flag")) {
+            flag = shared.getInt("flag", 0);
+        }
 
         if (shared.contains("id")) {
             idcheck = shared.getString("id", "0");
         } else {
             idcheck = "0";
         }
-
         if (!idcheck.equals("0")) {
             Intent i = new Intent(Login.this, Home.class);
             startActivity(i);
@@ -120,12 +123,19 @@ public class Login extends AppCompatActivity {
                                 } else if (responseValue == 1) {
                                     Toast.makeText(Login.this, "Welcome", Toast.LENGTH_SHORT).show();
                                     JSONArray userdata = res.getJSONArray("userdata");
+                                    JSONObject flag = res.getJSONObject("force_user_change_password");
                                     JSONObject currentUserData = userdata.getJSONObject(0);
                                     final int userId = currentUserData.getInt("id");
+                                    final String Message = flag.getString("Message");
+                                    final int value = flag.getInt("value");
+                                    Log.i("hhhhh", "" + value + "" + Message);
                                     final String userIdString = Integer.toString(userId);
                                     SharedPreferences.Editor myEdit = shared.edit();
                                     myEdit.putString("id", userIdString);
                                     myEdit.putString("Name", currentUserData.getString("username"));
+                                    myEdit.putString("Message", Message);
+                                    myEdit.putInt("flag", value);
+                                    myEdit.apply();
                                     myEdit.commit();
                                     Intent i = new Intent(Login.this, Home.class);
                                     startActivity(i);

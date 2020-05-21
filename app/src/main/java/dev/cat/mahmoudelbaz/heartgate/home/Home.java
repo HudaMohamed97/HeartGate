@@ -1,7 +1,9 @@
 package dev.cat.mahmoudelbaz.heartgate.home;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -52,6 +54,7 @@ import dev.cat.mahmoudelbaz.heartgate.myAccount.MyProfile;
 import dev.cat.mahmoudelbaz.heartgate.pharamcy.Pharamcy;
 import dev.cat.mahmoudelbaz.heartgate.poll.Survey;
 import dev.cat.mahmoudelbaz.heartgate.advisoryBoard.Questions;
+import dev.cat.mahmoudelbaz.heartgate.signUp.UpdatePassword;
 import dev.cat.mahmoudelbaz.heartgate.videos.VideosListActivity;
 
 public class Home extends AppCompatActivity {
@@ -67,7 +70,10 @@ public class Home extends AppCompatActivity {
     HashMap<Menu_item, List<Child_item>> listDataChild;
     TextView logOut;
     SharedPreferences shared;
+    SharedPreferences sharedFlag;
     public static String userID;
+    public static String Message;
+    public int flag;
     Button editImageProfile;
     private int lastExpandedPosition = -1;
 
@@ -256,8 +262,44 @@ public class Home extends AppCompatActivity {
     private void getUserId() {
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
         userID = shared.getString("id", "0");
+        Message = shared.getString("Message", "For more security .. We recommend to change your password");
+        flag = shared.getInt("flag", 0);
+        if (flag == 1) {
+            showAlertDialog(Message);
+
+        }
+    }
+
+    private void showAlertDialog(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
+        alertDialog.setMessage(message);
+        alertDialog.setTitle("Change Password");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Remind Me Later",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Update Password",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        navigateToUppdatPasswordScreen();
+                    }
+                });
+        alertDialog.show();
+       alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(15);
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setAllCaps(false);
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setAllCaps(false);
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(15);
+
 
     }
+
+    private void navigateToUppdatPasswordScreen() {
+        Intent updatePasswordIntent = new Intent(Home.this, UpdatePassword.class);
+        startActivity(updatePasswordIntent);
+    }
+
 
     private void setClickListener() {
         editImageProfile.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +314,7 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 SharedPreferences.Editor myEdit = shared.edit();
                 myEdit.putString("id", "0");
-                myEdit.commit();
+                myEdit.apply();
                 Intent i = new Intent(Home.this, Login.class);
                 startActivity(i);
                 finish();

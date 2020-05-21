@@ -30,11 +30,13 @@ public class UpdatePassword extends AppCompatActivity {
     private ProgressBar progress;
     private SharedPreferences shared;
     private EditText password, confrimPassword, oldPassword;
-    private String userName, firstName, middleName, lastName, email, genderidxtxt, phoneNumber, dateOfBirth, dateOfBirthday, selectedSpeciality;
     private Button updateDataButton;
     private String userID;
     private UserDataModel userDataModel;
     private RelativeLayout layout;
+
+    public UpdatePassword() {
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -43,7 +45,6 @@ public class UpdatePassword extends AppCompatActivity {
         setContentView(R.layout.update_password);
         shared = getSharedPreferences("id", Context.MODE_PRIVATE);
         userID = shared.getString("id", "0");
-        userDataModel = (UserDataModel) getIntent().getSerializableExtra("userDataModel");
         setViews();
 
         layout.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +66,6 @@ public class UpdatePassword extends AppCompatActivity {
         final String password = this.password.getText().toString().trim();
         final String confirmPassword = confrimPassword.getText().toString().trim();
         HashMap<String, Object> map = new HashMap<>();
-        String lineOfCurrencies = userDataModel.getName();
-        String[] currencies = lineOfCurrencies.split(" ");
-        firstName = currencies[0];
-        middleName = currencies[1];
-        lastName = currencies[2];
         map.put("oldpassword", oldPassword);
         map.put("password", password);
         map.put("confirm_password", password);
